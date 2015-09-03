@@ -25,6 +25,7 @@ typedef union {
 
 	struct {
 		uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+		swaddr_t eip;
 	};
 	struct {
 		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
@@ -34,8 +35,6 @@ typedef union {
 		uint8_t al, ah, alx, ahx, cl, ch, clx, chx;
 		uint8_t dl, dh, dlx, dhx, bl, bh, blx, bhx;
 	};
-
-	swaddr_t eip;
 
 } CPU_state;
 
