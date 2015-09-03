@@ -14,8 +14,8 @@ enum { R_AL, R_CL, R_DL, R_BL, R_AH, R_CH, R_DH, R_BH };
  * For more details about the register encoding scheme, see i386 manual.
  */
 
-typedef struct {
-	struct {
+typedef union {
+	union {
 		uint32_t _32;
 		uint16_t _16;
 		uint8_t _8[2];
@@ -23,7 +23,17 @@ typedef struct {
 
 	/* Do NOT change the order of the GPRs' definitions. */
 
-	uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	struct {
+		uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+	};
+	struct {
+		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
+		uint16_t sp, spxx, bp, bpxx, si, sixx, di, dixx;
+	};
+	struct {
+		uint8_t al, ah, alx, ahx, cl, ch, clx, chx;
+		uint8_t dl, dh, dlx, dhx, bl, bh, blx, bhx;
+	};
 
 	swaddr_t eip;
 
