@@ -76,7 +76,7 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args){
-	char *N=strtok(NULL," ");
+	char *N=strtok(args," ");
 	printf("%s\n",N);
 	//To te continued
 	return 0;
