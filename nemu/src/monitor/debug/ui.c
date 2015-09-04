@@ -4,7 +4,6 @@
 #include "nemu.h"
 
 #include <stdlib.h>
-#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -76,8 +75,22 @@ static int cmd_info(char *args) {
 }
 
 static int cmd_x(char *args){
-	char *N=strtok(args," ");
-	printf("%s\n",N);
+	char *N;
+	char *EXPR;
+	//char *args_end;
+	if(args){
+		N=strtok(args," ");
+		EXPR=N+strlen(N)+1;
+		printf("%s\n",N);
+		if(EXPR>args+strlen(args)){
+			EXPR=NULL;
+			printf("Subsubcmd missed!\n");
+		}
+		if(EXPR)
+			printf("%s\n",EXPR);
+	}
+	else
+		printf("Subcmd missed!\n");
 	//To te continued
 	return 0;
 }
