@@ -86,9 +86,18 @@ static int cmd_x(char *args){
 			printf("Subsubcmd missed!\n");
 		}
 		else{
+			unsigned int xy_n;
+			unsigned int i;
 			hwaddr_t xy_rm;
+			sscanf(N,"%u",&xy_n);
 			sscanf(EXPR,"%x",&xy_rm);
-			printf("%08x\n",hwaddr_read(xy_rm,4));//buggy?
+			for(i=0;i<xy_n;++i){
+				printf("%08x",hwaddr_read(xy_rm+4*i,4));//buggy?
+				if((i+1)==xy_n)
+					printf("\n");
+				else
+					printf("\t");
+			}
 		}
 	}
 	else
