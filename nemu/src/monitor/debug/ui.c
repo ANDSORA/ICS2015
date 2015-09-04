@@ -77,12 +77,12 @@ static int cmd_info(char *args) {
 static int cmd_x(char *args){
 	char *N;
 	char *EXPR;
-	//char *args_end;
+	char *args_end=args+strlen(args);
 	if(args){
 		N=strtok(args," ");
 		EXPR=N+strlen(N)+1;
 		printf("%s\n",N);
-		if(EXPR>args+strlen(args)){
+		if(EXPR>=args_end){
 			EXPR=NULL;
 			printf("Subsubcmd missed!\n");
 		}
