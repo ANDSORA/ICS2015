@@ -36,9 +36,15 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+//you own work!
 static int cmd_si(char *args) {
 	int xy_n;
-	sscanf(args,"%d",&xy_n);
+	if(args)
+		sscanf(args,"%d",&xy_n);
+	else
+		xy_n=1;
+	
+	cpu_exec(xy_n);
 	//To be continued
 	return 0;
 }
