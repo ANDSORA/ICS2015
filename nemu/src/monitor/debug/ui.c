@@ -63,11 +63,22 @@ static int cmd_info(char *args) {
 			printf("edi\t0x%x\n",cpu.edi);
 			printf("eip\t0x%x\n",cpu.eip);
 		}
-		if(*args=='w'){
+		else if(*args=='w'){
 			//To be continued
 		}
+		else
+			printf("Wrong Format!\n");
 	}
-	//To be continued
+	else
+		printf("Subcmd missed!\n");
+
+	return 0;
+}
+
+static int cmd_x(char *args){
+	char *N=strtok(NULL," ");
+	printf("%s\n",N);
+	//To te continued
 	return 0;
 }
 //you own work!~Y
@@ -84,6 +95,7 @@ static struct {
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one or more instructions exactly", cmd_si },
 	{ "info", "Command for showing things about the priogram being debugged\n\tr List of all registers and their contents\n\tw Status of watchpoints", cmd_info },
+	{ "x", "Examine memory\n\tN EXPR\trepeat count and an expression for the memory address to examine", cmd_x },
 
 	/* TODO: Add more commands */
 
