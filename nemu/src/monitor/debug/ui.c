@@ -4,6 +4,7 @@
 #include "nemu.h"
 
 #include <stdlib.h>
+#include <string.h>
 #include <readline/readline.h>
 #include <readline/history.h>
 
@@ -49,9 +50,26 @@ static int cmd_si(char *args) {
 }
 
 static int cmd_info(char *args) {
+	if(args){
+		if(!strcmp(args,"r")){
+			printf("eax\t%x\n",cpu.eax);
+			printf("ecx\t%x\n",cpu.ecx);
+			printf("edx\t%x\n",cpu.edx);
+			printf("ebx\t%x\n",cpu.ebx);
+			printf("esp\t%x\n",cpu.esp);
+			printf("ebp\t%x\n",cpu.ebp);
+			printf("esi\t%x\n",cpu.esi);
+			printf("edi\t%x\n",cpu.edi);
+			printf("eip\t%x\n",cpu.eip);
+		}
+		if(!strcmp(args,"w")){
+			//To be continued
+		}
+	}
 	//To be continued
 	return 0;
 }
+//you own work!~Y
 
 static int cmd_help(char *args);
 
@@ -64,7 +82,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one or more instructions exactly", cmd_si },
-	{ "info", "Command for showing things about the program being debugged\n\t-r List of all registers and their contents\n\t-w Status of watchpoints", cmd_info },
+	{ "info", "Command for showing things about the priogram being debugged\n\tr List of all registers and their contents\n\tw Status of watchpoints", cmd_info },
 
 	/* TODO: Add more commands */
 
