@@ -51,7 +51,8 @@ static int cmd_si(char *args) {
 
 static int cmd_info(char *args) {
 	if(args){
-		if(!strcmp(args,"r")){
+		//if(!strcmp(args,"r")){
+		if(*args=='r'){
 			printf("eax\t0x%x\n",cpu.eax);
 			printf("ecx\t0x%x\n",cpu.ecx);
 			printf("edx\t0x%x\n",cpu.edx);
