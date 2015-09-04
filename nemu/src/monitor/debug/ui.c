@@ -88,7 +88,7 @@ static int cmd_x(char *args){
 		else{
 			hwaddr_t xy_rm;
 			sscanf(EXPR,"%u",&xy_rm);
-			printf("%x\n",lnaddr_read(xy_rm,4));//buggy?
+			printf("%x\n",swaddr_read(xy_rm,4));//buggy?
 		}
 	}
 	else
