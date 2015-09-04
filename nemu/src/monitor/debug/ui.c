@@ -63,7 +63,7 @@ static int cmd_info(char *args) {
 			printf("edi\t0x%x\n",cpu.edi);
 			printf("eip\t0x%x\n",cpu.eip);
 		}
-		if(!strcmp(args,"w")){
+		if(*args=='w'){
 			//To be continued
 		}
 	}
