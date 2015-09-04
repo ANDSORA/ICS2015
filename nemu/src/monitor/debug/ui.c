@@ -52,15 +52,15 @@ static int cmd_si(char *args) {
 static int cmd_info(char *args) {
 	if(args){
 		if(!strcmp(args,"r")){
-			printf("eax\t%x\n",cpu.eax);
-			printf("ecx\t%x\n",cpu.ecx);
-			printf("edx\t%x\n",cpu.edx);
-			printf("ebx\t%x\n",cpu.ebx);
-			printf("esp\t%x\n",cpu.esp);
-			printf("ebp\t%x\n",cpu.ebp);
-			printf("esi\t%x\n",cpu.esi);
-			printf("edi\t%x\n",cpu.edi);
-			printf("eip\t%x\n",cpu.eip);
+			printf("eax\t0x%x\n",cpu.eax);
+			printf("ecx\t0x%x\n",cpu.ecx);
+			printf("edx\t0x%x\n",cpu.edx);
+			printf("ebx\t0x%x\n",cpu.ebx);
+			printf("esp\t0x%x\n",cpu.esp);
+			printf("ebp\t0x%x\n",cpu.ebp);
+			printf("esi\t0x%x\n",cpu.esi);
+			printf("edi\t0x%x\n",cpu.edi);
+			printf("eip\t0x%x\n",cpu.eip);
 		}
 		if(!strcmp(args,"w")){
 			//To be continued
