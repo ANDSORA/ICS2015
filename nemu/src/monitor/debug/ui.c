@@ -36,6 +36,14 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
+static int cmd_si(char *args) {
+	int xy_n;
+	sscanf(args,"%d",&xy_n);
+	for(int 
+	//To be continued
+	return 0;
+}
+
 static int cmd_help(char *args);
 
 static struct {
