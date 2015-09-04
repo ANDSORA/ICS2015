@@ -38,9 +38,9 @@ static int cmd_q(char *args) {
 
 //you own work!~X
 static int cmd_si(char *args) {
-	int xy_n;
+	unsigned int xy_n;
 	if(args)
-		sscanf(args,"%d",&xy_n);
+		sscanf(args,"%u",&xy_n);
 	else
 		xy_n=1;
 	
@@ -81,13 +81,15 @@ static int cmd_x(char *args){
 		char *args_end=args+strlen(args);
 		N=strtok(args," ");
 		EXPR=N+strlen(N)+1;
-		printf("%s\n",N);
 		if(EXPR>=args_end){
 			EXPR=NULL;
 			printf("Subsubcmd missed!\n");
 		}
-		if(EXPR)
-			printf("%s\n",EXPR);
+		else{
+			hwaddr_t xy_rm;
+			sscanf(EXPR,"%u",&xy_rm);
+			printf("%x\n",hwaddr_read(xy_rm,4));//buggy?
+		}
 	}
 	else
 		printf("Subcmd missed!\n");
