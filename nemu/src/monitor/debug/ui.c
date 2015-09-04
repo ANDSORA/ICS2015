@@ -36,7 +36,7 @@ static int cmd_q(char *args) {
 	return -1;
 }
 
-//you own work!
+//you own work!~X
 static int cmd_si(char *args) {
 	int xy_n;
 	if(args)
@@ -45,6 +45,10 @@ static int cmd_si(char *args) {
 		xy_n=1;
 	
 	cpu_exec(xy_n);
+	return 0;
+}
+
+static int cmd_info(char *args) {
 	//To be continued
 	return 0;
 }
@@ -60,6 +64,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one or more instructions exactly", cmd_si },
+	{ "info", "Command for showing things about the program being debugged\n\t\t-r List of all registers and their contents\n\t\t-w Status of watchpoints", cmd_info },
 
 	/* TODO: Add more commands */
 
