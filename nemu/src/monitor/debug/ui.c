@@ -64,7 +64,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one or more instructions exactly", cmd_si },
-	{ "info", "Command for showing things about the program being debugged\n\t\t-r List of all registers and their contents\n\t\t-w Status of watchpoints", cmd_info },
+	{ "info", "Command for showing things about the program being debugged\n\t-r List of all registers and their contents\n\t-w Status of watchpoints", cmd_info },
 
 	/* TODO: Add more commands */
 
