@@ -39,7 +39,6 @@ static int cmd_q(char *args) {
 static int cmd_si(char *args) {
 	int xy_n;
 	sscanf(args,"%d",&xy_n);
-	for(int 
 	//To be continued
 	return 0;
 }
