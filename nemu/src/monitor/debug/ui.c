@@ -107,7 +107,8 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
 	//printf("To be implemented!\tin ui.c cmd_p\n");
-	printf("%d\n",expr(args,0));
+	bool success = false;
+	printf("%d\n",expr(args,&success));
 	return 0;
 }
 
