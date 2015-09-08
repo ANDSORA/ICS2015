@@ -263,7 +263,7 @@ uint32_t expr(char *e, bool *success) {
 
 	/* TODO: Insert codes to evaluate the expression. */
 	int p=0;
-	int q=strlen(e)-1;
+	int q=nr_token-1;
 	printf("(expr)p=%d,q=%d\n",p,q);//
 	uint32_t result;
 	gflag=1;
