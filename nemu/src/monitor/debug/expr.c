@@ -171,7 +171,12 @@ bool check_parentheses(int p,int q){
 							 break;
 						 }
 				case ')':{
-							 Assert(unmatch,"Bad EXPR(parentheses can't match)");
+							 //Assert(unmatch,"Bad EXPR(parentheses can't match)");
+							 if(!unmatch){
+								 gflag=0;
+								 printf("Parentheses can't match\n");
+								 return 0;
+							 }
 							 unmatch--;
 							 if(!unmatch&&tt<q)
 								 mid_break=1;
@@ -181,7 +186,12 @@ bool check_parentheses(int p,int q){
 			}
 			tt++;
 		}
-		Assert(!unmatch,"Bad EXPR(parentheses can't match)");
+		//Assert(!unmatch,"Bad EXPR(parentheses can't match)");
+		if(unmatch){
+			gflag=0;
+			printf("Parentheses can't match\n");
+			return 0;
+		}
 		if(!mid_break)
 			return 1;
 	}
@@ -191,6 +201,7 @@ bool check_parentheses(int p,int q){
 int eval(int p,int q){
 	if(p>q){
 		gflag=0;
+		printf("Operators can't match(p>q)\n");
 		return 0;
 	}
 	else if(p==q){
@@ -201,6 +212,7 @@ int eval(int p,int q){
 		}
 		else{
 			gflag=0;
+			printf("Operators can't match(p==q,not DEC)\n");
 			return 0;
 		}
 	}
@@ -208,6 +220,7 @@ int eval(int p,int q){
 		return eval(p+1,q-1);
 	}
 	else{
+		if(!gflag)return 0;
 		int i;
 		int op=-1;
 		int unmatch=0;
@@ -234,7 +247,7 @@ int eval(int p,int q){
 			case '-':return eval(p,op-1)-eval(op+1,q);break;
 			case '*':return eval(p,op-1)*eval(op+1,q);break;
 			case '/':return eval(p,op-1)/eval(op+1,q);break;
-			case -1 :gflag=0;return 0;break;
+			case -1 :gflag=0;printf("Operators can't match(p<q,no op)\n");return 0;break;
 			default :break;
 		}
 	}
@@ -253,8 +266,8 @@ uint32_t expr(char *e, bool *success) {
 	uint32_t result;
 	gflag=1;
 	result=(uint32_t)eval(p,q);
-	Assert(gflag,"Bad EXPR");
-
+	//Assert(gflag,"Bad EXPR");
+	*success=gflag;
 	//panic("please implement me(int expr)");
 	return result;
 }

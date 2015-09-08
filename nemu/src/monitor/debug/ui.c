@@ -116,7 +116,7 @@ static int cmd_p(char *args){
 	if(success)
 		printf("%d\n",result);
 	else
-		printf("something wrong in expr.c expr\n");
+		printf("Bad EXPR\n");
 	return 0;
 }
 
