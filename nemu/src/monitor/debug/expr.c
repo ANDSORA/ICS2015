@@ -25,7 +25,7 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"[:digit:]", DEC},					//decimal number
+	{"[[:digit:]]", DEC},					//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
 	{"\\*", '*'},					// multiply
