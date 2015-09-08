@@ -103,6 +103,32 @@ static bool make_token(char *e) {
 									strcpy(tokens[nr_token].str,"+");
 									nr_token++;
 								}break;
+					case '-':	{
+									tokens[nr_token].type='-';
+									strcpy(tokens[nr_token].str,"-");
+									nr_token++;
+								}break;
+					case '*':	{
+									tokens[nr_token].type='*';
+									strcpy(tokens[nr_token].str,"*");
+									nr_token++;
+								}break;
+					case '/':	{
+									tokens[nr_token].type='/';
+									strcpy(tokens[nr_token].str,"/");
+									nr_token++;
+								}break;
+					case '(':	{
+									tokens[nr_token].type='(';
+									strcpy(tokens[nr_token].str,"(");
+									nr_token++;
+								}break;
+					case ')':	{
+									tokens[nr_token].type=')';
+									strcpy(tokens[nr_token].str,")");
+									nr_token++;
+								}break;
+
 					default: panic("please implement me(in make_token)");
 				}
 
