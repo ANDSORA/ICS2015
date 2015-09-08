@@ -93,6 +93,7 @@ static bool make_token(char *e) {
 				 * types of tokens, some extra actions should be performed.
 				 */
 
+				printf("(make token)sub_start=%d,sub_len=%d\n",substr_start-e,substr_len);
 				switch(rules[i].token_type) {
 					case NOTYPE:break;
 					case EQ:	{
