@@ -102,9 +102,29 @@ static int cmd_x(char *args){
 	}
 	else
 		printf("Subcmd missed!\n");
-	//To te continued
 	return 0;
 }
+
+static int cmd_p(char *args){
+	printf("To be implemented!\n");
+	return 0;
+}
+
+static int cmd_w(char *args){
+	printf("To be implemented!\n");
+	return 0;
+}
+
+static int cmd_d(char *args){
+	printf("To be implemented!\n");
+	return 0;
+}
+
+static int cmd_bt(char *args){
+	printf("To be implemented!\n");
+	return 0;
+}
+
 //you own work!~Y
 
 static int cmd_help(char *args);
@@ -120,6 +140,10 @@ static struct {
 	{ "si", "Step one or more instructions exactly", cmd_si },
 	{ "info", "Command for showing things about the priogram being debugged\n\tr List of all registers and their contents\n\tw Status of watchpoints", cmd_info },
 	{ "x", "Examine memory\n\tN EXPR\trepeat count and an expression for the memory address to examine", cmd_x },
+	{ "p", "Print value of expression EXPR\n\tEXPR\tthe EXPR waiting to be calculated and printed", cmd_p },
+	{ "w", "Set watchpoints", cmd_w },
+	{ "d", "Delete watchpoints", cmd_d },
+	{ "bt", "Print the link of stack(?)", cmd_bt },
 
 	/* TODO: Add more commands */
 
