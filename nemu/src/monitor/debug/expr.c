@@ -188,7 +188,7 @@ bool check_parentheses(int p,int q){
 	return 0;
 }
 
-uint32_t eval(int p,int q){
+int eval(int p,int q){
 	if(p>q){
 		gflag=0;
 		return 0;
@@ -205,10 +205,38 @@ uint32_t eval(int p,int q){
 		}
 	}
 	else if(check_parentheses(p,q)){
-
+		return eval(p+1,q-1);
 	}
 	else{
-
+		int i;
+		int op=-1;
+		int unmatch=0;
+		//int optype;	//0 1 2 3	+ - * /
+		for(i=p;i<=q;++i){
+			switch(tokens[i].type){
+				case '(':unmatch++;break;
+				case ')':unmatch--;break;
+				case '+':
+				case '-':if(!unmatch)op=i;break;
+				case '*':
+				case '/':{
+							 if(op>0){
+								 if(tokens[op].type=='+'||tokens[op].type=='-')
+									 break;
+							 }
+							 if(!unmatch)op=i;
+						 }break;
+				default:break;
+			}
+		}
+		switch(tokens[op].type){
+			case '+':return eval(p,op-1)+eval(op+1,q);break;
+			case '-':return eval(p,op-1)-eval(op+1,q);break;
+			case '*':return eval(p,op-1)*eval(op+1,q);break;
+			case '/':return eval(p,op-1)/eval(op+1,q);break;
+			case -1 :gflag=0;return 0;break;
+			default :break;
+		}
 	}
 	return 0;
 }
@@ -224,10 +252,9 @@ uint32_t expr(char *e, bool *success) {
 	int q=strlen(e)-1;
 	uint32_t result;
 	gflag=1;
-	result=eval(p,q);
+	result=(uint32_t)eval(p,q);
 	Assert(gflag,"Bad EXPR");
 
 	//panic("please implement me(int expr)");
 	return result;
 }
-
