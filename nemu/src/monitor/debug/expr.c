@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ,
+	NOTYPE = 256, EQ, DEC
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -25,6 +25,7 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
+	{"\\d", DEC},					//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
 	{"\\*", '*'},					// multiply
@@ -95,37 +96,42 @@ static bool make_token(char *e) {
 					case NOTYPE:break;
 					case EQ:	{
 									tokens[nr_token].type=EQ;
-									strcpy(tokens[nr_token].str,"==");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
+									nr_token++;
+								}break;
+					case DEC:	{
+									tokens[nr_token].type=DEC;
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case '+':	{
 									tokens[nr_token].type='+';
-									strcpy(tokens[nr_token].str,"+");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case '-':	{
 									tokens[nr_token].type='-';
-									strcpy(tokens[nr_token].str,"-");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case '*':	{
 									tokens[nr_token].type='*';
-									strcpy(tokens[nr_token].str,"*");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case '/':	{
 									tokens[nr_token].type='/';
-									strcpy(tokens[nr_token].str,"/");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case '(':	{
 									tokens[nr_token].type='(';
-									strcpy(tokens[nr_token].str,"(");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 					case ')':	{
 									tokens[nr_token].type=')';
-									strcpy(tokens[nr_token].str,")");
+									strncpy(tokens[nr_token].str,substr_start,substr_len);
 									nr_token++;
 								}break;
 
@@ -141,6 +147,11 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
+	//
+	int cc;
+	for(cc=0;cc<nr_token;++cc){
+		printf("%s ",tokens[cc].str);
+	}printf("\n");//
 
 	return true; 
 }
