@@ -157,8 +157,59 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+bool check_parentheses(int p,int q){
+	int tt=p;
+	int unmatch=0;
+	bool mid_break=0;
+	if(tokens[tt].type=='('){
+		unmatch++;
+		tt++;
+		while(tt<=q){
+			switch(tokens[tt].type){
+				case '(':{
+							 unmatch++;
+							 break;
+						 }
+				case ')':{
+							 Assert(unmatch,"Bad EXPR(parentheses can't match)");
+							 unmatch--;
+							 if(!unmatch&&tt<q)
+								 mid_break=1;
+							 break;
+						 }
+				default:break;
+			}
+			tt++;
+		}
+		Assert(!unmatch,"Bad EXPR(parentheses can't match)");
+		if(!mid_break)
+			return 1;
+	}
+	return 0;
+}
+
 uint32_t eval(int p,int q){
-	gflag=0;
+	if(p>q){
+		gflag=0;
+		return 0;
+	}
+	else if(p==q){
+		if(tokens[p].type==DEC){
+			uint32_t xx;
+			sscanf(tokens[p].str,"%u",&xx);
+			return xx;
+		}
+		else{
+			gflag=0;
+			return 0;
+		}
+	}
+	else if(check_parentheses(p,q)){
+
+	}
+	else{
+
+	}
 	return 0;
 }
 
@@ -171,12 +222,12 @@ uint32_t expr(char *e, bool *success) {
 	/* TODO: Insert codes to evaluate the expression. */
 	int p=0;
 	int q=strlen(e)-1;
-	//uint32_t result;
+	uint32_t result;
 	gflag=1;
-	eval(p,q);
+	result=eval(p,q);
 	Assert(gflag,"Bad EXPR");
 
 	//panic("please implement me(int expr)");
-	return 0;
+	return result;
 }
 
