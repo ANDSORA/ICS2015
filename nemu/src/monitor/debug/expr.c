@@ -178,7 +178,7 @@ int eval(int p,int q){
 	else if(p==q){
 		if(tokens[p].type==DEC){
 			int xx;
-			printf("%s\n",tokens[p].str);
+			printf("(eval)%s\n",tokens[p].str);
 			sscanf(tokens[p].str,"%d",&xx);
 			return xx;
 		}
