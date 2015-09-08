@@ -206,8 +206,9 @@ int eval(int p,int q){
 	}
 	else if(p==q){
 		if(tokens[p].type==DEC){
-			uint32_t xx;
-			sscanf(tokens[p].str,"%u",&xx);
+			int xx;
+			printf("%s\n",tokens[p].str);
+			sscanf(tokens[p].str,"%d",&xx);
 			return xx;
 		}
 		else{
