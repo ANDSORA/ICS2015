@@ -69,6 +69,7 @@ typedef struct token {
 
 Token tokens[32];
 int nr_token;
+bool gflag;
 
 static bool make_token(char *e) {
 	int position = 0;
@@ -156,6 +157,11 @@ static bool make_token(char *e) {
 	return true; 
 }
 
+uint32_t eval(int p,int q){
+	gflag=0;
+	return 0;
+}
+
 uint32_t expr(char *e, bool *success) {
 	if(!make_token(e)) {
 		*success = false;
@@ -163,7 +169,14 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me(int expr)");
+	int p=0;
+	int q=strlen(e)-1;
+	//uint32_t result;
+	gflag=1;
+	eval(p,q);
+	Assert(gflag,"Bad EXPR");
+
+	//panic("please implement me(int expr)");
 	return 0;
 }
 
