@@ -28,7 +28,7 @@ static struct rule {
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
 	{"\\*", '*'},					// multiply
-	{"\\/", '/'},				// divide
+	{"\\/", '/'},					// divide
 	{"\\(", '('},					// left parenthesis
 	{"\\)", ')'}					// right parenthesis
 
@@ -92,6 +92,17 @@ static bool make_token(char *e) {
 				 */
 
 				switch(rules[i].token_type) {
+					case NOTYPE:break;
+					case EQ:	{
+									tokens[nr_token].type=EQ;
+									strcpy(tokens[nr_token].str,"==");
+									nr_token++;
+								}break;
+					case '+':	{
+									tokens[nr_token].type='+';
+									strcpy(tokens[nr_token].str,"+");
+									nr_token++;
+								}break;
 					default: panic("please implement me");
 				}
 
