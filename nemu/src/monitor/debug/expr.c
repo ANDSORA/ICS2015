@@ -94,51 +94,21 @@ static bool make_token(char *e) {
 				 */
 
 				printf("(make token)sub_start=%d,sub_len=%d\n",substr_start-e,substr_len);
+				if(rules[i].token_type==NOTYPE)break;
 				switch(rules[i].token_type) {
-					case NOTYPE:break;
-					case EQ:	{
-									tokens[nr_token].type=EQ;
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case DEC:	{
-									tokens[nr_token].type=DEC;
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case '+':	{
-									tokens[nr_token].type='+';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case '-':	{
-									tokens[nr_token].type='-';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case '*':	{
-									tokens[nr_token].type='*';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case '/':	{
-									tokens[nr_token].type='/';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case '(':	{
-									tokens[nr_token].type='(';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
-					case ')':	{
-									tokens[nr_token].type=')';
-									strncpy(tokens[nr_token].str,substr_start,substr_len);
-									nr_token++;
-								}break;
+					case EQ:	tokens[nr_token].type=EQ;break;
+					case DEC:	tokens[nr_token].type=DEC;break;
+					case '+':	tokens[nr_token].type='+';break;
+					case '-':	tokens[nr_token].type='-';break;
+					case '*':	tokens[nr_token].type='*';break;
+					case '/':	tokens[nr_token].type='/';break;
+					case '(':	tokens[nr_token].type='(';break;
+					case ')':	tokens[nr_token].type=')';break;
 
 					default: panic("please implement me(in make_token)");
 				}
+				strncpy(tokens[nr_token].str,substr_start,substr_len);
+				tokens[nr_token].str[substr_len]='\0';
 
 				break;
 			}
