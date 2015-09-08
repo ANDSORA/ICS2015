@@ -7,7 +7,8 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
+	NOTYPE = 256, EQ,
+	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
 
@@ -24,12 +25,19 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"\\+", PLUS},					// plus(buggy?)
+	{"\\+", '+'},					// plus(buggy?)
+	{"\\-", '-'},					// minus
+	{"\\*", '*'},					// multiply
+	{"\\/", '/'},				// divide
+	{"\\(", '('},					// left parenthesis
+	{"\\)", ')'}					// right parenthesis
+
+/*	{"\\+", PLUS},					// plus(buggy?)
 	{"\\-", MINUS},					// minus
 	{"\\*", MULTI},					// multiply
-	{"\\/", DIVIDE},					// divide
+	{"\\/", DIVIDE},				// divide
 	{"\\(", LPAR},					// left parenthesis
-	{"\\)", RPAR}					// right parenthesis
+	{"\\)", RPAR}					// right parenthesis */
 };
 
 #define NR_REGEX (sizeof(rules) / sizeof(rules[0]) )
@@ -79,7 +87,7 @@ static bool make_token(char *e) {
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
-				 * to record the token in the array ``tokens''. For certain 
+				 * to record the token in the array ''tokens''. For certain 
 				 * types of tokens, some extra actions should be performed.
 				 */
 
