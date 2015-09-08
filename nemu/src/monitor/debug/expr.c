@@ -103,7 +103,7 @@ static bool make_token(char *e) {
 									strcpy(tokens[nr_token].str,"+");
 									nr_token++;
 								}break;
-					default: panic("please implement me");
+					default: panic("please implement me(in make_token)");
 				}
 
 				break;
@@ -126,7 +126,7 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
-	panic("please implement me");
+	panic("please implement me(int expr)");
 	return 0;
 }
 
