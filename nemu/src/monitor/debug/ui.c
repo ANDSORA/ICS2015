@@ -107,6 +107,10 @@ static int cmd_x(char *args){
 
 static int cmd_p(char *args){
 	//printf("To be implemented!\tin ui.c cmd_p\n");
+	if(!args){
+		printf("EXPR missed!\n");
+		return 0;
+	}
 	bool success = false;
 	uint32_t result=expr(args,&success);
 	if(success)
