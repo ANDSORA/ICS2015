@@ -150,7 +150,7 @@ static bool make_token(char *e) {
 	//
 	int cc;
 	for(cc=0;cc<nr_token;++cc){
-		printf("%s ",tokens[cc].str);
+		printf("%s",tokens[cc].str);
 	}printf("\n");//
 
 	return true; 
