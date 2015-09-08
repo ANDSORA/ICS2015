@@ -106,22 +106,22 @@ static int cmd_x(char *args){
 }
 
 static int cmd_p(char *args){
-	printf("To be implemented!\n");
+	printf("To be implemented!\tin ui.c cmd_p\n");
 	return 0;
 }
 
 static int cmd_w(char *args){
-	printf("To be implemented!\n");
+	printf("To be implemented!\tin ui.c cmd_w\n");
 	return 0;
 }
 
 static int cmd_d(char *args){
-	printf("To be implemented!\n");
+	printf("To be implemented!\tin ui.c cmd_d\n");
 	return 0;
 }
 
 static int cmd_bt(char *args){
-	printf("To be implemented!\n");
+	printf("To be implemented!\tin ui.c cmd_bt\n");
 	return 0;
 }
 
