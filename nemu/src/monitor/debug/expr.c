@@ -188,9 +188,16 @@ int eval(int p,int q){
 			sscanf(tokens[p].str,"%d",&xx);
 			return xx;
 		}
+		else if(tokens[p].type==HEX){
+			int xx;
+			printf("(eval)%s\n",tokens[p].str);
+			sscanf(tokens[p].str,"%x",&xx);
+			return xx;
+
+		}
 		else{
 			gflag=0;
-			printf("Operators can't match(p==q,not DEC)\n");
+			printf("Operators can't match(p==q,not DEC\\HEX)\n");
 			return 0;
 		}
 	}
