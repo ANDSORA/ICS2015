@@ -26,7 +26,9 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
 	{"0x[0-9a-fA-F]+", HEX},		//hexadecimal number
-	{"%(eax|ebx)", REG},			//registers
+	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi)", REG},	//registers_32
+	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG},			//registers_16
+	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG},			//registers_8
 	{"[[:digit:]]+", DEC},			//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
