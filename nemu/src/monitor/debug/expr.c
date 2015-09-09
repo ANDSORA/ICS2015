@@ -25,7 +25,7 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"0x[[:digit:]]+", HEX},		//hexadecimal number
+	{"0x[0-9a-fA-F]+", HEX},		//hexadecimal number
 	{"[[:digit:]]+", DEC},			//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
