@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, DEC
+	NOTYPE = 256, EQ, DEC, HEX
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -25,7 +25,8 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"[[:digit:]]+", DEC},					//decimal number
+	{"[[:digit:]]+", DEC},			//decimal number
+	{"0x[[:digit:]]+", HEX},		//hexadecimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
 	{"\\*", '*'},					// multiply
@@ -98,6 +99,7 @@ static bool make_token(char *e) {
 				switch(rules[i].token_type) {
 					case EQ:	tokens[nr_token].type=EQ;break;
 					case DEC:	tokens[nr_token].type=DEC;break;
+					case HEX:	tokens[nr_token].type=HEX;break;
 					case '+':	tokens[nr_token].type='+';break;
 					case '-':	tokens[nr_token].type='-';break;
 					case '*':	tokens[nr_token].type='*';break;
@@ -215,8 +217,18 @@ int eval(int p,int q){
 			}
 		}
 		switch(tokens[op].type){
-			case '+':return eval(p,op-1)+eval(op+1,q);break;
-			case '-':return eval(p,op-1)-eval(op+1,q);break;
+			case '+':{
+						 if(op==p)
+							 return eval(op+1,q);
+						 else
+							 return eval(p,op-1)+eval(op+1,q);
+					 }break;
+			case '-':{
+						 if(op==p)
+							 return -eval(op+1,q);
+						 else
+							 return eval(p,op-1)-eval(op+1,q);
+					 }break;
 			case '*':return eval(p,op-1)*eval(op+1,q);break;
 			case '/':return eval(p,op-1)/eval(op+1,q);break;
 			case -1 :gflag=0;printf("Operators can't match(p<q,no op)\n");return 0;break;
