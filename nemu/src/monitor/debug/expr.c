@@ -195,6 +195,9 @@ int eval(int p,int q){
 			return xx;
 
 		}
+		else if(tokens[p].type==REG){
+			if(!strcmp(tokens[p].str+1,"eax")) return cpu.eax;
+		}
 		else{
 			gflag=0;
 			printf("Operators can't match(p==q,not DEC\\HEX)\n");
@@ -227,6 +230,7 @@ int eval(int p,int q){
 				default:break;
 			}
 		}
+
 		switch(tokens[op].type){
 			case '+':{
 						 if(op==p)
