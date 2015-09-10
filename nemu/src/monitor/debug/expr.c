@@ -25,8 +25,8 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"\\&&", AND},					// and
-	{"\\||", OR},						// or
+	{"&&", AND},					// and
+	{"\\|\\|", OR},					// or
 	{"\\!=", UNEQ},					// unequal
 	{"\\!",  NEG},					// negative
 	{"0x[0-9a-fA-F]+", HEX},		// hexadecimal number
