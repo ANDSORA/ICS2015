@@ -92,7 +92,7 @@ static int cmd_x(char *args){
 			sscanf(N,"%u",&xy_n);
 			sscanf(EXPR,"%x",&xy_rm);
 			for(i=0;i<xy_n;++i){
-				printf("0x%08x",hwaddr_read(xy_rm+4*i,4));//buggy?
+				printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
 				if((i+1)==xy_n)
 					printf("\n");
 				else

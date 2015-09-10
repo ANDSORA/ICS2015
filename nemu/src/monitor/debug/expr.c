@@ -6,8 +6,11 @@
 #include <sys/types.h>
 #include <regex.h>
 
+#define OP_TYPE tokens[op].type
+#define I_TYPE tokens[i].type
+
 enum {
-	NOTYPE = 256, EQ, AND, OR, UNEQ, NEG, HEX, DEC, REG_32, REG_16, REG_8
+	NOTYPE = 256, EQ, AND, OR, UNEQ, NOT, POS, NEG, HEX, DEC, REG_32, REG_16, REG_8, DEREF
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -28,7 +31,7 @@ static struct rule {
 	{"&&", AND},					// and
 	{"\\|\\|", OR},					// or
 	{"\\!=", UNEQ},					// unequal
-	{"\\!",  NEG},					// negative
+	{"\\!",  NOT},					// negative
 	{"0x[0-9a-fA-F]+", HEX},		// hexadecimal number
 	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", REG_32},	// registers_32
 	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},				// registers_16
@@ -185,7 +188,7 @@ bool check_parentheses(int p,int q){
 	return 0;
 }
 
-int eval(int p,int q){
+uint32_t eval(int p,int q){
 	if(p>q){
 		gflag=0;
 		printf("Operators can't match(p>q)\n");
@@ -193,13 +196,13 @@ int eval(int p,int q){
 	}
 	else if(p==q){
 		if(tokens[p].type==DEC){
-			int xx;
+			uint32_t xx;
 			printf("(eval)%s\n",tokens[p].str);
-			sscanf(tokens[p].str,"%d",&xx);
+			sscanf(tokens[p].str,"%u",&xx);
 			return xx;
 		}
 		else if(tokens[p].type==HEX){
-			int xx;
+			uint32_t xx;
 			printf("(eval)%s\n",tokens[p].str);
 			sscanf(tokens[p].str,"%x",&xx);
 			return xx;
@@ -272,35 +275,50 @@ int eval(int p,int q){
 			switch(tokens[i].type){
 				case '(':unmatch++;break;
 				case ')':unmatch--;break;
+				case OR:if(!unmatch)op=i;break;
+				case AND:{
+							if(op>0&&OP_TYPE==OR)break;
+							if(!unmatch)op=i;
+						 }break;
+				case EQ:
+				case UNEQ:{
+							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND))break;
+							if(!unmatch)op=i;
+						  }break;
 				case '+':
-				case '-':if(!unmatch)op=i;break;
+				case '-':{
+							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'))break;
+							if(!unmatch)op=i;
+						 }break;
 				case '*':
 				case '/':{
-							 if(op>0){
-								 if(tokens[op].type=='+'||tokens[op].type=='-')
-									 break;
-							 }
-							 if(!unmatch)op=i;
+							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'||OP_TYPE=='*'||OP_TYPE=='/'))break;
+							if(!unmatch)op=i;
+						 }break;
+				case NEG:
+				case POS:
+				case DEREF:
+				case NOT:{
+							if(op>0)break;
+							if(!unmatch)op=i;
 						 }break;
 				default:break;
 			}
 		}
 
 		switch(tokens[op].type){
-			case '+':{
-						 if(op==p)
-							 return eval(op+1,q);
-						 else
-							 return eval(p,op-1)+eval(op+1,q);
-					 }break;
-			case '-':{
-						 if(op==p)
-							 return -eval(op+1,q);
-						 else
-							 return eval(p,op-1)-eval(op+1,q);
-					 }break;
-			case '*':return eval(p,op-1)*eval(op+1,q);break;
-			case '/':return eval(p,op-1)/eval(op+1,q);break;
+			case OR:	return eval(p,op-1)||eval(op+1,q);break;
+			case AND:	return eval(p,op-1)&&eval(op+1,q);break;
+			case EQ:	return eval(p,op-1)==eval(op+1,q);break;
+			case UNEQ:	return eval(p,op-1)!=eval(op+1,q);break;
+			case '+':	return eval(p,op-1)+eval(op+1,q);break;
+			case '-':	return eval(p,op-1)-eval(op+1,q);break;
+			case '*':	return eval(p,op-1)*eval(op+1,q);break;
+			case '/':	return eval(p,op-1)/eval(op+1,q);break;
+			case NEG:	return -eval(op+1,q);break;
+			case POS:	return eval(op+1,q);break;
+			case DEREF:	return swaddr_read(eval(op+1,q),4);break;
+			case NOT:	return !eval(op+1,q);break;
 			case -1 :gflag=0;printf("Operators can't match(p<q,no op)\n");return 0;break;
 			default :break;
 		}
@@ -315,12 +333,29 @@ uint32_t expr(char *e, bool *success) {
 	}
 
 	/* TODO: Insert codes to evaluate the expression. */
+
+	int i;
+	for(i=0;i<nr_token;++i){
+		if(tokens[i].type=='*'){
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+				tokens[i].type=DEREF;
+		}
+		if(tokens[i].type=='-'){
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+				tokens[i].type=NEG;
+		}
+		if(tokens[i].type=='+'){
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+				tokens[i].type=POS;
+		}
+	}
+
 	int p=0;
 	int q=nr_token-1;
 	printf("(expr)p=%d,q=%d\n",p,q);//
 	uint32_t result;
 	gflag=1;
-	result=(uint32_t)eval(p,q);
+	result=eval(p,q);
 	//Assert(gflag,"Bad EXPR");
 	*success=gflag;
 	//panic("please implement me(int expr)");
