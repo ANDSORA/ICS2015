@@ -114,6 +114,7 @@ static bool make_token(char *e) {
 					case OR:	tokens[nr_token].type=OR;break;
 					case UNEQ:	tokens[nr_token].type=UNEQ;break;
 					case NEG:	tokens[nr_token].type=NEG;break;
+					case NOT:	tokens[nr_token].type=NOT;break;
 					case REG_32:tokens[nr_token].type=REG_32;break;
 					case REG_16:tokens[nr_token].type=REG_16;break;
 					case REG_8: tokens[nr_token].type=REG_8;break;
