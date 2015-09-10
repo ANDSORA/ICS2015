@@ -25,10 +25,10 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"&&", AND},					// and
-	{"||", OR},						// or
-	{"!=", UNEQ},					// unequal
-	{"!",  NEG},					// negative
+	{"\\&&", AND},					// and
+	{"\\||", OR},						// or
+	{"\\!=", UNEQ},					// unequal
+	{"\\!",  NEG},					// negative
 	{"0x[0-9a-fA-F]+", HEX},		// hexadecimal number
 	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", REG_32},	// registers_32
 	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},				// registers_16
