@@ -86,18 +86,24 @@ static int cmd_x(char *args){
 			printf("Subsubcmd missed!\n");
 		}
 		else{
-			unsigned int xy_n;
 			unsigned int i;
+			unsigned int xy_n;
 			hwaddr_t xy_rm;
+			bool success=false;
 			sscanf(N,"%u",&xy_n);
-			sscanf(EXPR,"%x",&xy_rm);
-			for(i=0;i<xy_n;++i){
-				printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
-				if((i+1)==xy_n)
-					printf("\n");
-				else
-					printf("\t");
+			xy_rm=expr(EXPR,&success);
+			//sscanf(EXPR,"%x",&xy_rm);
+			if(success){
+				for(i=0;i<xy_n;++i){
+					printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
+					if((i+1)==xy_n)
+						printf("\n");
+					else
+						printf("\t");
+				}
 			}
+			else
+				printf("Bad EXPR\n");
 		}
 	}
 	else
@@ -111,7 +117,7 @@ static int cmd_p(char *args){
 		printf("EXPR missed!\n");
 		return 0;
 	}
-	bool success = false;
+	bool success=false;
 	uint32_t result=expr(args,&success);
 	if(success)
 		printf("%d\n",result);
