@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, HEX, DEC, REG
+	NOTYPE = 256, EQ, HEX, DEC, REG_32, REG_16, REG_8
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -26,9 +26,9 @@ static struct rule {
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
 	{"0x[0-9a-fA-F]+", HEX},		//hexadecimal number
-	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi)", REG},	//registers_32
-	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG},			//registers_16
-	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG},			//registers_8
+	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", REG_32},	//registers_32
+	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},			//registers_16
+	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG_8},			//registers_8
 	{"[[:digit:]]+", DEC},			//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
@@ -103,7 +103,9 @@ static bool make_token(char *e) {
 					case EQ:	tokens[nr_token].type=EQ;break;
 					case DEC:	tokens[nr_token].type=DEC;break;
 					case HEX:	tokens[nr_token].type=HEX;break;
-					case REG:	tokens[nr_token].type=REG;break;
+					case REG_32:tokens[nr_token].type=REG_32;break;
+					case REG_16:tokens[nr_token].type=REG_16;break;
+					case REG_8: tokens[nr_token].type=REG_8;break;
 					case '+':	tokens[nr_token].type='+';break;
 					case '-':	tokens[nr_token].type='-';break;
 					case '*':	tokens[nr_token].type='*';break;
@@ -195,7 +197,7 @@ int eval(int p,int q){
 			return xx;
 
 		}
-		else if(tokens[p].type==REG){
+		else if(tokens[p].type==REG_32){
 			if(!strcmp(tokens[p].str+1,"eax")) return cpu.eax;
 			else if(!strcmp(tokens[p].str+1,"ecx")) return cpu.ecx;
 			else if(!strcmp(tokens[p].str+1,"edx")) return cpu.edx;
@@ -205,10 +207,47 @@ int eval(int p,int q){
 			else if(!strcmp(tokens[p].str+1,"esi")) return cpu.esi;
 			else if(!strcmp(tokens[p].str+1,"edi")) return cpu.edi;
 			else if(!strcmp(tokens[p].str+1,"eip")) return cpu.eip;
+			else {
+				gflag=0;
+				printf("NO such REG_32 \"%s\"(p==q)\n",tokens[p].str);
+				return 0;
+			}
 		}
+		else if(tokens[p].type==REG_16){
+			if(!strcmp(tokens[p].str+1,"ax")) return cpu.ax;
+			else if(!strcmp(tokens[p].str+1,"cx")) return cpu.cx;
+			else if(!strcmp(tokens[p].str+1,"dx")) return cpu.dx;
+			else if(!strcmp(tokens[p].str+1,"bx")) return cpu.bx;
+			else if(!strcmp(tokens[p].str+1,"sp")) return cpu.sp;
+			else if(!strcmp(tokens[p].str+1,"bp")) return cpu.bp;
+			else if(!strcmp(tokens[p].str+1,"si")) return cpu.si;
+			else if(!strcmp(tokens[p].str+1,"di")) return cpu.di;
+			else {
+				gflag=0;
+				printf("NO such REG_16 \"%s\"(p==q)\n",tokens[p].str);
+				return 0;
+			}
+		}
+		else if(tokens[p].type==REG_8){
+			if(!strcmp(tokens[p].str+1,"al")) return cpu.al;
+			else if(!strcmp(tokens[p].str+1,"ah")) return cpu.ah;
+			else if(!strcmp(tokens[p].str+1,"cl")) return cpu.cl;
+			else if(!strcmp(tokens[p].str+1,"ch")) return cpu.ch;
+			else if(!strcmp(tokens[p].str+1,"dl")) return cpu.dl;
+			else if(!strcmp(tokens[p].str+1,"dh")) return cpu.dh;
+			else if(!strcmp(tokens[p].str+1,"bl")) return cpu.bl;
+			else if(!strcmp(tokens[p].str+1,"bh")) return cpu.bh;
+			else {
+				gflag=0;
+				printf("NO such REG_8 \"%s\"(p==q)\n",tokens[p].str);
+				return 0;
+			}
+		}
+	
+
 		else{
 			gflag=0;
-			printf("Operators can't match(p==q,not DEC\\HEX)\n");
+			printf("Operators can't match(p==q,not DEC\\HEX\\REG)\n");
 			return 0;
 		}
 	}
