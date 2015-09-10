@@ -7,7 +7,7 @@
 #include <regex.h>
 
 enum {
-	NOTYPE = 256, EQ, HEX, DEC, REG_32, REG_16, REG_8
+	NOTYPE = 256, EQ, AND, OR, UNEQ, NEG, HEX, DEC, REG_32, REG_16, REG_8
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -25,10 +25,14 @@ static struct rule {
 
 	{" +",	NOTYPE},				// spaces
 	{"==", EQ},						// equal
-	{"0x[0-9a-fA-F]+", HEX},		//hexadecimal number
-	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", REG_32},	//registers_32
-	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},			//registers_16
-	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG_8},			//registers_8
+	{"&&", AND},					// and
+	{"||", OR},						// or
+	{"!=", UNEQ},					// unequal
+	{"!",  NEG},					// negative
+	{"0x[0-9a-fA-F]+", HEX},		// hexadecimal number
+	{"%(eax|ecx|edx|ebx|esp|ebp|esi|edi|eip)", REG_32},	// registers_32
+	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},				// registers_16
+	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG_8},				// registers_8
 	{"[[:digit:]]+", DEC},			//decimal number
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
@@ -103,6 +107,10 @@ static bool make_token(char *e) {
 					case EQ:	tokens[nr_token].type=EQ;break;
 					case DEC:	tokens[nr_token].type=DEC;break;
 					case HEX:	tokens[nr_token].type=HEX;break;
+					case AND:	tokens[nr_token].type=AND;break;
+					case OR:	tokens[nr_token].type=OR;break;
+					case UNEQ:	tokens[nr_token].type=UNEQ;break;
+					case NEG:	tokens[nr_token].type=NEG;break;
 					case REG_32:tokens[nr_token].type=REG_32;break;
 					case REG_16:tokens[nr_token].type=REG_16;break;
 					case REG_8: tokens[nr_token].type=REG_8;break;
