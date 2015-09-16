@@ -20,4 +20,21 @@ void init_wp_list() {
 
 /* TODO: Implement the functionality of watchpoint */
 
+WP* new_wp();
+void free_wp(WP *wp);
 
+WP* new_wp(){
+	if(free_==NULL){
+		panic("No space for watchpoint!");
+	}
+	if(head==NULL){
+		head=free_;
+	}
+	WP *rt=free_;	
+	free_=free_->next;
+	return rt;
+}
+
+void free_wp(WP *wp){
+
+}
