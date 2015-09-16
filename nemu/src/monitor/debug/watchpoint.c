@@ -28,20 +28,19 @@ WP* new_wp(){
 	if(free_==NULL){
 		panic("No space for watchpoint!");
 	}
+	WP *rt=free_;
 	if(head==NULL){
 		head=free_;
 		tail=free_;
 		head->next=NULL;
-		return head;
 	}
 	else{
-		WP *rt=free_;
 		free_=free_->next;
 		tail->next=rt;
 		rt->next=NULL;
 		tail=rt;
-		return rt;
 	}
+	return rt;
 }
 
 void free_wp(WP *wp){
