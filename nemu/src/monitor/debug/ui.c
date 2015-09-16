@@ -8,9 +8,10 @@
 #include <readline/history.h>
 
 void cpu_exec(uint32_t);
-static WP *head;
+//static WP *head;
 WP* new_wp();
-void free_wp(WP *wp);
+void free_wp(WP* wp);
+void free_wp_n(int N);
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -153,7 +154,7 @@ static int cmd_w(char *args){
 		strcpy(NewW->T_token,args);
 		printf("watchpoint %d set\n",w_num);
 		printf("NO=%d value=%d token=%s\n",NewW->NO,NewW->value,NewW->T_token);
-		if(head==NULL)printf("WTF!!!\n");
+		if(NewW==NULL)printf("WTF!!!\n");
 	}
 
 	return 0;
@@ -169,20 +170,8 @@ static int cmd_d(char *args){
 	int N;
 	sscanf(args,"%d",&N);
 
-	WP* tp=head;
-	if(tp==NULL){
-		printf("Already no watchpoints = =\n");
-		return 0;
-	}
-	while(tp->NO!=N && tp->next!=NULL){
-		tp=tp->next;
-	}
-	if(tp->NO==N){
-		free_wp(tp);
-	}
-	else{
-		printf("No such watchpoints, you could check info first :)\n");
-	}
+	free_wp_n(N);
+
 	return 0;
 }
 

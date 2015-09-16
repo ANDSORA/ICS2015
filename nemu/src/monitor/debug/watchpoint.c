@@ -63,3 +63,21 @@ void free_wp(WP *wp){
 		free_=wp;
 	}
 }
+
+void free_wp_n(int N)
+{
+	WP* tp=head;
+	if(tp==NULL){
+		printf("Already no watchpoints = =\n");
+		return;
+	}
+	while(tp->NO!=N && tp->next!=NULL){
+		tp=tp->next;
+	}
+	if(tp->NO==N){
+		free_wp(tp);
+	}
+	else{
+		printf("No such watchpoints, you could check info first :)\n");
+	}
+}
