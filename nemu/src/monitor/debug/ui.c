@@ -12,6 +12,7 @@ void cpu_exec(uint32_t);
 WP* new_wp();
 void free_wp(WP* wp);
 void free_wp_n(int N);
+static int w_num; 
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
@@ -137,20 +138,22 @@ static int cmd_w(char *args){
 		return 0;
 	}
 
-	static int w_num=0;
+	//static int w_num=0;
 
-	WP* NewW=new_wp();
+	WP* NewW;
 
 	bool success=false;
-	NewW->value=expr(args,&success);
+	int T_value;
+	T_value=expr(args,&success);
 
 	if(!success){
 		printf("Bad EXPR!\n");
-		free_wp(NewW);
 	}
 	else{
+		NewW=new_wp();
 		w_num++;
 		NewW->NO=w_num;
+		NewW->value=T_value;
 		strcpy(NewW->T_token,args);
 		printf("watchpoint %d set\n",w_num);
 		printf("NO=%d value=%d token=%s\n",NewW->NO,NewW->value,NewW->T_token);
