@@ -24,6 +24,7 @@ void init_wp_list() {
 WP* new_wp();
 void free_wp(WP *wp);
 int how_many(WP *wp);
+bool check_wp();
 
 WP* new_wp(){
 	if(free_==NULL){
@@ -95,4 +96,23 @@ int  how_many(WP* wp){
 		rt=rt->next;
 	}
 	return ans;
+}
+
+bool check_wp(){
+	WP *rt=head;
+	if(rt==NULL)return false;
+	
+	bool flag=false;
+
+	while(rt!=NULL){
+		bool useless;
+		int value_now=expr(rt->T_token,&useless);
+		if(value_now!=rt->value){
+			rt->oldvalue=rt->value;
+			rt->value=value_now;
+			flag=true;
+			printf("watchpoint %d was hit\n",rt->NO);
+		}
+	}
+	return flag;
 }
