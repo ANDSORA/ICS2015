@@ -23,24 +23,28 @@ void init_wp_list() {
 
 WP* new_wp();
 void free_wp(WP *wp);
+int how_many(WP *wp);
 
 WP* new_wp(){
 	if(free_==NULL){
 		panic("No space for watchpoint!");
 	}
 	WP *rt=free_;
+	free_=free_->next;
 	if(head==NULL){
-		head=free_;
-		tail=free_;
+		head=rt;
+		tail=rt;
 		head->next=NULL;
 	}
 	else{
-		free_=free_->next;
 		tail->next=rt;
 		rt->next=NULL;
 		tail=rt;
 	}
 	if(head==NULL)printf("WTF in new_wp!!!\n");
+
+	printf("available space = %d\n",how_many(free_));
+
 	return rt;
 }
 
@@ -62,6 +66,7 @@ void free_wp(WP *wp){
 		wp->next=free_;
 		free_=wp;
 	}
+	printf("available space = %d\n",how_many(free_));
 }
 
 void free_wp_n(int N)
@@ -80,4 +85,14 @@ void free_wp_n(int N)
 	else{
 		printf("No such watchpoints, you could check info first :)\n");
 	}
+}
+
+int  how_many(WP* wp){
+	int ans=0;
+	WP *rt=wp;
+	while(rt!=NULL){
+		ans++;
+		rt=rt->next;
+	}
+	return ans;
 }
