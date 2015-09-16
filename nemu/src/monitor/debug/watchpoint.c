@@ -113,6 +113,7 @@ bool check_wp(){
 			flag=true;
 			printf("watchpoint %d was hit\n",rt->NO);
 		}
+		rt=rt->next;
 	}
 	return flag;
 }
