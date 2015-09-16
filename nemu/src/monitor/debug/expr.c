@@ -96,7 +96,7 @@ static bool make_token(char *e) {
 				char *substr_start = e + position;
 				int substr_len = pmatch.rm_eo;
 
-				Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
+				//Log("match rules[%d] = \"%s\" at position %d with len %d: %.*s", i, rules[i].regex, position, substr_len, substr_len, substr_start);
 				position += substr_len;
 
 				/* TODO: Now a new token is recognized with rules[i]. Add codes
@@ -104,7 +104,7 @@ static bool make_token(char *e) {
 				 * types of tokens, some extra actions should be performed.
 				 */
 
-				printf("(make token)sub_start=%d,sub_len=%d\n",substr_start-e,substr_len);
+				//printf("(make token)sub_start=%d,sub_len=%d\n",substr_start-e,substr_len);
 				if(rules[i].token_type==NOTYPE)break;
 				switch(rules[i].token_type) {
 					case EQ:	tokens[nr_token].type=EQ;break;
@@ -140,10 +140,10 @@ static bool make_token(char *e) {
 		}
 	}
 	//
-	int cc;
-	for(cc=0;cc<nr_token;++cc){
-		printf("%s",tokens[cc].str);
-	}printf("\t(the tokens)\n");//
+	//int cc;
+	//for(cc=0;cc<nr_token;++cc){
+	//	printf("%s",tokens[cc].str);
+	//}printf("\t(the tokens)\n");//
 
 	return true; 
 }
@@ -198,13 +198,13 @@ uint32_t eval(int p,int q){
 	else if(p==q){
 		if(tokens[p].type==DEC){
 			uint32_t xx;
-			printf("(eval)%s\n",tokens[p].str);
+			//printf("(eval)%s\n",tokens[p].str);
 			sscanf(tokens[p].str,"%u",&xx);
 			return xx;
 		}
 		else if(tokens[p].type==HEX){
 			uint32_t xx;
-			printf("(eval)%s\n",tokens[p].str);
+			//printf("(eval)%s\n",tokens[p].str);
 			sscanf(tokens[p].str,"%x",&xx);
 			return xx;
 
@@ -353,7 +353,7 @@ uint32_t expr(char *e, bool *success) {
 
 	int p=0;
 	int q=nr_token-1;
-	printf("(expr)p=%d,q=%d\n",p,q);//
+	//printf("(expr)p=%d,q=%d\n",p,q);//
 	uint32_t result;
 	gflag=1;
 	result=eval(p,q);
