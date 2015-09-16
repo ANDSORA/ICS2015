@@ -152,6 +152,8 @@ static int cmd_w(char *args){
 		NewW->NO=w_num;
 		strcpy(NewW->T_token,args);
 		printf("watchpoint %d set\n",w_num);
+		printf("NO=%d value=%d token=%s\n",NewW->NO,NewW->value,NewW->T_token);
+		if(head==NULL)printf("WTF!!!\n");
 	}
 
 	return 0;
