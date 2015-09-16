@@ -129,7 +129,7 @@ void WP_print(){
 	printf("Num\tType\t\tCondition\n");
 	WP *rt=head;
 	while(rt!=NULL){
-		printf("%d\twatchpoint\t\thas been hit %d times\n",rt->NO,rt->times);
+		printf("%d\twatchpoint\thas been hit %d times\n",rt->NO,rt->times);
 		rt=rt->next;
 	}
 
