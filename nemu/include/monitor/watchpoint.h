@@ -12,6 +12,7 @@ typedef struct watchpoint {
 	/* TODO: Add more members if necessary */
 	int value;
 	int oldvalue;
+	int times;
 	char T_token[T_token_len];
 
 } WP;

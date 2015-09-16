@@ -25,6 +25,7 @@ WP* new_wp();
 void free_wp(WP *wp);
 int how_many(WP *wp);
 bool check_wp();
+void WP_print();
 
 WP* new_wp(){
 	if(free_==NULL){
@@ -110,10 +111,26 @@ bool check_wp(){
 		if(value_now!=rt->value){
 			rt->oldvalue=rt->value;
 			rt->value=value_now;
+			rt->times++;
 			flag=true;
 			printf("watchpoint %d was hit\n",rt->NO);
+			printf("Old value:\t%d\nNew value:\t%d\n",rt->oldvalue,rt->value);
 		}
 		rt=rt->next;
 	}
 	return flag;
+}
+
+void WP_print(){
+	if(head==NULL){
+		printf("No watchpoints\n");
+		return;
+	}
+	printf("Num\tType\t\tCondition\n");
+	WP *rt=head;
+	while(rt!=NULL){
+		printf("%d\twatchpoint\t\thas been hit %d times\n",rt->NO,rt->times);
+		rt=rt->next;
+	}
+
 }

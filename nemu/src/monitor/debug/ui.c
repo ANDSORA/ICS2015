@@ -12,6 +12,7 @@ void cpu_exec(uint32_t);
 WP* new_wp();
 void free_wp(WP* wp);
 void free_wp_n(int N);
+void WP_print();
 static int w_num; 
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
@@ -68,7 +69,7 @@ static int cmd_info(char *args) {
 			printf("eip\t0x%x\n",cpu.eip);
 		}
 		else if(*args=='w'){
-			//To be continued
+			WP_print();
 		}
 		else
 			printf("Wrong Format!\n");
@@ -154,6 +155,7 @@ static int cmd_w(char *args){
 		w_num++;
 		NewW->NO=w_num;
 		NewW->value=T_value;
+		NewW->times=0;
 		strcpy(NewW->T_token,args);
 		printf("watchpoint %d set\n",w_num);
 		printf("NO=%d value=%d token=%s\n",NewW->NO,NewW->value,NewW->T_token);
