@@ -40,6 +40,7 @@ WP* new_wp(){
 		rt->next=NULL;
 		tail=rt;
 	}
+	if(head==NULL)printf("WTF in new_wp!!!\n");
 	return rt;
 }
 
