@@ -126,7 +126,7 @@ static int cmd_p(char *args){
 	bool success=false;
 	uint32_t result=expr(args,&success);
 	if(success)
-		printf("%d\n",result);
+		printf("%x\n",result);
 	else
 		printf("Bad EXPR\n");
 	return 0;
