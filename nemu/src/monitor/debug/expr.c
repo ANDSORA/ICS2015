@@ -82,7 +82,7 @@ Token tokens[32];
 int nr_token;
 static char myreg_32[8][6]={"eax\0","ecx\0","edx\0","ebx\0","esp\0","ebp\0","esi\0","edi\0"};
 static char myreg_16[8][6]={"ax\0","cx\0","dx\0","bx\0","sp\0","bp\0","si\0","di\0"};
-static char myreg_8[8][6]={"al\0","ah\0","cl\0","ch\0","dl\0","dh\0","bl\0","bh\0"};
+static char myreg_8[8][6]={"al\0","cl\0","dl\0","bl\0","ah\0","ch\0","dh\0","bh\0"};
 bool gflag;
 
 static bool make_token(char *e) {
