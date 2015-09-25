@@ -80,6 +80,9 @@ typedef struct token {
 
 Token tokens[32];
 int nr_token;
+static char myreg_32[8][6]={"eax\0","ecx\n","edx\0","ebx\0","esp\0","ebp\0","esi\0","edi\0"};
+//static char myreg_16[8][6];
+//static char myreg_8[8][6];
 bool gflag;
 
 static bool make_token(char *e) {
@@ -190,6 +193,7 @@ bool check_parentheses(int p,int q){
 }
 
 uint32_t eval(int p,int q){
+	int i;
 	if(p>q){
 		gflag=0;
 		printf("Operators can't match(p>q)\n");
@@ -210,20 +214,28 @@ uint32_t eval(int p,int q){
 
 		}
 		else if(tokens[p].type==REG_32){
-			if(!strcmp(tokens[p].str+1,"eax")) return cpu.eax;
-			else if(!strcmp(tokens[p].str+1,"ecx")) return cpu.ecx;
-			else if(!strcmp(tokens[p].str+1,"edx")) return cpu.edx;
-			else if(!strcmp(tokens[p].str+1,"ebx")) return cpu.ebx;
-			else if(!strcmp(tokens[p].str+1,"esp")) return cpu.esp;
-			else if(!strcmp(tokens[p].str+1,"ebp")) return cpu.ebp;
-			else if(!strcmp(tokens[p].str+1,"esi")) return cpu.esi;
-			else if(!strcmp(tokens[p].str+1,"edi")) return cpu.edi;
-			else if(!strcmp(tokens[p].str+1,"eip")) return cpu.eip;
-			else {
-				gflag=0;
-				printf("NO such REG_32 \"%s\"(p==q)\n",tokens[p].str);
-				return 0;
+			for(i=0;i<8;++i){
+				if(!strcmp(tokens[p].str+1,myreg_32[i])){
+					return reg_l(i);
+				}
 			}
+			gflag=0;
+			printf("NO such REG_32 \"%s\"(p==q)\n",tokens[p].str);
+			return 0;
+			//if(!strcmp(tokens[p].str+1,"eax")) return cpu.eax;
+			//else if(!strcmp(tokens[p].str+1,"ecx")) return cpu.ecx;
+			//else if(!strcmp(tokens[p].str+1,"edx")) return cpu.edx;
+			//else if(!strcmp(tokens[p].str+1,"ebx")) return cpu.ebx;
+			//else if(!strcmp(tokens[p].str+1,"esp")) return cpu.esp;
+			//else if(!strcmp(tokens[p].str+1,"ebp")) return cpu.ebp;
+			//else if(!strcmp(tokens[p].str+1,"esi")) return cpu.esi;
+			//else if(!strcmp(tokens[p].str+1,"edi")) return cpu.edi;
+			//else if(!strcmp(tokens[p].str+1,"eip")) return cpu.eip;
+			//else {
+			//	gflag=0;
+			//	printf("NO such REG_32 \"%s\"(p==q)\n",tokens[p].str);
+			//	return 0;
+			//}
 		}
 		else if(tokens[p].type==REG_16){
 			if(!strcmp(tokens[p].str+1,"ax")) return cpu.ax;
