@@ -81,7 +81,7 @@ Oldline = 233
 count:
 #	@echo $(shell $(Count_Noline))
 	git checkout $(Oldhash)
-	@echo "Your original codes count is" "Oldline = $(Count_Noline)"
-#	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
+	@echo "Your original codes count is"
+	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
 	git checkout master
 	@echo $(Count_Noline)
