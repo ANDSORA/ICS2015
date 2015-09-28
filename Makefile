@@ -76,11 +76,8 @@ submit: clean
 Oldhash := b718
 Count_Noline := find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l
 Newline := $(shell $(Count_Noline) )
-#Newline := $(shell find nemu -name "*.[c|h]" | xargs cat | grep -v ^$$| wc -l)
-Oldline := $(shell git checkout $(Oldhash) |$(Count_Noline) 2> /dev/null)
+Oldline := $(shell git checkout $(Oldhash) 2> /dev/null |$(Count_Noline) )
 
 count:
 	@echo $(Newline)
 	@echo $(Oldline)
-#@find nemu -name "*.[c|h]" |xargs cat|grep -v ^$$|wc -l
-
