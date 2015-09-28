@@ -74,11 +74,13 @@ submit: clean
 ##### 141220121 ANDSORA #####
 
 Oldhash := b718
-Newline := $(shell find nemu -name "*.[c|h]" | xargs cat | grep -v ^$$| wc -l)
-Oldline := $(shell git checkout $(Oldhash))
+Count_Noline := find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l
+Newline := $(shell $(Count_Noline) )
+#Newline := $(shell find nemu -name "*.[c|h]" | xargs cat | grep -v ^$$| wc -l)
+Oldline := $(shell git checkout $(Oldhash) |$(Count_Noline) 2> /dev/null)
 
 count:
 	@echo $(Newline)
-	$(Oldline)
+	@echo $(Oldline)
 #@find nemu -name "*.[c|h]" |xargs cat|grep -v ^$$|wc -l
 
