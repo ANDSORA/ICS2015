@@ -79,7 +79,8 @@ Count_Noline := find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l
 #Oldline := $(shell git checkout $(Oldhash) |$(Count_Noline) )
 
 count:
-	@echo $(shell $(Count_Noline))
+#	@echo $(shell $(Count_Noline))
 	git checkout $(Oldhash)
 	@echo $(shell $(Count_Noline))
 	git checkout master
+	@echo $(shell $(Count_Noline))
