@@ -76,12 +76,12 @@ submit: clean
 Oldhash := b718
 Count_Noline = $(shell find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l)
 #Newline := $(shell $(Count_Noline) )
-#Oldline := 233
+Oldline = 233
 
 count:
 #	@echo $(shell $(Count_Noline))
 	git checkout $(Oldhash)
-	@echo "Your original codes count is" $(Count_Noline)
+	@echo "Your original codes count is $(Count_Noline)"
 #	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
 	git checkout master
 	@echo $(Count_Noline)
