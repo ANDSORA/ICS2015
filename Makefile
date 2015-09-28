@@ -1,6 +1,6 @@
 ##### global settings #####
 
-.PHONY: nemu entry all_testcase kernel run gdb test submit clean
+.PHONY: nemu entry all_testcase kernel run gdb test submit clean count
 
 CC := gcc
 LD := ld
@@ -71,5 +71,14 @@ test: $(nemu_BIN) $(testcase_BIN) entry
 submit: clean
 	cd .. && tar cvj $(shell pwd | grep -o '[^/]*$$') > $(STU_ID).tar.bz2
 
-count: 
-	find nemu -name "*.[c|h]" |xargs cat|grep -v ^$$|wc -l
+##### 141220121 ANDSORA #####
+
+Oldhash := b718
+Newline := $(shell find nemu -name "*.[c|h]" | xargs cat | grep -v ^$$| wc -l)
+Oldline := $(shell git checkout $(Oldhash))
+
+count:
+	@echo $(Newline)
+	$(Oldline)
+#@find nemu -name "*.[c|h]" |xargs cat|grep -v ^$$|wc -l
+
