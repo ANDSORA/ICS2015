@@ -74,14 +74,14 @@ submit: clean
 ##### 141220121 ANDSORA #####
 
 Oldhash := b718
-Count_Noline := find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l
+Count_Noline = $(shell find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l)
 #Newline := $(shell $(Count_Noline) )
-#Oldline := $(shell git checkout $(Oldhash) |$(Count_Noline) )
+#Oldline := 233
 
 count:
 #	@echo $(shell $(Count_Noline))
 	git checkout $(Oldhash)
-	@echo "Your original codes count is" $(shell find ./nemu -name "*.[h|c]" |xargs cat |grep -v ^$$ |wc -l)
+	@echo "Your original codes count is" $(Count_Noline)
 #	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
 	git checkout master
-	@echo $(shell $(Count_Noline))
+	@echo $(Count_Noline)
