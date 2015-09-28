@@ -81,7 +81,7 @@ Count_Noline := find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l
 count:
 #	@echo $(shell $(Count_Noline))
 	git checkout $(Oldhash)
-#	@echo $(shell $(Count_Noline))
-	find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
+	@echo "Your original codes count is" $(shell find ./nemu -name "*.[h|c]" |xargs cat |grep -v ^$$ |wc -l)
+#	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
 	git checkout master
 	@echo $(shell $(Count_Noline))
