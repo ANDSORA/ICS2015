@@ -93,5 +93,5 @@ void restart() {
 	/* Initialize EFLAGS. -ANDSORA */
 	//cpu.eax=1;
 	cpu.EFLAGS=2;
-	printf("EFLAGS=%u, size:%d/%d\n",cpu.EFLAGS,sizeof(cpu.gpr),sizeof(cpu));
+	printf("%u %u %u %u %u %u %u\n",cpu.CF,cpu.PF,cpu.ZF,cpu.SF,cpu.IF,cpu.DF,cpu.OF);
 }
