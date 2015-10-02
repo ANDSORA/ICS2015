@@ -26,6 +26,16 @@ typedef union {
 	struct {
 		uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
 		swaddr_t eip;
+		union {
+			unsigned EFLAGS;
+			struct {
+				unsigned CF:1; unsigned ef_1:1; unsigned PF:1; unsigned ef_3:1;
+				unsigned AF:1; unsigned ef_5:1; unsigned ZF:1; unsigned SF:1;
+				unsigned TF:1; unsigned IF:1;   unsigned DF:1; unsigned OF:1;
+				unsigned OL:1; unsigned IP:1;   unsigned NT:1; unsigned ef_15:1;
+				unsigned RF:1; unsigned VM:1;   unsigned ef_18_31:14;
+			};
+		};
 	};
 	struct {
 		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
@@ -38,33 +48,8 @@ typedef union {
 
 } CPU_state;
 
-typedef union {
-	unsigned EF_ALL;
-	struct {
-		unsigned CF:1;
-		unsigned ef_1:1;
-		unsigned PF:1;
-		unsigned ef_3:1;
-		unsigned AF:1;
-		unsigned ef_5:1;
-		unsigned ZF:1;
-		unsigned SF:1;
-		unsigned TF:1;
-		unsigned IF:1;
-		unsigned DF:1;
-		unsigned OF:1;
-		unsigned OL:1;
-		unsigned IP:1;
-		unsigned NT:1;
-		unsigned ef_15:1;
-		unsigned RF:1;
-		unsigned VM:1;
-		unsigned ef_18_31:14;
-	};
-} CPU_EFLAGS;
-
 extern CPU_state cpu;
-extern CPU_EFLAGS EFLAGS;
+//extern CPU_EFLAGS EFLAGS;
 
 static inline int check_reg_index(int index) {
 	assert(index >= 0 && index < 8);
