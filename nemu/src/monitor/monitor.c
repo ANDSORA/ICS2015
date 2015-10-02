@@ -91,7 +91,7 @@ void restart() {
 	init_ddr3();
 
 	/* Initialize EFLAGS. -ANDSORA */
-	cpu.eax=1;
-	//EFLAGS.EF_ALL=2;
-	//printf("EFLAGS=%u, size=%d\n",EFLAGS.EF_ALL,sizeof(EFLAGS));
+	//cpu.eax=1;
+	cpu.EFLAGS=2;
+	printf("EFLAGS=%u, size:%d/%d\n",cpu.EFLAGS,sizeof(cpu.gpr),sizeof(cpu));
 }
