@@ -89,4 +89,9 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
+
+	/* Initialize EFLAGS. -ANDSORA */
+	cpu.eax=1;
+	//EFLAGS.EF_ALL=2;
+	//printf("EFLAGS=%u, size=%d\n",EFLAGS.EF_ALL,sizeof(EFLAGS));
 }
