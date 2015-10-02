@@ -92,7 +92,7 @@ void restart() {
 
 	/* Initialize EFLAGS. -ANDSORA */
 	//cpu.eax=1;
-	cpu.EFLAGS=0xf0f0f0f0;
+	cpu.EFLAGS=2;
 	//printf("%u %u %u %u %u %u %u\n",cpu.CF,cpu.PF,cpu.ZF,cpu.SF,cpu.IF,cpu.DF,cpu.OF);
 	printf("%u %u %u %u\n",cpu.CF,cpu.ef_1,cpu.PF,cpu.ef_3);
 	printf("%u %u %u %u\n",cpu.AF,cpu.ef_5,cpu.ZF,cpu.SF);
