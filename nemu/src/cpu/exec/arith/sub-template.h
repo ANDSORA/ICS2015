@@ -1,4 +1,5 @@
 #include "cpu/exec/template-start.h"
+//#include "cpu/exec/eflags.h"
 
 #define instr sub
 
@@ -9,6 +10,8 @@ static void do_execute() {
 
 	//wait my EFLAGS;
 	//setEFLAGS_CPAZSO((uint32_t)op_dest->val,(uint32_t)op_src->val);
+	//HELLO_ANDSORA();
+	printf("CF=%u\n",cpu.CF);
 
 	print_asm_template2();
 }
