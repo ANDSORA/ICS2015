@@ -2,7 +2,8 @@
 
 #define instr sub
 
-static void do_execute () {
+#if DATA_BYTE == 2 || DATA_BYTE ==4
+static void do_execute() {
 	DATA_TYPE result = op_dest->val - op_src->simm;
 	OPERAND_W(op_dest, result);
 
@@ -10,8 +11,9 @@ static void do_execute () {
 
 	print_asm_template2();
 }
+#endif
 
-#if DATA_BYTE == 2 || DATE_BYTE == 4
+#if DATA_BYTE == 2 || DATA_BYTE == 4
 make_instr_helper(si2rm)
 #endif
 
