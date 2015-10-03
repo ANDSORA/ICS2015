@@ -1,6 +1,7 @@
 #include "nemu.h"
 #include <stdlib.h>
 #include <time.h>
+#include "cpu/exec/eflags.h"
 
 CPU_state cpu;
 
@@ -42,3 +43,8 @@ void reg_test() {
 	assert(eip_sample == cpu.eip);
 }
 
+
+/* ANDSORA*/
+void HELLO_ANDSORA() {
+	printf("Hello, my head files\n");
+}
