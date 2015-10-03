@@ -49,29 +49,34 @@ void HELLO_ANDSORA() {
 	printf("Hello, my head files\n");
 }
 
-void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool cin) {
-	if(cin) y=~y;
-
-	bool cout;
-	uint32_t result=x+y+cin;
-	uint32_t temp=result&0xff;
-
-	cout= ( (((x&1)+(y&1)+cin)>>1) + (x>>1) + (y>>1) )>>31;
-
-	cpu.CF= cin^cout;
-
+void setPF(uint32_t x){
+	uint32_t temp=x&0xff;
 	temp=temp^(temp>>1);
 	temp=temp^(temp>>2);
 	temp=temp^(temp>>4);
 	cpu.PF= ~temp&1;
+}
 
+void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool cin) {
+	if(cin) y=~y;
+
+	uint32_t result=x+y+cin;
+	bool cout= ( (((x&1)+(y&1)+cin)>>1) + (x>>1) + (y>>1) )>>31;
+
+	cpu.CF= cin^cout;
+	setPF(result);
 	cpu.AF= cin^(( (x&15)+(y&15)+cin )>>4);
-
 	cpu.ZF= result==0;
-
 	cpu.SF= result>>31;
-
 	cpu.OF= cout^( (((x<<1)>>1)+((y<<1)>>1)+cin)>>31 );
+}
+
+void setEFLAGS_test(uint32_t x){
+	cpu.CF=0;
+	setPF(x);
+	cpu.ZF= x==0;
+	cpu.SF= x>>31;
+	cpu.OF=0;
 }
 
 void testEFLAGS() {
