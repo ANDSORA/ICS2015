@@ -16,6 +16,7 @@
 #include "stack/push.h"
 
 #include "control/je.h"
+#include "control/cmp.h"
 
 #include "logic/and.h"
 #include "logic/or.h"
