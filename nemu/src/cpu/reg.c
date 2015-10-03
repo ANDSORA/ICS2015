@@ -102,5 +102,9 @@ void testEFLAGS() {
 	setEFLAGS_CPAZSO(a,b,1);
 	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
+	a=0x0;b=0x0;c=a-b;
+	setEFLAGS_CPAZSO(a,b,1);
+	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+
 
 }
