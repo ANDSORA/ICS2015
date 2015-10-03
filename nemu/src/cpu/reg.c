@@ -48,3 +48,25 @@ void reg_test() {
 void HELLO_ANDSORA() {
 	printf("Hello, my head files\n");
 }
+
+void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool c) {
+	if(c)y=~y+1;
+
+	uint32_t result=x+y;
+	uint32_t temp=result&0xff;
+
+	cpu.CF= result<x;
+
+	temp=temp^(temp>>1);
+	temp=temp^(temp>>2);
+	temp=temp^(temp>>4);
+	cpu.PF= ~temp&1;
+
+	cpu.AF= (result&0xf)<(x&0xf);
+
+	cpu.ZF= result==0;
+
+	cpu.SF= result>>31;
+
+	cpu.OF= ( ((int)x<0) == ((int)y<0) ) && ( ((int)x<0) != ((int)result<0) );
+}
