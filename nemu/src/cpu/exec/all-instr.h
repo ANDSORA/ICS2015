@@ -15,6 +15,8 @@
 #include "stack/call.h"
 #include "stack/push.h"
 
+#include "control/je.h"
+
 #include "logic/and.h"
 #include "logic/or.h"
 #include "logic/not.h"
