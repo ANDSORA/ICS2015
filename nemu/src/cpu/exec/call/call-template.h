@@ -4,9 +4,9 @@
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
-	printf("%x\n",cpu.eip);
-	//uint32_t a=instr_fetch(eip+1,4);
-	//printf("%u\n",a);
+	int x=op_src->val;
+	if(DATA_BYTE==2)x=(x<<16)>>16;
+	cpu.eip += x;
 }
 
 make_instr_helper(i)
