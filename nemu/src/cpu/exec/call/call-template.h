@@ -4,7 +4,7 @@
 
 #if DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
-	//printf("%u",eip);
+	printf("%u",cpu.eip);
 	//uint32_t a=instr_fetch(eip+1,4);
 	//printf("%u\n",a);
 }
