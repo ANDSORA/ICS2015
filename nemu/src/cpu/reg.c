@@ -70,3 +70,12 @@ void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool c) {
 
 	cpu.OF= ( ((int)x<0) == ((int)y<0) ) && ( ((int)x<0) != ((int)result<0) );
 }
+
+void testEFLAGS() {
+	unsigned a,b,c;
+
+	a=0x7286;b=0x1329045;c=a+b;
+	setEFLAGS_CPAZSO(a,b,0);
+	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+
+}
