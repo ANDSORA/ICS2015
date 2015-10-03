@@ -53,7 +53,7 @@ void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool cin) {
 	if(cin) y=~y;
 
 	bool cout;
-	uint32_t result=x+y+1;
+	uint32_t result=x+y+cin;
 	uint32_t temp=result&0xff;
 
 	cout= ( (((x&1)+(y&1)+cin)>>1) + (x>>1) + (y>>1) )>>31;
