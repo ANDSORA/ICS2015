@@ -7,6 +7,8 @@ static void do_execute() {
 	int x=op_src->val;
 	if(DATA_BYTE==2)x=(x<<16)>>16;
 	cpu.eip += x;
+
+	print_asm_template1();
 }
 
 make_instr_helper(i)
