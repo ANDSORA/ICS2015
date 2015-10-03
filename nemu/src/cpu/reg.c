@@ -55,20 +55,24 @@ void setEFLAGS_CPAZSO(uint32_t x,uint32_t y,bool c) {
 	uint32_t result=x+y;
 	uint32_t temp=result&0xff;
 
-	cpu.CF= result<x;
+	cpu.CF= (result<x)^c;
 
 	temp=temp^(temp>>1);
 	temp=temp^(temp>>2);
 	temp=temp^(temp>>4);
 	cpu.PF= ~temp&1;
 
-	cpu.AF= (result&0xf)<(x&0xf);
+	cpu.AF= ((result&0xf)<(x&0xf))^c;
 
 	cpu.ZF= result==0;
 
 	cpu.SF= result>>31;
 
-	cpu.OF= ( ((int)x<0) == ((int)y<0) ) && ( ((int)x<0) != ((int)result<0) );
+	if(!c) cpu.OF= ( ((int)x<0) == ((int)y<0) ) && ( ((int)x<0) != ((int)result<0) );
+	else{
+		y=~y+1;
+		cpu.OF= ( ((int)x<0) != ((int)y<0) ) && ( ((int)x<0) != ((int)result<0) );
+	}
 }
 
 void testEFLAGS() {
@@ -88,15 +92,15 @@ void testEFLAGS() {
 
 	a=0x7286;b=0x1329045;c=a-b;
 	setEFLAGS_CPAZSO(a,b,1);
-	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0xffffffff;b=0xffffffff;c=a-b;
 	setEFLAGS_CPAZSO(a,b,1);
-	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0x80000000;b=0x80000000;c=a-b;
 	setEFLAGS_CPAZSO(a,b,1);
-	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 
 }
