@@ -15,6 +15,7 @@
 #include "arith/cmp.h"
 
 #include "control/je.h"
+#include "control/jmp.h"
 #include "control/call.h"
 
 #include "logic/and.h"
