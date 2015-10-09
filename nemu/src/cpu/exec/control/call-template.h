@@ -17,7 +17,7 @@ make_helper(call_si_l){
 	int len = decode_si_l(eip+1);
 	
 	REG(R_ESP) -= DATA_BYTE;
-	MEM_W( MEM_R(REG(R_ESP)), eip+len+1);
+	MEM_W( REG(R_ESP), eip+len+1);
 	cpu.eip += op_src->val;
 	print_asm_template1();
 
