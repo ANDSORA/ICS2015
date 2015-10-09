@@ -18,7 +18,7 @@ make_helper(call_si_l){
 	
 	cpu.esp -= DATA_BYTE;
 	MEM_W(cpu.esp,eip+len+1);
-	eip += op_src->val;
+	cpu.eip += op_src->val;
 	print_asm_template1();
 
 	return len+1;
