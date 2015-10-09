@@ -2,7 +2,7 @@
 
 #define instr jmp
 
-#if DATA_BYTE == 1
+#if DATA_BYTE == 1 || DATA_BYTE == 4
 static void do_execute() {
 	cpu.eip+=op_src->val;
 
