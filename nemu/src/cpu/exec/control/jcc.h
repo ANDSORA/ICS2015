@@ -7,4 +7,7 @@ make_helper(je_si_l);
 make_helper(jbe_si_b);
 make_helper(jbe_si_l);
 
+make_helper(jle_si_b);
+make_helper(jle_si_l);
+
 #endif
