@@ -2,16 +2,27 @@
 
 #define instr call
 
-#if DATA_BYTE == 2 || DATA_BYTE == 4
-static void do_execute() {
-	int x=op_src->val;
-	if(DATA_BYTE==2)x=(x<<16)>>16;
-	cpu.eip += x;
+/* sometimes maybe useful -ANDSORA
+*static void do_execute() {
+*	cpu.esp -= DATA_BYTE;
+*	MEM_W(cpu.esp,cpu.eip+5);
+*	cpu.eip += op_src->val;
+*
+*	print_asm_template1();
+*}
+*/
 
+#if DATA_BYTE == 4
+make_helper(call_si_l){
+	int len = decode_si_l(eip+1);
+	
+	cpu.esp -= DATA_BYTE;
+	MEM_W(cpu.esp,eip+len+1);
+	eip += op_src->val;
 	print_asm_template1();
-}
 
-make_instr_helper(i)
+	return len+1;
+}
 #endif
 
 #include "cpu/exec/template-end.h"
