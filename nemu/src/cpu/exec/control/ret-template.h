@@ -4,7 +4,7 @@
 
 #if DATA_BYTE == 4
 make_helper(ret_l){
-	cpu.eip = REG(R_ESP)-1;
+	cpu.eip = MEM_R(REG(R_ESP))-1;
 	REG(R_ESP) -= DATA_BYTE;
 
 	print_asm("ret");
