@@ -71,7 +71,7 @@ void setEFLAGS_ALU(uint32_t x,uint32_t y,bool cin) {
 	cpu.OF= cout^( (((x<<1)>>1)+((y<<1)>>1)+cin)>>31 );
 }
 
-void setEFLAGS_test(uint32_t x){
+void setEFLAGS_LOGIC(uint32_t x){
 	cpu.CF=0;
 	setPF(x);
 	cpu.ZF= x==0;
