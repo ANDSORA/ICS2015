@@ -20,13 +20,13 @@
 
 #define instr je
 #include "jcc-template.h"
-#undef instr je
+#undef instr
 #define instr jbe
 #include "jcc-template.h"
-#undef instr jbe
+#undef instr
 #define instr jle
 #include "jcc-template.h"
-#undef instr jle
+#undef instr
 
 #undef DATA_BYTE
 
@@ -36,12 +36,12 @@
 
 #define instr je
 #include "jcc-template.h"
-#undef instr je
+#undef instr
 #define instr jbe
 #include "jcc-template.h"
-#undef instr jbe
+#undef instr
 #define instr jle
 #include "jcc-template.h"
-#undef instr jle
+#undef instr
 
 #undef DATA_BYTE
