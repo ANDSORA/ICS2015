@@ -29,7 +29,7 @@ static void concat3(instr,_execute_,SUFFIX)() {
 static void concat3(instr,_execute_,SUFFIX)() {
 	if(cpu.CF==1||cpu.ZF==1) cpu.eip += op_src->val;
 	printf("judge=%u\t0x%x\n",cpu.CF==1||cpu.ZF==1,op_src->val);
-	print_asm("jbe\t0x%x",cpu.eip+DATA_BYTE+1);}
+	print_asm( str(instr) "\t0x%x",cpu.eip+DATA_BYTE+1);}
 #elif instr == ja
 static void concat3(instr,_execute_,SUFFIX)() {
 	if(cpu.CF==0&&cpu.ZF==1) cpu.eip += op_src->val;
