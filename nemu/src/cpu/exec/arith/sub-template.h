@@ -9,7 +9,7 @@ static void do_execute() {
 	OPERAND_W(op_dest, result);
 
 	/* update my EFLAGS -ANDSORA */
-	setEFLAGS_CPAZSO((uint32_t)op_dest->val,(uint32_t)op_src->val,1);
+	setEFLAGS_ALU((uint32_t)op_dest->val,(uint32_t)op_src->val,1);
 	//testEFLAGS();
 
 	print_asm_template2();

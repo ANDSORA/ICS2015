@@ -1,4 +1,5 @@
 #include "cpu/exec/template-start.h"
+#include "cpu/exec/eflags.h"
 
 #define instr dec
 
@@ -7,7 +8,10 @@ static void do_execute () {
 	OPERAND_W(op_src, result);
 
 	/* TODO: Update EFLAGS. */
-	panic("please implement me");
+	//panic("please implement me");
+	bool CF_old=cpu.CF;//we don't affect CF here -ANDSORA
+	setEFLAGS_ALU((uint32_t)op_src->val,1,1);
+	cpu.CF=CF_old;
 
 	print_asm_template1();
 }
