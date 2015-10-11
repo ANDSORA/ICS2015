@@ -69,6 +69,7 @@ static void concat3(instr,_execute_,SUFFIX)() {
 #endif
 
 make_helper(concat3(instr,_si_,SUFFIX)){
+	printf("get in jcc\n");
 	return idex(eip,concat(decode_si_,SUFFIX),concat3(instr,_execute_,SUFFIX));
 }
 #endif
