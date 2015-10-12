@@ -94,6 +94,19 @@ make_helper(concat(decode_rm2r_, SUFFIX)) {
 	return decode_rm_internal(eip, op_src, op_dest);
 }
 
+/* Gv <- Eb
+ * -ANDSORA
+ */
+make_helper(concat(decode_rmb2r_, SUFFIX)) {
+	op_src->size = 1;
+	int len = read_ModR_M(eip, op_src, op_dest);
+	op_dest->val = REG(op_dest->reg);
+
+#ifdef DEBUG
+	snprintf(op_dest->str, OP_STR_SIZE, "%%%s", REG_NAME(op_dest->reg));
+#endif
+	return len;
+}
 
 /* AL <- Ib
  * eAX <- Iv
