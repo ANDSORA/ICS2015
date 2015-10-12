@@ -53,6 +53,7 @@ make_helper(decode_rm_imm_l);
 /* -ANDSORA */
 make_helper(decode_rmb2r_w);
 make_helper(decode_rmb2r_l);
+make_helper(decode_rmw2r_l);
 
 void write_operand_b(Operand *, uint8_t);
 void write_operand_w(Operand *, uint16_t);
