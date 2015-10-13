@@ -97,7 +97,7 @@ make_helper(concat(decode_rm2r_, SUFFIX)) {
 /* Gv <- Eb
  * -ANDSORA
  */
-//#if DATA_BYTE == 2 || DATA_BYTE == 4
+#if DATA_BYTE == 2 || DATA_BYTE == 4
 make_helper(concat(decode_rmb2r_, SUFFIX)) {
 	op_src->size = 1;
 	int len = read_ModR_M(eip, op_src, op_dest);
@@ -108,12 +108,12 @@ make_helper(concat(decode_rmb2r_, SUFFIX)) {
 #endif
 	return len;
 }
-//#endif
+#endif
 
 /* Gl <- Ew
  * -ANDSORA
  */
-//#if DATA_BYTE == 4
+#if DATA_BYTE == 4
 make_helper(concat(decode_rmw2r_, SUFFIX)) {
 	op_src->size = 2;
 	int len = read_ModR_M(eip, op_src, op_dest);
@@ -124,7 +124,7 @@ make_helper(concat(decode_rmw2r_, SUFFIX)) {
 #endif
 	return len;
 }
-//#endif
+#endif
 
 /* AL <- Ib
  * eAX <- Iv
