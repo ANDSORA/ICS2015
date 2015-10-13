@@ -67,7 +67,7 @@ static int cmd_info(char *args) {
 			printf("esi\t0x%x\n",cpu.esi);
 			printf("edi\t0x%x\n",cpu.edi);
 			printf("EIP\t0x%x\n",cpu.eip);
-			printf("EFLAGS:\tCF\tPF\tAF\tZF\tSF\tOF\n\t%u\t%u\t%u\t%u\t%u\t%u\n",cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
+			printf("EFLAGS:\tCF\tPF\tAF\tZF\tSF\tOF\tTF\tIF\tDF\n\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\n",cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF,cpu.TF,cpu.IF,cpu.DF);
 		}
 		else if(*args=='w'){
 			WP_print();
