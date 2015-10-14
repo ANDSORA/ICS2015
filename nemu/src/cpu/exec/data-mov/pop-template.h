@@ -4,7 +4,7 @@
 
 static void do_execute() {
 	//op_src->val = MEM_R( REG(R_ESP) );
-	OPERAND_W(op_src, MEM_R(R_ESP));
+	OPERAND_W(op_src, MEM_R(REG(R_ESP)) );
 	REG(R_ESP) += DATA_BYTE;
 
 	print_asm_template1();
