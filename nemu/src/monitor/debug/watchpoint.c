@@ -114,7 +114,7 @@ bool check_wp(){
 			rt->times++;
 			flag=true;
 			printf("watchpoint %d was hit\n",rt->NO);
-			printf("Old value:\t%d\nNew value:\t%d\n",rt->oldvalue,rt->value);
+			printf("Old value:\t0x%x\nNew value:\t0x%x\n",rt->oldvalue,rt->value);
 		}
 		rt=rt->next;
 	}
