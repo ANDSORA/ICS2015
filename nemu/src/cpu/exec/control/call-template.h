@@ -12,17 +12,15 @@
 *}
 */
 
-#if DATA_BYTE == 4
-make_helper(call_si_l){
-	int len = decode_si_l(eip+1);
-	
+static void do_execute() {
 	REG(R_ESP) -= DATA_BYTE;
-	MEM_W( REG(R_ESP), eip+len+1);
+	MEM_W( REG(R_ESP), (DATA_TYPE)(cpu.eip+DATA_BYTE+1));
 	cpu.eip += op_src->val;
-	print_asm_template1();
+	if(DATA_BYTE==2) cpu.eip = cpu.eip & 0xffff;
 
-	return len+1;
+	print_asm("call\t0x%x",cpu.eip+DATA_BYTE+1);
 }
-#endif
+
+make_instr_helper(i)
 
 #include "cpu/exec/template-end.h"
