@@ -4,7 +4,7 @@
 
 #if DATA_BYTE == 1
 make_helper(push_i_b) {
-	int len=decode_i_b(eip);
+	int len=decode_i_b(eip+1);
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, op_src->val);
 
