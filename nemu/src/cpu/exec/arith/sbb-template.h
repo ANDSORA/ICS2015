@@ -4,11 +4,13 @@
 #define instr sbb
 
 static void do_execute() {
-	DATA_TYPE tmp = op_src->val + cpu.CF;
-	DATA_TYPE result = op_dest->val - op_src->val;
-
+	//DATA_TYPE tmp = op_src->val + cpu.CF;
+	DATA_TYPE result = op_dest->val - (op_src->val + cpu.CF);
 	OPERAND_W(op_dest, result);
-	setEFLAGS_ALU((uint32_t)op_dest->val, (uint32_t)tmp, 1);
+
+	uint32_t src_temp = (uint32_t)op_src->val;
+	if(cpu.CF) src_temp = ~src_temp;
+	setEFLAGS_ALU((uint32_t)op_dest->val, src_temp, ~cpu.CF);
 
 	print_asm_template2();
 }
