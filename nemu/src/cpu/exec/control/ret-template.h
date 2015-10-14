@@ -2,14 +2,22 @@
 
 #define instr ret
 
-#if DATA_BYTE == 4
-make_helper(ret_l){
-	cpu.eip = MEM_R(REG(R_ESP))-1;
-	REG(R_ESP) += DATA_BYTE;//we call it "pop"
+#if DATA_BYTE == 2 || DATA_BYTE == 4
+make_helper( concat(ret_, SUFFIX) ){
+	cpu.eip = MEM_R(cpu.esp)-1;
+	if(DATA_BYTE==2) cpu.eip &= 0xffff;
+	cpu.esp += DATA_BYTE;//we call it "pop"
 
 	print_asm("ret");
-
 	return 1;
+}
+
+make_helper( concat(ret_i_, SUFFIX) ){
+	uint16_t result = swaddr_read(eip+1,2);
+	concat(ret_, SUFFIX)(eip);
+	cpu.eip -= 2;
+	cpu.esp += result;
+	return 3;
 }
 #endif
 

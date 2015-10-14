@@ -13,8 +13,8 @@ make_helper(push_i_b) {
 }
 #elif DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
-	REG(R_ESP) -= DATA_BYTE;
-	MEM_W( REG(R_ESP),  op_src->val);
+	cpu.esp -= DATA_BYTE;
+	MEM_W( cpu.esp,  op_src->val);
 
 	print_asm_template1();
 }
