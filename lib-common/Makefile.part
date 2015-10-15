@@ -7,9 +7,12 @@ $(FLOAT): $(FLOAT_OBJ)
 
 # TODO: write a rule for generating $(FLOAT_OBJ)
 
-MYPATH = -I./lib-common
+MYPATH = ./lib-common
+MYSRC = $(MYPATH)/FLOAT.c
+MYOBJ = ./obj/lib-common/FLOAT.o
+MYCFLAGS = -m32 -fno-builtin
 
-$(FLOAT_OBJ): ./lib-common/FLOAT.c
+$(FLOAT_OBJ): $(MYSRC)
 	mkdir -p obj/lib-common
-	gcc $(MYPATH) -m32 -fno-builtin -c ./lib-common/FLOAT.c -o ./obj/lib-common/FLOAT.o
+	gcc -I$(MYPATH) $(MYCFLAGS) -c $(MYSRC) -o $(MYOBJ)
 #	mkdir -p obj/lib-common
