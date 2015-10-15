@@ -7,9 +7,9 @@ $(FLOAT): $(FLOAT_OBJ)
 
 # TODO: write a rule for generating $(FLOAT_OBJ)
 
-#VPATH = lib-common
+MYPATH = -I./lib-common
 
-$(FLOAT_OBJ): FLOAT.c FLOAT.h
-#	mkdir -p obj/lib-common
-	gcc -m32 -fno-builtin FLOAT.c
+$(FLOAT_OBJ): ./lib-common/FLOAT.c
+	mkdir -p obj/lib-common
+	gcc $(MYPATH) -m32 -fno-builtin -c FLOAT.c -o ./obj/lib-common FLOAT.o
 #	mkdir -p obj/lib-common
