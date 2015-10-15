@@ -10,7 +10,7 @@ static void do_execute() {
 
 	uint32_t src_temp = (uint32_t)op_src->val;
 	if(cpu.CF) src_temp = ~src_temp;
-	setEFLAGS_ALU((uint32_t)op_dest->val, src_temp, ~cpu.CF);
+	setEFLAGS_ALU((uint32_t)op_dest->val, src_temp, ~cpu.CF, DATA_BYTE);
 
 	print_asm_template2();
 }

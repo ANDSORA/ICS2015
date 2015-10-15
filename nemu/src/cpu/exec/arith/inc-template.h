@@ -10,7 +10,7 @@ static void do_execute () {
 	/* TODO: Update EFLAGS. */
 	//panic("please implement me");
 	bool CF_old=cpu.CF; //we don't affect CF here -ANDSORA
-	setEFLAGS_ALU((uint32_t)op_src->val,1,0);
+	setEFLAGS_ALU((uint32_t)op_src->val,1,0,DATA_BYTE);
 	cpu.CF=CF_old;
 
 	print_asm_template1();

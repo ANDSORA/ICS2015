@@ -1,6 +1,6 @@
 ##### global settings #####
 
-.PHONY: nemu entry all_testcase kernel run gdb test submit clean count
+.PHONY: nemu entry all_testcase kernel run gdb test submit clean count count_simple
 
 CC := gcc
 LD := ld
@@ -74,6 +74,7 @@ submit: clean
 ##### 141220121 ANDSORA #####
 
 #Oldhash := b718
+Count_Simple = $(shell find ./nemu -name "*.[c|h]" |xargs cat |wc -l)
 Count_Noline = $(shell find ./nemu -name "*.[c|h]" |xargs cat |grep -v ^$$ |wc -l)
 #Newline := $(shell $(Count_Noline) )
 #Oldline = 233
@@ -85,3 +86,6 @@ count:
 #	@find ./nemu -name "*.[h|c]" | xargs cat | grep -v ^$$ | wc -l
 #	git checkout master
 	@echo $(Count_Noline)
+
+count_simple:
+	@echo $(Count_Simple)

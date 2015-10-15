@@ -7,7 +7,7 @@ static void do_execute() {
 	DATA_TYPE result = op_dest->val + op_src->val;
 	OPERAND_W(op_dest, result);
 
-	setEFLAGS_ALU((uint32_t)op_dest->val,(uint32_t)op_src->val,0);
+	setEFLAGS_ALU((uint32_t)op_dest->val,(uint32_t)op_src->val,0,DATA_BYTE);
 
 	print_asm_template2();
 }

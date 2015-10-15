@@ -57,18 +57,21 @@ void setPF(uint32_t x){
 	cpu.PF= ~temp&1;
 }
 
-void setEFLAGS_ALU(uint32_t x,uint32_t y,bool cin) {
+void setEFLAGS_ALU(uint32_t x,uint32_t y,bool cin,uint32_t data_len) {
 	if(cin) y=~y;
 
-	uint32_t result=x+y+cin;
-	bool cout= ( (((x&1)+(y&1)+cin)>>1) + (x>>1) + (y>>1) )>>31;
+	uint32_t bit_len=((data_len)<<3);
+	uint32_t mask=((uint32_t)0xffffffff)>>(32-bit_len);
+	uint32_t result=(x+y+cin)&mask;
+	bool cMSB = ( (x&(mask>>1)) + (y&(mask>>1)) + cin ) >> (bit_len-1);
+	bool cout = ( ((x>>(bit_len-1))&1) + ((y>>(bit_len-1))&1) + cMSB ) >> 1;
 
 	cpu.CF= cin^cout;
 	setPF(result);
-	cpu.AF= cin^(( (x&15)+(y&15)+cin )>>4);
+	cpu.AF= cin^(( (x&0xf)+(y&0xf)+cin )>>4);
 	cpu.ZF= result==0;
-	cpu.SF= result>>31;
-	cpu.OF= cout^( (((x<<1)>>1)+((y<<1)>>1)+cin)>>31 );
+	cpu.SF= result>>(bit_len-1);
+	cpu.OF= cout^cMSB;
 }
 
 void setEFLAGS_LOGIC(uint32_t x){
@@ -83,31 +86,31 @@ void testEFLAGS() {
 	unsigned a,b,c;
 
 	a=0x1;b=0x0;c=a+b;
-	setEFLAGS_ALU(a,b,0);
+	setEFLAGS_ALU(a,b,0,4);
 	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0xffffffff;b=0x1;c=a+b;
-	setEFLAGS_ALU(a,b,0);
+	setEFLAGS_ALU(a,b,0,4);
 	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0x80000000;b=0x80000000;c=a+b;
-	setEFLAGS_ALU(a,b,0);
+	setEFLAGS_ALU(a,b,0,4);
 	printf("0x%x + 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0x7286;b=0x1329045;c=a-b;
-	setEFLAGS_ALU(a,b,1);
+	setEFLAGS_ALU(a,b,1,4);
 	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0xffffffff;b=0xffffffff;c=a-b;
-	setEFLAGS_ALU(a,b,1);
+	setEFLAGS_ALU(a,b,1,4);
 	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0x80000000;b=0x80000000;c=a-b;
-	setEFLAGS_ALU(a,b,1);
+	setEFLAGS_ALU(a,b,1,4);
 	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 	a=0x0;b=0x0;c=a-b;
-	setEFLAGS_ALU(a,b,1);
+	setEFLAGS_ALU(a,b,1,4);
 	printf("0x%x - 0x%x = 0x%x CPAZSO=%u%u%u%u%u%u\n",a,b,c,cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF);
 
 
