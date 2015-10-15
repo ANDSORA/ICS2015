@@ -1,5 +1,11 @@
 #include "FLOAT.h"
 
+typedef union{
+	float f_type;
+	unsigned u_type;
+	int i_type;
+}  type_trans;
+
 FLOAT F_mul_F(FLOAT a, FLOAT b) {
 	nemu_assert(0);
 	return 0;
@@ -12,7 +18,9 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 
 FLOAT f2F(float a) {
 	//nemu_assert(0);
-	unsigned temp = a;
+	type_trans T;
+	T.f_type = a;
+	unsigned temp = T.u_type;
 	unsigned sign = temp>>31;
 	unsigned exp = temp>>23&0xff;
 	unsigned frac = temp&0x7fffff;
