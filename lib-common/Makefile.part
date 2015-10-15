@@ -10,6 +10,6 @@ $(FLOAT): $(FLOAT_OBJ)
 #VPATH = lib-common
 
 $(FLOAT_OBJ): FLOAT.c FLOAT.h
-	mkdir -p obj/lib-common
+#	mkdir -p obj/lib-common
 	gcc -m32 -fno-builtin FLOAT.c
 #	mkdir -p obj/lib-common
