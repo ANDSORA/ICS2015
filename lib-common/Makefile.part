@@ -14,5 +14,4 @@ MYCFLAGS = -m32 -fno-builtin
 
 $(FLOAT_OBJ): $(MYSRC)
 	mkdir -p obj/lib-common
-	gcc -I$(MYPATH) $(MYCFLAGS) -c $(MYSRC) -o $(MYOBJ)
-#	mkdir -p obj/lib-common
+	gcc -I$(MYPATH) -M $(MYCFLAGS) -c $(MYSRC) -o $(MYOBJ)
