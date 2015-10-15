@@ -11,9 +11,10 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 }
 
 FLOAT f2F(float a) {
-	//printf("I'm coming!\n");
-	
-	nemu_assert(0);
+	//nemu_assert(0);
+	uint32_t temp = a;
+	uint32_t sign = temp>>31;
+	uint32_t 
 	return 0;
 }
 
