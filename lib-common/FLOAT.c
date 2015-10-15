@@ -12,10 +12,40 @@ FLOAT F_div_F(FLOAT a, FLOAT b) {
 
 FLOAT f2F(float a) {
 	//nemu_assert(0);
-	uint32_t temp = a;
-	uint32_t sign = temp>>31;
-	uint32_t 
-	return 0;
+	unsigned temp = a;
+	unsigned sign = temp>>31;
+	unsigned exp = temp>>23&0xff;
+	unsigned frac = temp&0x7fffff;
+	unsigned ans;
+	if(exp==0xff) {
+		if(frac==0){
+			if(sign) nemu_assert(0);//negetive infinite
+			else nemu_assert(0);//positive infinite
+		}
+		else nemu_assert(0);//NaN
+	}
+	else if(exp==0) {
+		nemu_assert(0);//unnormal(too small)
+	}
+	else{
+		if(exp>=111&&exp<=141) {
+			frac |= 0x800000;
+			if(exp>134){
+				exp = exp - 134;
+				ans = frac<<exp;
+			}
+			else{
+				exp = 134 - exp;
+				ans = frac>>exp;
+			}
+		}
+		else {
+			nemu_assert(0);//fatal overflow
+		}
+	}
+
+	if(sign) ans = ~ans + 1;
+	return (FLOAT)ans;
 }
 
 FLOAT Fabs(FLOAT a) {
