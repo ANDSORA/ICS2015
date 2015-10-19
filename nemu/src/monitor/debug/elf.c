@@ -90,7 +90,7 @@ uint32_t Elf_Value_Read(char* Value_Name, bool* success){
 	int i;
 	printf("0x%x 0x%x\n",STB_GLOBAL,STT_OBJECT);
 	for(i=0;i<nr_symtab_entry;++i){
-		printf("%d\t0x%x\t%d\n",symtab[i].st_name,symtab[i].st_value,symtab[i].st_info);
+		printf("%d\t0x%x\t0x%x\n",symtab[i].st_name,symtab[i].st_value,symtab[i].st_info);
 		/*
 		if(symtab[i].st_info==STB_GLOBAL&&!strcmp(Value_Name,strtab+symtab[i].st_name)){
 			*success=1;
