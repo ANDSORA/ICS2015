@@ -268,25 +268,25 @@ uint32_t eval(int p,int q){
 			switch(tokens[i].type){
 				case '(':unmatch++;break;
 				case ')':unmatch--;break;
-				case OR:if(!unmatch)op=i;break;
+				case OR:op=i;break;
 				case AND:{
 							if(op>0&&OP_TYPE==OR)break;
-							if(!unmatch)op=i;
+							op=i;
 						 }break;
 				case EQ:
 				case UNEQ:{
 							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND))break;
-							if(!unmatch)op=i;
+							op=i;
 						  }break;
 				case '+':
 				case '-':{
 							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'))break;
-							if(!unmatch)op=i;
+							op=i;
 						 }break;
 				case '*':
 				case '/':{
 							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'||OP_TYPE=='*'||OP_TYPE=='/'))break;
-							if(!unmatch)op=i;
+							op=i;
 						 }break;
 				case NEG:
 				case POS:
