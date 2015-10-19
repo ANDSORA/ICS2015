@@ -88,6 +88,7 @@ static int nr_symtab_entry;*/
 
 uint32_t Elf_Value_Read(char* Value_Name, bool* success){
 	int i;
+	printf("%d\n",STB_GLOBAL);
 	for(i=0;i<nr_symtab_entry;++i){
 		printf("%d\t%d\t%d\n",symtab[i].st_name,symtab[i].st_value,symtab[i].st_info);
 		/*
