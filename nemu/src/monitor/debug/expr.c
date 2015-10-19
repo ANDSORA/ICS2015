@@ -9,6 +9,8 @@
 #define OP_TYPE tokens[op].type
 #define I_TYPE tokens[i].type
 
+uint32_t Elf_Value_Read(char* Value_Name, bool* success);
+
 enum {
 	NOTYPE = 256, EQ, AND, OR, UNEQ, NOT, POS, NEG, HEX, DEC, REG_32, REG_16, REG_8, DEREF, VALUE
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
@@ -221,8 +223,15 @@ uint32_t eval(int p,int q){
 
 		}
 		else if(tokens[p].type==VALUE){
-			//printf("get the variable!\n");
-			return 1;
+			bool success=0;
+			uint32_t xx;
+			xx=Elf_Value_Read(tokens[p].str,&success);
+			if(success) return xx;
+			else{
+				gflag=0;
+				printf("We can't find variable '%s'\n",tokens[p].str);
+				return 0;
+			}
 		}
 		else if(tokens[p].type==REG_32){
 			for(i=0;i<8;++i){

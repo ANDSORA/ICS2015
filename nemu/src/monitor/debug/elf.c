@@ -81,3 +81,8 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
+uint32_t Elf_Value_Read(char* Value_Name, bool* success){
+	//for(int i=0;i<nr_symtab_entry;++i)
+	*success=1;
+	return 1;
+}
