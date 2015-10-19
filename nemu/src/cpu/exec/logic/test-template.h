@@ -5,7 +5,7 @@
 
 static void do_execute() {
 	DATA_TYPE result = op_src->val & op_dest->val;
-	setEFLAGS_LOGIC((uint32_t)result);
+	setEFLAGS_LOGIC((uint32_t)result,DATA_BYTE);
 
 	print_asm_template2();
 }

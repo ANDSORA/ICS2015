@@ -9,7 +9,7 @@ static void do_execute () {
 
 	/* TODO: Update EFLAGS. */
 	//panic("please implement me");
-	setEFLAGS_LOGIC((uint32_t)result);
+	setEFLAGS_LOGIC((uint32_t)result,DATA_BYTE);
 
 	print_asm_template2();
 }
