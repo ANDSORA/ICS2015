@@ -10,7 +10,7 @@
 #define I_TYPE tokens[i].type
 
 enum {
-	NOTYPE = 256, EQ, AND, OR, UNEQ, NOT, POS, NEG, HEX, DEC, REG_32, REG_16, REG_8, DEREF
+	NOTYPE = 256, EQ, AND, OR, UNEQ, NOT, POS, NEG, HEX, DEC, REG_32, REG_16, REG_8, DEREF, VALUE
 	//PLUS, MINUS, MULTI, DIVIDE, LPAR, RPAR
 
 	/* TODO: Add more token types */
@@ -37,6 +37,7 @@ static struct rule {
 	{"%(ax|cx|dx|bx|sp|bp|si|di)", REG_16},				// registers_16
 	{"%(al|ah|cl|ch|dl|dh|bl|bh)", REG_8},				// registers_8
 	{"[[:digit:]]+", DEC},			//decimal number
+	{"[[:alpha:]]([[:alnum:]]|\\_)*", VALUE},				// variable
 	{"\\+", '+'},					// plus(buggy?)
 	{"\\-", '-'},					// minus
 	{"\\*", '*'},					// multiply
@@ -212,6 +213,10 @@ uint32_t eval(int p,int q){
 			sscanf(tokens[p].str,"%x",&xx);
 			return xx;
 
+		}
+		else if(tokens[p].type==VALUE){
+			printf("get the variable!\n");
+			return 1;
 		}
 		else if(tokens[p].type==REG_32){
 			for(i=0;i<8;++i){
