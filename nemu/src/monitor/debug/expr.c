@@ -299,11 +299,11 @@ uint32_t eval(int p,int q){
 			}
 		}
 
-		printf("op==%d\n",op);//
+		//printf("op==%d\n",op);//
 
 		if(op==-1){
 			gflag=0;
-			printf("Operators can't match(p<q, no op)\n");
+			//printf("Operators can't match(p<q, no op)\n");
 			return 0;
 		}//guardian
 
@@ -337,26 +337,27 @@ uint32_t expr(char *e, bool *success) {
 	int i;
 	for(i=0;i<nr_token;++i){
 		if(tokens[i].type=='*'){
-			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8 &&tokens[i-1].type!=VALUE))
 				tokens[i].type=DEREF;
 		}
 		if(tokens[i].type=='-'){
-			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8 &&tokens[i-1].type!=VALUE))
 				tokens[i].type=NEG;
 		}
 		if(tokens[i].type=='+'){
-			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8))
+			if(i==0||(tokens[i-1].type!=DEC &&tokens[i-1].type!=HEX &&tokens[i-1].type!=')' &&tokens[i-1].type!=REG_32 &&tokens[i-1].type!=REG_16 &&tokens[i-1].type!=REG_8 &&tokens[i-1].type!=VALUE))
 				tokens[i].type=POS;
 		}
 	}
-
+	
+	/*
 	for(i=0;i<nr_token;++i){
 		printf("%d ",tokens[i].type);
-	}printf("\n");
+	}printf("\n");*/
 
 	int p=0;
 	int q=nr_token-1;
-	printf("(expr)p=%d,q=%d\n",p,q);//
+	//printf("(expr)p=%d,q=%d\n",p,q);//
 	uint32_t result;
 	gflag=1;
 	result=eval(p,q);
