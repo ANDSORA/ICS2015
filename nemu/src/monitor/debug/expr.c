@@ -350,6 +350,10 @@ uint32_t expr(char *e, bool *success) {
 		}
 	}
 
+	for(i=0;i<nr_token;++i){
+		printf("%d ",tokens[i].type);
+	}printf("\n");
+
 	int p=0;
 	int q=nr_token-1;
 	printf("(expr)p=%d,q=%d\n",p,q);//
