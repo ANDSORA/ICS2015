@@ -81,8 +81,19 @@ void load_elf_tables(int argc, char *argv[]) {
 	fclose(fp);
 }
 
+/*
+static char *strtab = NULL;
+static Elf32_Sym *symtab = NULL;
+static int nr_symtab_entry;*/
+
 uint32_t Elf_Value_Read(char* Value_Name, bool* success){
-	//for(int i=0;i<nr_symtab_entry;++i)
+	int i;
+	for(i=0;i<nr_symtab_entry;++i){
+		if(symtab[i].st_info==STB_GLOBAL&&!strcmp(Value_Name,strtab+symtab[i].st_name)){
+			*success=1;
+			return symtab[i].st_value;
+		}
+	}
 	*success=0;
-	return 1;
+	return 0;
 }
