@@ -221,7 +221,7 @@ uint32_t eval(int p,int q){
 
 		}
 		else if(tokens[p].type==VALUE){
-			printf("get the variable!\n");
+			//printf("get the variable!\n");
 			return 1;
 		}
 		else if(tokens[p].type==REG_32){
