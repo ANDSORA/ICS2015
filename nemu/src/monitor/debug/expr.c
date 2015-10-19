@@ -270,29 +270,29 @@ uint32_t eval(int p,int q){
 				case ')':unmatch--;break;
 				case OR:op=i;break;
 				case AND:{
-							if(op>0&&OP_TYPE==OR)break;
+							if(op>=0&&OP_TYPE==OR)break;
 							op=i;
 						 }break;
 				case EQ:
 				case UNEQ:{
-							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND))break;
+							if(op>=0&&(OP_TYPE==OR||OP_TYPE==AND))break;
 							op=i;
 						  }break;
 				case '+':
 				case '-':{
-							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'))break;
+							if(op>=0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'))break;
 							op=i;
 						 }break;
 				case '*':
 				case '/':{
-							if(op>0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'||OP_TYPE=='*'||OP_TYPE=='/'))break;
+							if(op>=0&&(OP_TYPE==OR||OP_TYPE==AND||OP_TYPE=='+'||OP_TYPE=='-'||OP_TYPE=='*'||OP_TYPE=='/'))break;
 							op=i;
 						 }break;
 				case NEG:
 				case POS:
 				case DEREF:
 				case NOT:{
-							if(op>0)break;
+							if(op>=0)break;
 							if(!unmatch)op=i;
 						 }break;
 				default:break;
