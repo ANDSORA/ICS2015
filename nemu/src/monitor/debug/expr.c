@@ -297,6 +297,8 @@ uint32_t eval(int p,int q){
 			}
 		}
 
+		printf("op==%d\n",op);//
+
 		if(op==-1){
 			gflag=0;
 			printf("Operators can't match(p<q, no op)\n");
