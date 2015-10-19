@@ -294,6 +294,12 @@ uint32_t eval(int p,int q){
 			}
 		}
 
+		if(op==-1){
+			gflag=0;
+			printf("Lack of operators!\n");
+			return 0;
+		}//guardian
+
 		switch(tokens[op].type){
 			case OR:	return eval(p,op-1)||eval(op+1,q);break;
 			case AND:	return eval(p,op-1)&&eval(op+1,q);break;
@@ -344,7 +350,7 @@ uint32_t expr(char *e, bool *success) {
 	uint32_t result;
 	gflag=1;
 	result=eval(p,q);
-	Assert(gflag,"Bad EXPR");
+	//Assert(gflag,"Bad EXPR");
 	*success=gflag;
 	//panic("please implement me(int expr)");
 	return result;
