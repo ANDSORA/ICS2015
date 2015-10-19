@@ -202,6 +202,9 @@ uint32_t eval(int p,int q){
 		return 0;
 	}
 	else if(p==q){
+
+		printf("p==q==%d\n",p);
+
 		if(tokens[p].type==DEC){
 			uint32_t xx;
 			//printf("(eval)%s\n",tokens[p].str);
