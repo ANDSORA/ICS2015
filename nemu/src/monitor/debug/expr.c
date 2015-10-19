@@ -144,11 +144,11 @@ static bool make_token(char *e) {
 			return false;
 		}
 	}
-	
+	/*	
 	int cc;
 	for(cc=0;cc<nr_token;++cc){
 		printf("%s",tokens[cc].str);
-	}printf("\t(the tokens)\n");
+	}printf("\t(the tokens)\n");*/
 
 	return true; 
 }
@@ -195,7 +195,7 @@ bool check_parentheses(int p,int q){
 }
 
 uint32_t eval(int p,int q){
-	printf("p==%d q==%d\n",p,q);
+	//printf("p==%d q==%d\n",p,q);
 
 	int i;
 	if(p>q){
