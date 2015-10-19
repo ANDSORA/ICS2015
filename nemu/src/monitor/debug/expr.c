@@ -195,6 +195,8 @@ bool check_parentheses(int p,int q){
 }
 
 uint32_t eval(int p,int q){
+	printf("p==%d q==%d\n",p,q);
+
 	int i;
 	if(p>q){
 		gflag=0;
@@ -203,7 +205,7 @@ uint32_t eval(int p,int q){
 	}
 	else if(p==q){
 
-		printf("p==q==%d\n",p);
+		//printf("p==q==%d\n",p);
 
 		if(tokens[p].type==DEC){
 			uint32_t xx;
