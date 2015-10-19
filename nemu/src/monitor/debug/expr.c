@@ -84,7 +84,7 @@ int nr_token;
 static char myreg_32[8][6]={"eax\0","ecx\0","edx\0","ebx\0","esp\0","ebp\0","esi\0","edi\0"};
 static char myreg_16[8][6]={"ax\0","cx\0","dx\0","bx\0","sp\0","bp\0","si\0","di\0"};
 static char myreg_8[8][6]={"al\0","cl\0","dl\0","bl\0","ah\0","ch\0","dh\0","bh\0"};
-bool gflag;
+bool gflag;//set to guard if the proccess of expr is OK
 
 static bool make_token(char *e) {
 	int position = 0;
@@ -344,7 +344,7 @@ uint32_t expr(char *e, bool *success) {
 	uint32_t result;
 	gflag=1;
 	result=eval(p,q);
-	//Assert(gflag,"Bad EXPR");
+	Assert(gflag,"Bad EXPR");
 	*success=gflag;
 	//panic("please implement me(int expr)");
 	return result;
