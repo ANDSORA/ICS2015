@@ -296,7 +296,7 @@ uint32_t eval(int p,int q){
 
 		if(op==-1){
 			gflag=0;
-			printf("Lack of operators!\n");
+			printf("Operators can't match(p<q, no op)\n");
 			return 0;
 		}//guardian
 
@@ -313,7 +313,6 @@ uint32_t eval(int p,int q){
 			case POS:	return eval(op+1,q);break;
 			case DEREF:	return swaddr_read(eval(op+1,q),4);break;
 			case NOT:	return !eval(op+1,q);break;
-			case -1 :gflag=0;printf("Operators can't match(p<q,no op)\n");return 0;break;
 			default :break;
 		}
 	}
@@ -346,7 +345,7 @@ uint32_t expr(char *e, bool *success) {
 
 	int p=0;
 	int q=nr_token-1;
-	//printf("(expr)p=%d,q=%d\n",p,q);//
+	printf("(expr)p=%d,q=%d\n",p,q);//
 	uint32_t result;
 	gflag=1;
 	result=eval(p,q);
