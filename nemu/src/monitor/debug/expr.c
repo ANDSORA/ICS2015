@@ -122,6 +122,7 @@ static bool make_token(char *e) {
 					case REG_32:tokens[nr_token].type=REG_32;break;
 					case REG_16:tokens[nr_token].type=REG_16;break;
 					case REG_8: tokens[nr_token].type=REG_8;break;
+					case VALUE: tokens[nr_token].type=VALUE;break;
 					case '+':	tokens[nr_token].type='+';break;
 					case '-':	tokens[nr_token].type='-';break;
 					case '*':	tokens[nr_token].type='*';break;
