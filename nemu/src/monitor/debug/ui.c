@@ -184,7 +184,7 @@ static int cmd_d(char *args){
 static int cmd_bt(char *args){
 	//printf("To be implemented!\tin ui.c cmd_bt\n");
 	swaddr_t dog = cpu.ebp;
-	while(!dog){
+	while(dog){
 		printf("%u\n",dog);
 		dog = swaddr_read(dog,4);
 	}
