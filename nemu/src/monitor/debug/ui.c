@@ -185,7 +185,7 @@ static int cmd_bt(char *args){
 	//printf("To be implemented!\tin ui.c cmd_bt\n");
 	swaddr_t dog = cpu.ebp;
 	while(dog){
-		printf("0x%x\t0x%x\n",dog,swaddr_read(dog-4,4));
+		printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
 		dog = swaddr_read(dog,4);
 	}
 	return 0;
