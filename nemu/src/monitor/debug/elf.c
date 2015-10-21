@@ -99,3 +99,19 @@ uint32_t Elf_Value_Read(char* Value_Name, bool* success){
 	*success=0;
 	return 0;
 }
+
+char* GiveMyName(swaddr_t myaddr){
+	int i;
+	char* a=NULL;
+	swaddr_t taddr=0;
+	for(i=0;i<nr_symtab_entry;++i){
+		if(ELF32_ST_TYPE(symtab[i].st_info)==STT_FUNC){
+			if(symtab[i].st_value<=myaddr && symtab[i].st_value>taddr){
+				taddr=symtab[i].st_value;
+				a=strtab+symtab[i].st_name;
+			}
+		}
+
+	}
+	return a;
+}

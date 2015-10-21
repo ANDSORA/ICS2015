@@ -15,6 +15,8 @@ void free_wp_n(int N);
 void WP_print();
 static int w_num; 
 
+char* GiveMyName(swaddr_t myaddr);
+
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
 char* rl_gets() {
 	static char *line_read = NULL;
@@ -184,10 +186,31 @@ static int cmd_d(char *args){
 static int cmd_bt(char *args){
 	//printf("To be implemented!\tin ui.c cmd_bt\n");
 	swaddr_t dog = cpu.ebp;
-	printf("wait\n");
+	swaddr_t myaddr;
+	int index=0;
+	char* a;
+	printf("Index\tAddr\tName\tPara1\tPara2\tPara3\tPara4\n");
 	while(dog){
-		printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
-		dog = swaddr_read(dog,4);
+		printf("#%d\t",index);
+		if(index==0){
+			myaddr = cpu.eip;
+			printf("0x%x\t",myaddr);
+		}
+		else{
+			myaddr = swaddr_read(dog+4,4);
+			printf("0x%x\t",myaddr);
+			dog = swaddr_read(dog,4);
+		}
+		//printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
+		//dog = swaddr_read(dog,4);
+		a=GiveMyName(myaddr);
+		if(a==NULL){
+			printf("I can't find My Func!\n");
+			return 0;
+		}
+		else printf("%s\t",a);
+		printf("0x%x\t0x%x\t0x%x\t0x%x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		index++;
 	}
 	return 0;
 }
