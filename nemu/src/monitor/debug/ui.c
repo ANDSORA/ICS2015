@@ -203,7 +203,7 @@ static int cmd_bt(char *args){
 		}
 		//printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
 		//dog = swaddr_read(dog,4);
-		a=GiveMyName(myaddr);
+		a=GiveMyName(myaddr-1);
 		if(a==NULL){
 			printf("I can't find My Func!\n");
 			return 0;
