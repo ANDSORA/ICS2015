@@ -194,11 +194,11 @@ static int cmd_bt(char *args){
 		printf("#%d\t\t",index);
 		if(index==0){
 			myaddr = cpu.eip;
-			printf("0x%x\t\t",myaddr);
+			printf("0x%8x\t",myaddr);
 		}
 		else{
 			myaddr = swaddr_read(dog+4,4);
-			printf("0x%x\t\t",myaddr);
+			printf("0x%8x\t",myaddr);
 			dog = swaddr_read(dog,4);
 		}
 		//printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
@@ -209,7 +209,7 @@ static int cmd_bt(char *args){
 			return 0;
 		}
 		else printf("%s\t\t",a);
-		printf("0x%x\t\t0x%x\t\t0x%x\t\t0x%x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		printf("0x%8x\t0x%8x\t0x%8x\t0x%8x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
 		index++;
 	}
 	return 0;
