@@ -95,7 +95,7 @@ static int cmd_x(char *args){
 		else{
 			unsigned int i;
 			unsigned int xy_n;
-			hwaddr_t xy_rm;
+			swaddr_t xy_rm;
 			bool success=false;
 			sscanf(N,"%u",&xy_n);
 			xy_rm=expr(EXPR,&success);
@@ -182,7 +182,12 @@ static int cmd_d(char *args){
 }
 
 static int cmd_bt(char *args){
-	printf("To be implemented!\tin ui.c cmd_bt\n");
+	//printf("To be implemented!\tin ui.c cmd_bt\n");
+	swaddr_t dog = cpu.ebp;
+	while(!dog){
+		printf("%u\n",dog);
+		dog = swaddr_read(dog,4);
+	}
 	return 0;
 }
 //you own work!~Y
@@ -203,7 +208,7 @@ static struct {
 	{ "p", "Print value of expression EXPR\n\tEXPR\tthe EXPR waiting to be calculated and printed", cmd_p },
 	{ "w", "Set watchpoints", cmd_w },
 	{ "d", "Delete watchpoints", cmd_d },
-	{ "bt", "Print the link of stack(?)", cmd_bt },
+	{ "bt", "Print backtrace of all stack frames", cmd_bt },
 
 	/* TODO: Add more commands */
 
