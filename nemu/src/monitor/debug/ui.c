@@ -189,16 +189,16 @@ static int cmd_bt(char *args){
 	swaddr_t myaddr;
 	int index=0;
 	char* a;
-	printf("Index\tAddr\tName\tPara1\tPara2\tPara3\tPara4\n");
+	printf("Index\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\n");
 	while(dog){
-		printf("#%d\t",index);
+		printf("#%d\t\t",index);
 		if(index==0){
 			myaddr = cpu.eip;
-			printf("0x%x\t",myaddr);
+			printf("0x%x\t\t",myaddr);
 		}
 		else{
 			myaddr = swaddr_read(dog+4,4);
-			printf("0x%x\t",myaddr);
+			printf("0x%x\t\t",myaddr);
 			dog = swaddr_read(dog,4);
 		}
 		//printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
@@ -208,8 +208,8 @@ static int cmd_bt(char *args){
 			printf("I can't find My Func!\n");
 			return 0;
 		}
-		else printf("%s\t",a);
-		printf("0x%x\t0x%x\t0x%x\t0x%x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		else printf("%s\t\t",a);
+		printf("0x%x\t\t0x%x\t\t0x%x\t\t0x%x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
 		index++;
 	}
 	return 0;
