@@ -189,7 +189,7 @@ static int cmd_bt(char *args){
 	swaddr_t myaddr;
 	int index=0;
 	char* a;
-	printf("Index\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\n");
+	printf("Index\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\t\tdog\n");
 	while(dog){
 		printf("#%d\t\t",index);
 		if(index==0){
@@ -210,7 +210,8 @@ static int cmd_bt(char *args){
 		}
 		else printf("%s\t\t",a);
 		if(dog+20>0x8000000) printf("No Para\n");
-		else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		printf("0x%08x\n",dog);
 		index++;
 	}
 	return 0;
