@@ -209,7 +209,8 @@ static int cmd_bt(char *args){
 			return 0;
 		}
 		else printf("%s\t\t",a);
-		printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		if(dog+20>0x8000000) printf("No Para\n");
+		else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\n",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
 		index++;
 	}
 	return 0;
