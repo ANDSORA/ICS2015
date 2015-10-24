@@ -45,7 +45,8 @@ uint32_t loader() {
 	nemu_assert(elf->e_phnum == 3);
 	for(i=0; i<elf->e_phnum; ++i) {
 		/* Scan the program header table, load each segment into memory */
-		ph = base_ph + i*elf->e_phentsize;
+		//ph = base_ph + i*elf->e_phentsize;
+		ph = base_ph + i;
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
