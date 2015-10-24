@@ -2,8 +2,9 @@
 
 #define instr call
 
-make_helper( concat(call_i_, SUFFIX) ) {
-	int len = concat(decode_i_, SUFFIX)(eip+1);
+#if DATA_BYTE == 4
+make_helper( concat(call_si_, SUFFIX) ) {
+	int len = concat(decode_si_, SUFFIX)(eip+1);
 
 	cpu.esp -= DATA_BYTE;
 	MEM_W( cpu.esp, (DATA_TYPE)(eip+len+1) );
@@ -15,6 +16,8 @@ make_helper( concat(call_i_, SUFFIX) ) {
 
 	return len+1;
 }
+#endif
+
 make_helper( concat(call_rm_, SUFFIX) ) {
 	int len = concat(decode_rm_, SUFFIX)(eip+1);
 
