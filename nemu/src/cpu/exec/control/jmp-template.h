@@ -15,8 +15,8 @@ make_helper( concat(jmp_rm_, SUFFIX) ) {
 }
 #endif
 
-make_helper( concat(jmp_i_, SUFFIX) ) {
-	int len = concat(decode_i_, SUFFIX)(eip+1);
+make_helper( concat(jmp_si_, SUFFIX) ) {
+	int len = concat(decode_si_, SUFFIX)(eip+1);
 	cpu.eip += op_src->val;
 	if(DATA_BYTE==2){
 		cpu.eip &= 0xffff;

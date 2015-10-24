@@ -12,5 +12,5 @@
 #include "jmp-template.h"
 #undef DATA_BYTE
 
-make_helper_v(jmp_i)
+make_helper_v(jmp_si)
 make_helper_v(jmp_rm)
