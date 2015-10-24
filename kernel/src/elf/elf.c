@@ -37,11 +37,13 @@ uint32_t loader() {
 
 	/* Load each program segment */
 	//panic("please implement me");
-	ph = (void *)buf + elf->e_phoff;
+	Elf32_Phdr *base_ph = (void *)buf + elf->e_phoff;
 	nemu_assert(elf->e_phoff == 52);
 
-	for(; true; ) {
+	int i;
+	for(i=0; i<elf->e_phnum; ++i) {
 		/* Scan the program header table, load each segment into memory */
+		ph = base_ph + i*elf->e_phentsize;
 		if(ph->p_type == PT_LOAD) {
 
 			/* TODO: read the content of the segment from the ELF file 
