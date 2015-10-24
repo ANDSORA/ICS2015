@@ -200,6 +200,10 @@ static int cmd_bt(char *args){
 			myaddr = swaddr_read(dog+4,4);
 			printf("0x%08x\t",myaddr);
 			dog = swaddr_read(dog,4);
+			if(myaddr==0){
+				printf("Okay, we should fuck it back\n");
+				return 0;
+			}
 		}
 		//printf("0x%x\t0x%x\n",dog,swaddr_read(dog+4,4));
 		//dog = swaddr_read(dog,4);
