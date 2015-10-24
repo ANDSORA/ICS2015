@@ -15,7 +15,6 @@ make_helper( concat(jmp_rm_, SUFFIX) ) {
 }
 #endif
 
-#if DATA_BYTE == 1 || DATA_BYTE == 4
 make_helper( concat(jmp_si_, SUFFIX) ) {
 	int len = concat(decode_si_, SUFFIX)(eip+1);
 	cpu.eip += op_src->val;
@@ -26,6 +25,5 @@ make_helper( concat(jmp_si_, SUFFIX) ) {
 	print_asm(str(instr) "\t0x%x",cpu.eip+len+1);
 	return len+1;
 }
-#endif
 
 #include "cpu/exec/template-end.h"
