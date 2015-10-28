@@ -6,7 +6,7 @@
 
 extern FILE* log_fp;
 
-volatile int dummy;//remember to delete it!!
+int dummy;//remember to delete it!!
 
 #ifdef LOG_FILE
 #	define Log_write(format, ...) fprintf(log_fp, format, ## __VA_ARGS__), fflush(log_fp)
