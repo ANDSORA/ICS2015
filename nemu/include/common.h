@@ -16,7 +16,7 @@
 #include <assert.h>
 #include <string.h>
 
-volatile static int dummy=1;//remember to delete it!
+volatile int dummy;//remember to delete it!
 
 typedef uint8_t bool;
 typedef uint32_t hwaddr_t;
