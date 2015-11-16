@@ -1,6 +1,3 @@
-#ifndef __CACHE_H__
-#define __CACHE_H__
-
 #include "common.h"
 
 #define SLOT_WIDTH 6
@@ -17,15 +14,19 @@
 
 typedef struct {
 	uint8_t data[SLOT_SIZE];
-	uint32_t tag : ;
+	uint32_t tag : TAG_WIDTH;
 	bool valid;
 } cache_slot;
 
-typedef union {
+union {
 	struct {
 		uint32_t addr_in_slot : SLOT_WIDTH;
-		uint32_t set_idex     : SET_IDX_WIDTH;
+		uint32_t set_idx      : SET_IDX_WIDTH;
 		uint32_t tag_idx      : TAG_WIDTH;
-	}
+	};
 	uint32_t addr;
 } cache_addr;
+
+cache_slot cache[SET_SIZE * SET_NUM];
+
+
