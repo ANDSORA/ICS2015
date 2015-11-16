@@ -62,10 +62,11 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 	if(!hit) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 		for(i = 0; i< (SLOT_SIZE)/4; ++i) {
-			uint8_t fuck[16];
-			uint32_t temp_data = dram_read(base_addr + 4*i, 4);
-			*(uint32_t *)(fuck + 4*i) = temp_data;
-			//*(uint32_t *)(slot->data + 4*i) = temp_data;//dram_read(base_addr + 4*i, 4);
+			//uint8_t temp_buf[16];
+			//uint32_t temp_data = dram_read(base_addr + 4*i, 4);
+			//*(uint32_t *)(temp_buf + 4*i) = temp_data;
+			uint8_t *temp_buf = slot->data + 4*i;
+			*(uint32_t *)temp_buf = dram_read(base_addr + (4*i), 4);
 		}
 	}
 
