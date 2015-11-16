@@ -47,7 +47,7 @@ void init_cache() {
 }
 
 static void cache_read_inner(hwaddr_t addr, void *temp) {
-	Log("(cache_read_inner) addr = %x", addr);
+	//Log("(cache_read_inner) addr = %x", addr);
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	cache_addr.addr = addr & ~BURST_MASK;
@@ -80,7 +80,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 }
 
 uint32_t cache_read(hwaddr_t addr, size_t len) {
-	Log("(cache_read) addr = %x", addr);
+	//Log("(cache_read) addr = %x", addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 
