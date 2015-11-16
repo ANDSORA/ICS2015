@@ -40,6 +40,7 @@ cache_slot cache[SET_SIZE * SET_NUM];
 
 
 static void cache_read_inner(hwaddr_t addr, void *temp) {
+	Log("(cache_read) addr = %x", addr);
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	cache_addr.addr = addr & ~BURST_MASK;
@@ -66,7 +67,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 			//uint32_t temp_data = dram_read(base_addr + 4*i, 4);
 			//*(uint32_t *)(temp_buf + 4*i) = temp_data;
 			uint8_t *temp_buf = slot->data + 4*i;
-			*(uint32_t *)temp_buf = dram_read(base_addr + (4*i), 4);
+			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
 		}
 	}
 
