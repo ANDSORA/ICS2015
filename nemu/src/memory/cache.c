@@ -59,6 +59,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 
 	for(i = 0; i < SET_SIZE; ++i){
 		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid ) {
+			Log("hit in cache, addr = %x", addr);
 			hit = 1;
 			target = i;
 			break;
