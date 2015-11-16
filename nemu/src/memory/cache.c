@@ -10,6 +10,7 @@
 #define SLOT_SIZE (1 << SLOT_WIDTH)
 #define SLOT_MASK (SLOT_SIZE - 1)
 #define SET_SIZE (1 << SET_WIDTH)
+#define SET_MASK (SET_SIZE - 1)
 #define SET_NUM (1 << SET_IDX_WIDTH)
 #define TAG_SIZE (1 << TAG_WIDTH)
 
@@ -54,7 +55,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 	cache_addr.addr = addr & ~BURST_MASK;
 
 	bool hit = 0;
-	uint32_t target = (addr>>RAND_BIT) & (SET_SIZE);
+	uint32_t target = (addr>>RAND_BIT) & (SET_MASK);
 	uint32_t base_slot_idx = SET_SIZE*cache_addr.set_idx;
 	uint32_t i;
 
