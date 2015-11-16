@@ -10,6 +10,7 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
 void init_ddr3();
+void init_cache();
 
 FILE *log_fp = NULL;
 
@@ -35,8 +36,11 @@ void init_monitor(int argc, char *argv[]) {
 	/* Compile the regular expressions. */
 	init_regex();
 
-	/* Initialize the watchpoint link list. */
+	/* Initialize the watchpoint link list. --ANDSORA */
 	init_wp_list();
+
+	/* Initialize the caches. --ANDSORA */
+	init_cache();
 
 	/* Display welcome message. */
 	welcome();
