@@ -24,6 +24,7 @@
 #define RAND_BIT 3
 
 uint32_t dram_read(hwaddr_t, size_t);
+uint32_t dram_write(hwaddr_t, size_t, uint32_t);
 
 typedef struct {
 	uint8_t data[SLOT_SIZE];
@@ -59,8 +60,8 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 	cache_addr.addr = addr & ~BURST_MASK;
 
 	bool hit = 0;
-	uint32_t target = (addr>>RAND_BIT) & (SET_MASK);
-	uint32_t base_slot_idx = SET_SIZE*cache_addr.set_idx;
+	uint32_t target = (addr >> RAND_BIT) & (SET_MASK);
+	uint32_t base_slot_idx = SET_SIZE * cache_addr.set_idx;
 	uint32_t i;
 
 	for(i = 0; i < SET_SIZE; ++i){
@@ -87,6 +88,30 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 	memcpy(temp, slot->data + (cache_addr.addr & SLOT_MASK), BURST_LEN);
 }
 
+static void cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
+	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
+
+	cache_addr.addr = addr & ~BURST_MASK;
+
+	bool hit = 0;
+	uint32_t target = (addr >> RAND_BIT) & (SET_MASK);
+	uint32_t base_slot_idx = SET_SIZE * cache_addr.set_idx;
+	uint32_t i;
+	
+	for(i = 0; i < SET_SIZE; ++i){
+		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid ) {
+			hit = 1;
+			target = i;
+			break;
+		}
+	}
+
+	if(hit) {
+		cache_slot *slot = cache + base_slot_idx + target;
+		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
+	}
+}
+
 uint32_t cache_read(hwaddr_t addr, size_t len) {
 	//Log("(cache_read) addr = %x", addr);
 	uint32_t offset = addr & BURST_MASK;
@@ -102,4 +127,21 @@ uint32_t cache_read(hwaddr_t addr, size_t len) {
 	return unalign_rw(temp + offset, 4);
 }
 
+void cache_write(hwaddr_t addr, size_t len, uint32_t data) {
+	uint32_t offset = addr & BURST_MASK;
+	uint8_t temp[2 * BURST_LEN];
+	uint8_t mask[2 * BURST_LEN];
+	memset(mask, 0, 2 * BURST_LEN);
 
+	*(uint32_t *)(temp + offset) = data;
+	memset(mask + offset, 1, len);
+
+	cache_write_inner(addr, temp, mask);
+
+	if(offset + len > BURST_LEN) {
+		/* data cross the slot boundary */
+		cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
+	}
+
+	dram_write(addr, len, data);
+}
