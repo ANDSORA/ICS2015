@@ -15,6 +15,8 @@ void free_wp_n(int N);
 void WP_print();
 static int w_num; 
 
+uint32_t dram_read(swaddr_t, size_t);//for temp use
+
 char* GiveMyName(swaddr_t myaddr);
 
 /* We use the ``readline'' library to provide more flexibility to read from stdin. */
@@ -104,7 +106,8 @@ static int cmd_x(char *args){
 			//sscanf(EXPR,"%x",&xy_rm);
 			if(success){
 				for(i=0;i<xy_n;++i){
-					printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
+					//printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
+					printf("0x%08x",dram_read(xy_rm+4*i,4));
 					if((i+1)==xy_n)
 						printf("\n");
 					else
