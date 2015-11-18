@@ -16,6 +16,7 @@ void WP_print();
 static int w_num; 
 
 //uint32_t dram_read(swaddr_t, size_t);//for temp use
+void cache_check(swaddr_t);
 
 char* GiveMyName(swaddr_t myaddr);
 
@@ -225,6 +226,21 @@ static int cmd_bt(char *args){
 	}
 	return 0;
 }
+
+static int cmd_cache(char *args){
+	//printf("To be implemented!\tin ui.c cmd_p\n");
+	if(!args){
+		printf("EXPR missed!\n");
+		return 0;
+	}
+	bool success=false;
+	hwaddr_t result=expr(args,&success);
+	if(success)
+		cache_check(result);
+	else
+		printf("Bad EXPR\n");
+	return 0;
+}
 //you own work!~Y
 
 static int cmd_help(char *args);
@@ -244,6 +260,7 @@ static struct {
 	{ "w", "Set watchpoints", cmd_w },
 	{ "d", "Delete watchpoints", cmd_d },
 	{ "bt", "Print backtrace of all stack frames", cmd_bt },
+	{ "cache", "Examine memory in cache\n\t EXPR\tan expression for the memory address to examine", cmd_cache },
 
 	/* TODO: Add more commands */
 

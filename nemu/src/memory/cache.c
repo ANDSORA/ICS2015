@@ -145,3 +145,45 @@ void cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 	dram_write(addr, len, data);
 }
+
+void cache_check(hwaddr_t addr) {
+	if(addr < HW_MEM_SIZE) {
+		printf("physical address %x is outside of the physical memory!", addr);
+		return;
+	}
+
+	cache_addr.addr = addr & ~BURST_MASK;
+
+	bool hit = 0;
+	uint32_t target = (addr >> RAND_BIT) & (SET_MASK);
+	uint32_t base_slot_idx = SET_SIZE * cache_addr.set_idx;
+	uint32_t i;
+	
+	for(i = 0; i < SET_SIZE; ++i){
+		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid ) {
+			hit = 1;
+			target = i;
+			break;
+		}
+	}
+
+	if(hit) {
+		printf("HIT IN CACHE!\n");
+
+		cache_slot *slot = cache + base_slot_idx + target;
+		printf("tag:0x%04x\n", slot->tag);
+		for(i = 0; i < (SLOT_SIZE)/4; ++i){
+			uint8_t *temp_buf = slot->data + 4*i;
+			printf("0x%08x\t", *(uint32_t *)temp_buf);
+		}printf("\n");
+	}
+	else {
+		printf("MISSED IN CACHE!\n");
+		
+		printf("valid\ttag\t(in the corresponding set)\n");
+		for(i = 0; i < SET_SIZE; ++i){
+			printf("%u\t0x%08x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].tag);
+		}
+	}
+	return;
+}
