@@ -215,7 +215,7 @@ static int cmd_bt(char *args){
 		a=GiveMyName(myaddr-1);
 		if(a==NULL){
 			printf("I can't find My Func!\n");
-			return 0;
+			//return 0;
 		}
 		else printf("%s\t\t",a);
 		if(dog+20>0x8000000) printf("No Para\n");
