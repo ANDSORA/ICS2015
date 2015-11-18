@@ -15,7 +15,7 @@ void free_wp_n(int N);
 void WP_print();
 static int w_num; 
 
-uint32_t dram_read(swaddr_t, size_t);//for temp use
+//uint32_t dram_read(swaddr_t, size_t);//for temp use
 
 char* GiveMyName(swaddr_t myaddr);
 
@@ -106,8 +106,8 @@ static int cmd_x(char *args){
 			//sscanf(EXPR,"%x",&xy_rm);
 			if(success){
 				for(i=0;i<xy_n;++i){
-					//printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
-					printf("0x%08x",dram_read(xy_rm+4*i,4));
+					printf("0x%08x",swaddr_read(xy_rm+4*i,4));//buggy?
+					//printf("0x%08x",dram_read(xy_rm+4*i,4));
 					if((i+1)==xy_n)
 						printf("\n");
 					else
@@ -200,11 +200,11 @@ static int cmd_bt(char *args){
 			printf("0x%08x\t",myaddr);
 		}
 		else{
-			//myaddr = swaddr_read(dog+4,4);
-			myaddr = dram_read(dog+4,4);
+			myaddr = swaddr_read(dog+4,4);
+			//myaddr = dram_read(dog+4,4);
 			printf("0x%08x\t",myaddr);
-			//dog = swaddr_read(dog,4);
-			dog = dram_read(dog,4);
+			dog = swaddr_read(dog,4);
+			//dog = dram_read(dog,4);
 			if(myaddr==0){
 				printf("Okay, we should fuck it back\n");
 				return 0;
@@ -219,7 +219,7 @@ static int cmd_bt(char *args){
 		}
 		else printf("%s\t\t",a);
 		if(dog+20>0x8000000) printf("No Para\n");
-		//else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
+		else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8,4),swaddr_read(dog+12,4),swaddr_read(dog+16,4),swaddr_read(dog+20,4));
 		printf("0x%08x\n",dog);
 		index++;
 	}

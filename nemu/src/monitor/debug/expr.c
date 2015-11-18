@@ -11,7 +11,7 @@
 
 uint32_t Elf_Value_Read(char* Value_Name, bool* success);
 
-uint32_t dram_read(swaddr_t, size_t);//for temp use
+//uint32_t dram_read(swaddr_t, size_t);//for temp use
 
 enum {
 	NOTYPE = 256, EQ, AND, OR, UNEQ, NOT, POS, NEG, HEX, DEC, REG_32, REG_16, REG_8, DEREF, VALUE
@@ -329,8 +329,8 @@ uint32_t eval(int p,int q){
 			case '/':	return eval(p,op-1)/eval(op+1,q);break;
 			case NEG:	return -eval(op+1,q);break;
 			case POS:	return eval(op+1,q);break;
-			//case DEREF:	return swaddr_read(eval(op+1,q),4);break;
-			case DEREF: return dram_read(eval(op+1,q),4);break;
+			case DEREF:	return swaddr_read(eval(op+1,q),4);break;
+			//case DEREF: return dram_read(eval(op+1,q),4);break;
 			case NOT:	return !eval(op+1,q);break;
 			default :break;
 		}
