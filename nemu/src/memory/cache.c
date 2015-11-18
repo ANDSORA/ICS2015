@@ -147,8 +147,8 @@ void cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 void cache_check(hwaddr_t addr) {
-	if(addr < HW_MEM_SIZE) {
-		printf("physical address %x is outside of the physical memory!", addr);
+	if(addr > HW_MEM_SIZE) {
+		printf("physical address %x is outside of the physical memory!\n", addr);
 		return;
 	}
 
