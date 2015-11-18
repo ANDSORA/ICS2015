@@ -53,7 +53,7 @@ void init_cache() {
 
 static void cache_read_inner(hwaddr_t addr, void *temp) {
 	//Log("(cache_read_inner) addr = %x", addr);
-	printf("^");
+	//printf("^");
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	cache_addr.addr = addr & ~BURST_MASK;
