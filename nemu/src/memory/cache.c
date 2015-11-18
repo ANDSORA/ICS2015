@@ -2,6 +2,10 @@
 #include "burst.h"
 #include "misc.h"
 
+/* Simulate the (main) behavor of Cache.
+ * --ANDSORA
+ */
+
 #define SLOT_WIDTH 6
 #define SET_WIDTH 3
 #define SET_IDX_WIDTH 7
@@ -77,6 +81,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
 		}
 		slot->valid = 1;
+		slot->tag = cache_addr.tag_idx;
 	}
 
 	memcpy(temp, slot->data + (cache_addr.addr & SLOT_MASK), BURST_LEN);
