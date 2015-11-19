@@ -10,7 +10,7 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
 void init_ddr3();
-void init_cache();
+void init_L1_cache();
 
 FILE *log_fp = NULL;
 
@@ -40,7 +40,7 @@ void init_monitor(int argc, char *argv[]) {
 	init_wp_list();
 
 	/* Initialize the caches. --ANDSORA */
-	init_cache();
+	init_L1_cache();
 
 	/* Display welcome message. */
 	welcome();

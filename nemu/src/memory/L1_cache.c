@@ -32,7 +32,7 @@ typedef struct {
 	bool valid;
 } cache_slot;
 
-union {
+static union {
 	struct {
 		uint32_t addr_in_slot : SLOT_WIDTH;
 		uint32_t set_idx      : SET_IDX_WIDTH;
@@ -41,18 +41,16 @@ union {
 	uint32_t addr;
 } cache_addr;
 
-cache_slot cache[SET_SIZE * SET_NUM];
+static cache_slot cache[SET_SIZE * SET_NUM];
 
-
-
-void init_cache() {
+void init_L1_cache() {
 	int i;
 	for(i = 0; i < SET_NUM*SET_SIZE; ++i){
 		cache[i].valid = 0;
 	}
 }
 
-static void cache_read_inner(hwaddr_t addr, void *temp) {
+static void L1_cache_read_inner(hwaddr_t addr, void *temp) {
 	//Log("(cache_read_inner) addr = %x", addr);
 	//printf("^");
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
@@ -88,7 +86,7 @@ static void cache_read_inner(hwaddr_t addr, void *temp) {
 	memcpy(temp, slot->data + (cache_addr.addr & SLOT_MASK), BURST_LEN);
 }
 
-static void cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
+static void L1_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 	Assert(addr < HW_MEM_SIZE, "physical address %x is outside of the physical memory!", addr);
 
 	cache_addr.addr = addr & ~BURST_MASK;
@@ -112,22 +110,22 @@ static void cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 	}
 }
 
-uint32_t cache_read(hwaddr_t addr, size_t len) {
+uint32_t L1_cache_read(hwaddr_t addr, size_t len) {
 	//Log("(cache_read) addr = %x", addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 
-	cache_read_inner(addr, temp);
+	L1_cache_read_inner(addr, temp);
 
 	if(offset + len > BURST_LEN) {
 		/* data cross the slot boundary */
-		cache_read_inner(addr + BURST_LEN, temp + BURST_LEN);
+		L1_cache_read_inner(addr + BURST_LEN, temp + BURST_LEN);
 	}
 
 	return unalign_rw(temp + offset, 4);
 }
 
-void cache_write(hwaddr_t addr, size_t len, uint32_t data) {
+void L1_cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 	uint8_t mask[2 * BURST_LEN];
@@ -136,17 +134,17 @@ void cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 	*(uint32_t *)(temp + offset) = data;
 	memset(mask + offset, 1, len);
 
-	cache_write_inner(addr, temp, mask);
+	L1_cache_write_inner(addr, temp, mask);
 
 	if(offset + len > BURST_LEN) {
 		/* data cross the slot boundary */
-		cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
+		L1_cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
 
 	dram_write(addr, len, data);
 }
 
-void cache_check(hwaddr_t addr) {
+void L1_cache_check(hwaddr_t addr) {
 	if(addr > HW_MEM_SIZE) {
 		printf("physical address %x is outside of the physical memory!\n", addr);
 		return;
@@ -168,7 +166,7 @@ void cache_check(hwaddr_t addr) {
 	}
 
 	if(hit) {
-		printf("HIT IN CACHE!\n");
+		printf("HIT IN L1-CACHE!\n");
 
 		cache_slot *slot = cache + base_slot_idx + target;
 		printf("tag:0x%04x\n", slot->tag);
@@ -178,12 +176,13 @@ void cache_check(hwaddr_t addr) {
 		}printf("\n");
 	}
 	else {
-		printf("MISSED IN CACHE!\n");
+		printf("MISSED IN L1-CACHE!\n");
 		
 		printf("valid\ttag\t(in the corresponding set)\n");
 		for(i = 0; i < SET_SIZE; ++i){
 			printf("%u\t0x%08x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].tag);
 		}
 	}
+	printf("\n");
 	return;
 }

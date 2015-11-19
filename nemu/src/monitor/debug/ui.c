@@ -16,7 +16,7 @@ void WP_print();
 static int w_num; 
 
 //uint32_t dram_read(swaddr_t, size_t);//for temp use
-void cache_check(swaddr_t);
+void L1_cache_check(swaddr_t);
 
 char* GiveMyName(swaddr_t myaddr);
 
@@ -236,7 +236,7 @@ static int cmd_cache(char *args){
 	bool success=false;
 	hwaddr_t result=expr(args,&success);
 	if(success)
-		cache_check(result);
+		L1_cache_check(result);
 	else
 		printf("Bad EXPR\n");
 	return 0;
