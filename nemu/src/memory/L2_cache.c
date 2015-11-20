@@ -30,6 +30,7 @@ typedef struct {
 	uint8_t data[SLOT_SIZE];
 	uint32_t tag : TAG_WIDTH;
 	bool valid;
+	bool dirty;
 } L2_cache_slot;
 
 static union {
@@ -63,7 +64,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 	uint32_t i;
 
 	for(i = 0; i < SET_SIZE; ++i){
-		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid ) {
+		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid && !cache[base_slot_idx+i].dirty ) {
 			//Log("hit in cache, addr = %x", addr);
 			hit = 1;
 			target = i;
@@ -75,11 +76,20 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 
 	if(!hit) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
+
+		if(slot->valid && slot->dirty){
+			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
+				uint8_t *temp_buf = slot->data + 4*i;
+				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
+			}
+		}
+
 		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 			uint8_t *temp_buf = slot->data + 4*i;
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
 		}
 		slot->valid = 1;
+		slot->dirty = 0;
 		slot->tag = cache_addr.tag_idx;
 	}
 
@@ -104,10 +114,30 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		}
 	}
 
+	L2_cache_slot *slot = cache + base_slot_idx +target;
+
 	if(hit) {
-		L2_cache_slot *slot = cache + base_slot_idx + target;
-		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
+		slot->dirty = 1;
 	}
+	else {
+		hwaddr_t base_addr = addr & ~SLOT_MASK;
+
+		if(slot->valid && slot->dirty){
+			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
+				uint8_t *temp_buf = slot->data + 4*i;
+				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
+			}
+		}
+
+		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
+			uint8_t *temp_buf = slot->data + 4*i;
+			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
+		}
+		slot->valid = 1;
+		slot->dirty = 0;
+		slot->tag = cache_addr.tag_idx;
+	}
+	memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
 }
 
 uint32_t L2_cache_read(hwaddr_t addr, size_t len) {
@@ -140,7 +170,7 @@ void L2_cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 		/* data cross the slot boundary */
 		L2_cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
-
+	
 	dram_write(addr, len, data);
 }
 
