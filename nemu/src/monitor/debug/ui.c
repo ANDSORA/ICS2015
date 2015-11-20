@@ -17,6 +17,7 @@ static int w_num;
 
 //uint32_t dram_read(swaddr_t, size_t);//for temp use
 void L1_cache_check(swaddr_t);
+void L2_cache_check(swaddr_t);
 
 char* GiveMyName(swaddr_t myaddr);
 
@@ -235,8 +236,10 @@ static int cmd_cache(char *args){
 	}
 	bool success=false;
 	hwaddr_t result=expr(args,&success);
-	if(success)
+	if(success) {
 		L1_cache_check(result);
+		L2_cache_check(result);
+	}
 	else
 		printf("Bad EXPR\n");
 	return 0;
