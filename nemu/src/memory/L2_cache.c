@@ -121,7 +121,17 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		slot->dirty = 1;
 	}
 	else {
-		/* write the dram first */
+		hwaddr_t base_addr = addr & ~SLOT_MASK;
+
+		/* first write back the dirty slot */
+		if(slot->valid && slot->dirty){
+			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
+				uint8_t *temp_buf = slot->data + 4*i;
+				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
+			}
+		}
+
+		/* then write the dram */
 		uint8_t *temp_data;
 		uint32_t temp_idx;
 		size_t temp_len = 0;
@@ -138,16 +148,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		Assert(temp_len<=4, "temp_len is flowed");
 		if(temp_len) dram_write(cache_addr.addr + temp_idx, temp_len, *(uint32_t *)temp_data);
 
-		/* then allocate the cache */
-		hwaddr_t base_addr = addr & ~SLOT_MASK;
-
-		if(slot->valid && slot->dirty){
-			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
-				uint8_t *temp_buf = slot->data + 4*i;
-				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
-			}
-		}
-
+		/* at last load the slot */
 		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 			uint8_t *temp_buf = slot->data + 4*i;
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
