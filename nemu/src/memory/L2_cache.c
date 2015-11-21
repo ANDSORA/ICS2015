@@ -114,7 +114,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		}
 	}
 
-	L2_cache_slot *slot = cache + base_slot_idx +target;
+	L2_cache_slot *slot = cache + base_slot_idx + target;
 
 	if(hit) {
 		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
@@ -217,7 +217,7 @@ void L2_cache_check(hwaddr_t addr) {
 		printf("HIT IN L2-CACHE!\n");
 
 		L2_cache_slot *slot = cache + base_slot_idx + target;
-		printf("tag:0x%04x\n", slot->tag);
+		printf("tag:0x%04x\tvalid:%x\tdirty:%x\n", slot->tag, slot->valid, slot->dirty);
 		for(i = 0; i < (SLOT_SIZE)/4; ++i){
 			uint8_t *temp_buf = slot->data + 4*i;
 			printf("0x%08x\t", *(uint32_t *)temp_buf);
@@ -226,9 +226,9 @@ void L2_cache_check(hwaddr_t addr) {
 	else {
 		printf("MISSED IN L2-CACHE!\n");
 		
-		printf("valid\ttag\t(in the corresponding set)\n");
+		printf("valid\tdirty\ttag\t(in the corresponding set)\n");
 		for(i = 0; i < SET_SIZE; ++i){
-			printf("%u\t0x%08x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].tag);
+			printf("%x\t%x\t0x%08x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].dirty, cache[base_slot_idx+i].tag);
 		}
 	}
 	printf("\n");
