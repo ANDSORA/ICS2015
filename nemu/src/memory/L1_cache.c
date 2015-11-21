@@ -2,7 +2,7 @@
 #include "burst.h"
 #include "misc.h"
 
-/* Simulate the (main) behavor of Cache.
+/* Simulate the (main) behavor of L1_Cache.
  * --ANDSORA
  */
 

@@ -2,7 +2,7 @@
 #include "burst.h"
 #include "misc.h"
 
-/* Simulate the (main) behavor of Cache.
+/* Simulate the (main) behavor of L2_Cache.
  * --ANDSORA
  */
 
@@ -117,9 +117,27 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 	L2_cache_slot *slot = cache + base_slot_idx +target;
 
 	if(hit) {
+		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
 		slot->dirty = 1;
 	}
 	else {
+		/* write the dram first */
+		uint8_t *temp_data;
+		uint32_t temp_idx;
+		size_t temp_len = 0;
+		for(i = 0; i < BURST_LEN; ++i){
+			if(*((uint8_t *)mask + i)){
+				if(temp_len == 0) {
+					temp_idx = i;
+					temp_data = (uint8_t *)temp + i;
+				}
+				//temp_data[temp_len] = *((uint8_t *)temp + i);
+				temp_len++;
+			}
+		}
+		if(temp_len) dram_write(cache_addr.addr + temp_idx, temp_len, *(uint32_t *)temp_data);
+
+		/* then allocate the cache */
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 
 		if(slot->valid && slot->dirty){
@@ -137,7 +155,6 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		slot->dirty = 0;
 		slot->tag = cache_addr.tag_idx;
 	}
-	memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);
 }
 
 uint32_t L2_cache_read(hwaddr_t addr, size_t len) {
@@ -171,7 +188,7 @@ void L2_cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 		L2_cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
 	
-	dram_write(addr, len, data);
+	//dram_write(addr, len, data);
 }
 
 void L2_cache_check(hwaddr_t addr) {
