@@ -64,7 +64,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 	uint32_t i;
 
 	for(i = 0; i < SET_SIZE; ++i){
-		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid && !cache[base_slot_idx+i].dirty ) {
+		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid) {
 			//Log("hit in cache, addr = %x", addr);
 			hit = 1;
 			target = i;
@@ -74,7 +74,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 	
 	L2_cache_slot *slot = cache + base_slot_idx + target;
 
-	if(!hit) {
+	if(!(hit && !slot->dirty)) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 
 		/* first write back the dirty slot */
@@ -205,7 +205,7 @@ void L2_cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 		L2_cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
 	
-	dram_write(addr, len, data);
+	//dram_write(addr, len, data);
 }
 
 void L2_cache_check(hwaddr_t addr) {
