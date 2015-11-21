@@ -40,7 +40,7 @@ static union {
 		uint32_t tag_idx      : TAG_WIDTH;
 	};
 	uint32_t addr;
-} cache_addr;
+} cache_addr, backup_addr;
 
 static L2_cache_slot cache[SET_SIZE * SET_NUM];
 
@@ -77,14 +77,19 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 	if(!hit) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 
+		/* first write back the dirty slot */
 		if(slot->valid && slot->dirty){
 			Log("write back the dirty slot in cache_read");
+			backup_addr.tag_idx = slot->tag;
+			backup_addr.set_idx = target;
+			backup_addr.addr_in_slot = 0; 
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
-				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
+				dram_write(backup_addr.addr + 4*i, 4, *(uint32_t *)temp_buf);
 			}
 		}
 
+		/* then allocate the slot */
 		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 			uint8_t *temp_buf = slot->data + 4*i;
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
@@ -126,10 +131,13 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 
 		/* first write back the dirty slot */
 		if(slot->valid && slot->dirty){
-			Log("write back the dirty slot in cache_write");
+			Log("write back the dirty slot in cache_read");
+			backup_addr.tag_idx = slot->tag;
+			backup_addr.set_idx = target;
+			backup_addr.addr_in_slot = 0; 
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
-				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
+				dram_write(backup_addr.addr + 4*i, 4, *(uint32_t *)temp_buf);
 			}
 		}
 
