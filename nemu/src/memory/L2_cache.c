@@ -206,7 +206,7 @@ void L2_cache_write(hwaddr_t addr, size_t len, uint32_t data) {
 		L2_cache_write_inner(addr + BURST_LEN, temp + BURST_LEN, mask + BURST_LEN);
 	}
 	
-	//dram_write(addr, len, data);
+	dram_write(addr, len, data);
 }
 
 void L2_cache_check(hwaddr_t addr) {
