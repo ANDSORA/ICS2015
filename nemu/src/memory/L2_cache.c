@@ -135,6 +135,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 				temp_len++;
 			}
 		}
+		Assert(temp_len<=4, "temp_len is flowed");
 		if(temp_len) dram_write(cache_addr.addr + temp_idx, temp_len, *(uint32_t *)temp_data);
 
 		/* then allocate the cache */
