@@ -74,7 +74,8 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 	
 	L2_cache_slot *slot = cache + base_slot_idx + target;
 
-	if(!(hit && !slot->dirty)) {
+	//if(!(hit && !slot->dirty)) {
+	if(!hit) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 
 		/* first write back the dirty slot */
