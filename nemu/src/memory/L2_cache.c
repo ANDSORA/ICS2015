@@ -170,7 +170,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		slot->dirty = 0;
 		slot->tag = cache_addr.tag_idx;
 
-		//memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);//?
+		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);//?
 
 	}
 }
