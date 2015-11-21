@@ -143,7 +143,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		}
 
 
-		/* then write the dram */
+		/* then write the dram *
 		uint8_t *temp_data;
 		uint32_t temp_idx;
 		size_t temp_len = 0;
@@ -159,7 +159,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 		}
 		Assert(temp_len<=4, "temp_len is flowed");
 		if(temp_len) dram_write(cache_addr.addr + temp_idx, temp_len, *(uint32_t *)temp_data);
-			
+		*/	
 
 		/* at last load the slot */
 		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
@@ -167,10 +167,10 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
 		}
 		slot->valid = 1;
-		slot->dirty = 0;
+		slot->dirty = 1;
 		slot->tag = cache_addr.tag_idx;
 
-		//memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);//?
+		memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);//?
 
 	}
 }
