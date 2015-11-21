@@ -180,7 +180,7 @@ void L1_cache_check(hwaddr_t addr) {
 		
 		printf("valid\ttag\t(in the corresponding set)\n");
 		for(i = 0; i < SET_SIZE; ++i){
-			printf("%u\t0x%08x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].tag);
+			printf("%u\t0x%04x\n", cache[base_slot_idx+i].valid, cache[base_slot_idx+i].tag);
 		}
 	}
 	printf("\n");
