@@ -78,6 +78,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 
 		if(slot->valid && slot->dirty){
+			Log("write back the dirty slot in cache_read");
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
 				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
@@ -125,7 +126,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 
 		/* first write back the dirty slot */
 		if(slot->valid && slot->dirty){
-			Log("write back the dirty slot");
+			Log("write back the dirty slot in cache_write");
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
 				dram_write(base_addr + 4*i, 4, *(uint32_t *)temp_buf);
