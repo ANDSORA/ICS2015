@@ -107,7 +107,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 	uint32_t i;
 	
 	for(i = 0; i < SET_SIZE; ++i){
-		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid ) {
+		if( (cache[base_slot_idx+i].tag==cache_addr.tag_idx) && cache[base_slot_idx+i].valid && !cache[base_slot_idx+i].dirty) {
 			hit = 1;
 			target = i;
 			break;
