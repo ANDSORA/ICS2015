@@ -70,6 +70,9 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 			target = i;
 			break;
 		}
+		else if(!cache[base_slot_idx+i].valid){
+			target = i;
+		}
 	}
 	
 	L2_cache_slot *slot = cache + base_slot_idx + target;
@@ -119,6 +122,9 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 			hit = 1;
 			target = i;
 			break;
+		}
+		else if(!cache[base_slot_idx+i].valid){
+			target = i;
 		}
 	}
 
