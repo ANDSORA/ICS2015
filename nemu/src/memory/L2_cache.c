@@ -80,7 +80,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 
 		/* first write back the dirty slot */
 		if(slot->valid && slot->dirty){
-			Log("write back the dirty slot in cache_read");
+			//Log("write back the dirty slot in cache_read");
 			backup_addr.addr = 0;
 			backup_addr.tag_idx = slot->tag;
 			backup_addr.set_idx = cache_addr.set_idx;
@@ -133,7 +133,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 
 		/* first write back the dirty slot */
 		if(slot->valid && slot->dirty){
-			Log("write back the dirty slot in cache_read");
+			//Log("write back the dirty slot in cache_read");
 			backup_addr.addr = 0;
 			backup_addr.tag_idx = slot->tag;
 			backup_addr.set_idx = cache_addr.set_idx;
