@@ -169,7 +169,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 			*(uint32_t *)temp_buf = dram_read(base_addr + 4*i, 4);
 		}
 		slot->valid = 1;
-		slot->dirty = 1;
+		slot->dirty = 0;
 		slot->tag = cache_addr.tag_idx;
 
 		//memcpy_with_mask(slot->data + (cache_addr.addr & SLOT_MASK), temp, BURST_LEN, mask);//?
