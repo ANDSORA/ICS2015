@@ -28,9 +28,9 @@ uint32_t dram_write(hwaddr_t, size_t, uint32_t);
 
 typedef struct {
 	uint8_t data[SLOT_SIZE];
-	uint32_t tag : TAG_WIDTH;
 	bool valid;
 	bool dirty;
+	uint32_t tag : TAG_WIDTH;
 } L2_cache_slot;
 
 static union {
@@ -83,7 +83,7 @@ static void L2_cache_read_inner(hwaddr_t addr, void *temp) {
 			Log("write back the dirty slot in cache_read");
 			backup_addr.addr = 0;
 			backup_addr.tag_idx = slot->tag;
-			backup_addr.set_idx = target;
+			backup_addr.set_idx = cache_addr.set_idx;
 			backup_addr.addr_in_slot = 0; 
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
@@ -136,7 +136,7 @@ static void L2_cache_write_inner(hwaddr_t addr, void *temp, void *mask) {
 			Log("write back the dirty slot in cache_read");
 			backup_addr.addr = 0;
 			backup_addr.tag_idx = slot->tag;
-			backup_addr.set_idx = target;
+			backup_addr.set_idx = cache_addr.set_idx;
 			backup_addr.addr_in_slot = 0; 
 			for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 				uint8_t *temp_buf = slot->data + 4*i;
