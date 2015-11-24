@@ -15,6 +15,8 @@ void free_wp_n(int N);
 void WP_print();
 static int w_num; 
 
+void print_time_count();
+
 //uint32_t dram_read(swaddr_t, size_t);//for temp use
 void L1_cache_check(swaddr_t);
 void L2_cache_check(swaddr_t);
@@ -77,6 +79,9 @@ static int cmd_info(char *args) {
 		}
 		else if(*args=='w'){
 			WP_print();
+		}
+		else if(*args=='t'){
+			print_time_count();
 		}
 		else
 			printf("Wrong Format!\n");
@@ -257,7 +262,7 @@ static struct {
 	{ "c", "Continue the execution of the program", cmd_c },
 	{ "q", "Exit NEMU", cmd_q },
 	{ "si", "Step one or more instructions exactly", cmd_si },
-	{ "info", "Command for showing things about the priogram being debugged\n\tr List of all registers and their contents\n\tw Status of watchpoints", cmd_info },
+	{ "info", "Command for showing things about the priogram being debugged\n\tr List of all registers and their contents\n\tw Status of watchpoints\n\tt Print the time_count", cmd_info },
 	{ "x", "Examine memory\n\tN EXPR\trepeat count and an expression for the memory address to examine", cmd_x },
 	{ "p", "Print value of expression EXPR\n\tEXPR\tthe EXPR waiting to be calculated and printed", cmd_p },
 	{ "w", "Set watchpoints", cmd_w },
