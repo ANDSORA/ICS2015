@@ -26,6 +26,8 @@
 uint32_t L2_cache_read(hwaddr_t, size_t);
 uint32_t L2_cache_write(hwaddr_t, size_t, uint32_t);
 
+void add_time_count(uint64_t);//for test
+
 typedef struct {
 	uint8_t data[SLOT_SIZE];
 	uint32_t tag : TAG_WIDTH;
@@ -76,7 +78,13 @@ static void L1_cache_read_inner(hwaddr_t addr, void *temp) {
 	
 	L1_cache_slot *slot = cache + base_slot_idx + target;
 
-	if(!hit) {
+	if(hit){
+		add_time_count(2);
+	}
+
+	else {
+		add_time_count(200);
+
 		hwaddr_t base_addr = addr & ~SLOT_MASK;
 		for(i = 0; i < ((SLOT_SIZE)/4); ++i) {
 			uint8_t *temp_buf = slot->data + 4*i;

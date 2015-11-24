@@ -10,9 +10,10 @@ void load_elf_tables(int, char *[]);
 void init_regex();
 void init_wp_list();
 void init_ddr3();
-
 void init_L1_cache();
 void init_L2_cache();
+
+void init_time_count();
 
 FILE *log_fp = NULL;
 
@@ -44,6 +45,9 @@ void init_monitor(int argc, char *argv[]) {
 	/* Initialize the caches. --ANDSORA */
 	init_L1_cache();
 	init_L2_cache();
+
+	/* Initialize the time_count. --ANDSORA */
+	init_time_count();
 
 	/* Display welcome message. */
 	welcome();
