@@ -10,6 +10,8 @@
 #ifndef __ASSEMBLER__
 /* The following code will be included if the source file is a "*.c" file. */
 
+#define IA32_SEG
+
 #include "trap.h"
 
 #include <stdint.h>
