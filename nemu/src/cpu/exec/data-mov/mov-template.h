@@ -35,7 +35,7 @@ make_helper(mov_c2rm_l) {
 	printf("len==%u\n",len);
 	REG(op_src->reg) = cpu.cr0.val;
 	print_asm("movl cr0,%%%s", REG_NAME(op_src->reg));
-	return len + 2;
+	return len + 1;
 }
 
 make_helper(mov_rm2c_l) {
@@ -44,7 +44,7 @@ make_helper(mov_rm2c_l) {
 	printf("len==%u\n",len);
 	cpu.cr0.val = REG(op_src->reg);
 	print_asm("movl %%%s,cr0", REG_NAME(op_src->reg));
-	return len + 2;
+	return len + 1;
 }
 
 #endif
