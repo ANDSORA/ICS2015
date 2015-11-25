@@ -43,13 +43,10 @@ typedef union {
 		};
 
 		/* gdtr */
-		union {
-			uint64_t gdtr : 48;
-			struct {
-				uint64_t gdtr_lim : 16;
-				uint64_t gdtr_base : 32;
-			};
-		};
+		struct {
+			uint64_t limit : 16;
+			uint64_t base : 32;
+		} gdtr;
 
 		/* cr0 */
 		union {
