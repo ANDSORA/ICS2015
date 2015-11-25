@@ -30,7 +30,8 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 
 #if DATA_BYTE == 4
 make_helper(mov_c2r_l) {
-	int len = decode_r_l(eip + 1);
+	int len = decode_r_l(eip + 2);
+	printf("(eip==0x%x)0x%x\n",eip+2,instr_fetch(eip+2,1));
 	REG(op_src->reg) = cpu.cr0.val;
 	print_asm("movl cr0,%%%s", REG_NAME(op_src->reg));
 	return len + 2;
