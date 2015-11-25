@@ -31,9 +31,9 @@ make_helper(cld) {
 }
 
 make_helper(lgdt) {
-	swaddr_t addr = instr_fetch(eip + 3, 4);
+	swaddr_t addr = instr_fetch(eip + 2, 4);
 	cpu.gdtr.limit = swaddr_read(addr, 2);
 	cpu.gdtr.base = swaddr_read(addr + 2, 4);
 	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
-	return 7;
+	return 6;
 }
