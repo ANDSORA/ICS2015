@@ -29,3 +29,11 @@ make_helper(cld) {
 	print_asm("cld");
 	return 1;
 }
+
+make_helper(lgdt) {
+	swaddr_t addr = instr_fetch(eip + 3, 4);
+	cpu.gdtr.limit = swaddr_read(addr, 2);
+	cpu.gdtr.base = swaddr_read(addr + 2, 4);
+	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
+	return 7;
+}
