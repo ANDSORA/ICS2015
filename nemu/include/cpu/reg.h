@@ -36,6 +36,13 @@ typedef union {
 				unsigned RF:1; unsigned VM:1;   unsigned ef_18_31:14;
 			};
 		};
+		union {
+			uint64_t gdtr : 48;
+			struct {
+				uint64_t gdtr_lim : 16;
+				uint64_t gdtr_base : 32;
+			};
+		};
 	};
 	struct {
 		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
