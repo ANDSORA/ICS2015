@@ -24,18 +24,25 @@ typedef union {
 	/* Do NOT change the order of the GPRs' definitions. */
 
 	struct {
+		/* common registers */
 		uint32_t eax, ecx, edx, ebx, esp, ebp, esi, edi;
+
+		/* instruction register */
 		swaddr_t eip;
+
+		/* eflags registers */
 		union {
-			unsigned EFLAGS;
+			uint32_t EFLAGS;
 			struct {
-				unsigned CF:1; unsigned ef_1:1; unsigned PF:1; unsigned ef_3:1;
-				unsigned AF:1; unsigned ef_5:1; unsigned ZF:1; unsigned SF:1;
-				unsigned TF:1; unsigned IF:1;   unsigned DF:1; unsigned OF:1;
-				unsigned OL:1; unsigned IP:1;   unsigned NT:1; unsigned ef_15:1;
-				unsigned RF:1; unsigned VM:1;   unsigned ef_18_31:14;
+				uint32_t CF:1; uint32_t ef_1:1; uint32_t PF:1; uint32_t ef_3:1;
+				uint32_t AF:1; uint32_t ef_5:1; uint32_t ZF:1; uint32_t SF:1;
+				uint32_t TF:1; uint32_t IF:1;   uint32_t DF:1; uint32_t OF:1;
+				uint32_t OL:1; uint32_t IP:1;   uint32_t NT:1; uint32_t ef_15:1;
+				uint32_t RF:1; uint32_t VM:1;   uint32_t ef_18_31:14;
 			};
 		};
+
+		/* gdtr */
 		union {
 			uint64_t gdtr : 48;
 			struct {
@@ -43,6 +50,23 @@ typedef union {
 				uint64_t gdtr_base : 32;
 			};
 		};
+
+		/* cr0 */
+		union {
+			uint32_t cr0;
+			struct {
+				uint32_t PE:1; uint32_t MP:1; uint32_t EM:1; uint32_t TS:1;
+				uint32_t ET:1; uint32_t cr0_reserved:26; uint32_t PG:1;
+			};
+		};
+
+		/* segment registers */
+		struct {
+			uint16_t RPL : 2;
+			uint16_t TI : 1;
+			uint16_t IDX : 13;
+		} CS,SS,DS,ES;
+
 	};
 	struct {
 		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
