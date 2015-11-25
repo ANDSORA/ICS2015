@@ -105,5 +105,5 @@ void restart() {
 	cpu.EFLAGS = 2;
 
 	/* Initialize the CR0, and get in Real Mode. --ANDSORA */
-	cpu.PE = 0;
+	cpu.cr0.protect_enable = 0;
 }

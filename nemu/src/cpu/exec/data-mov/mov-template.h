@@ -31,14 +31,14 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 #if DATA_BYTE == 4
 make_helper(mov_c2r_l) {
 	int len = decode_r_l(eip + 1);
-	REG(op_src->reg) = cpu.cr0;
+	REG(op_src->reg) = cpu.cr0.val;
 	print_asm("movl cr0,%%%s", REG_NAME(op_src->reg));
 	return len + 2;
 }
 
 make_helper(mov_r2c_l) {
 	int len = decode_r_l(eip + 1);
-	cpu.cr0 = REG(op_src->reg);
+	cpu.cr0.val = REG(op_src->reg);
 	print_asm("movl %%%s,cr0", REG_NAME(op_src->reg));
 	return len + 2;
 }
