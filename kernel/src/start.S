@@ -2,12 +2,12 @@
 
 #ifndef IA32_SEG
 
-	.globl start
-	start:
+#	.globl start
+#	start:
 	# Set up a stack for C code.
-		movl $0, %ebp
-		movl $(128 << 20), %esp
-		jmp init				# never return
+#		movl $0, %ebp
+#		movl $(128 << 20), %esp
+#		jmp init				# never return
 
 #else
 
