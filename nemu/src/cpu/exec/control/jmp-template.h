@@ -8,7 +8,7 @@ void Load_SR_cache(SEG_REG *);
 make_helper(ljmp) {
 	swaddr_t addr = instr_fetch(eip+1, 4);
 	uint16_t offset = instr_fetch(eip+5, 2);
-	cpu.eip = addr;
+	cpu.eip = addr - 7;
 	cpu.CS.val += offset;
 	Load_SR_cache(&cpu.CS);
 	print_asm("ljmp\t$0x%x,$0x%x",offset,addr);
