@@ -53,9 +53,9 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 		default: panic("Unknown Segment Register!"); break;
 	}
 
-	printf("sreg==%u val==0x%x  limit==0x%x limit==0x%x\n",sreg, sr->val, sr->limit, sr->base);
-
-	Assert(sr->base + addr + len - 1 <= ((sr->limit<<12)&0xfff), "LA LIMIT VIOLATED!");
+	printf("sreg==%u val==0x%x  limit==0x%x base==0x%x\n",sreg, sr->val, sr->limit, sr->base);
+	printf("LA==0x%x LIMIT==0x%x\n", sr->base+addr+len-1, (sr->limit<<12)|0xfff);
+	Assert(sr->base + addr + len - 1 <= ((sr->limit<<12)|0xfff), "LA LIMIT VIOLATED!");
 	return sr->base + addr;
 }
 
