@@ -44,21 +44,12 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
-	/*
-	SEG_REG *sr;
-	switch(sreg){
-		case R_ES: sr = &cpu.ES; break;
-		case R_CS: sr = &cpu.CS; break;
-		case R_SS: sr = &cpu.SS; break;
-		case R_DS: sr = &cpu.DS; break;
-		default: panic("Unknown Segment Register!"); break;
-	}*/
-	Assert(sreg>=0&&sreg<=3, "Unknown Segment Register!");
+	SEG_REG *sr = &SREG(sreg);
 
 	//printf("sreg==%u val==0x%x  limit==0x%x base==0x%x\n",sreg, cpu.SR[sreg].val, cpu.SR[sreg].limit, cpu.SR[sreg].base);
 	//printf("LA==0x%x LIMIT==0x%x\n", cpu.SR[sreg].base+addr+len-1, (cpu.SR[sreg].limit<<12)|0xfff);
-	Assert(cpu.SR[sreg].base + addr + len - 1 <= ((cpu.SR[sreg].limit<<12)|0xfff), "LA LIMIT VIOLATED!");
-	return cpu.SR[sreg].base + addr;
+	Assert(sr->base + addr + len - 1 <= ((sr->limit<<12)|0xfff), "LA LIMIT VIOLATED!");
+	return sr->base + addr;
 }
 
 union {
@@ -71,18 +62,19 @@ union {
 } bit_trans;
 
 void Load_SR_cache(uint8_t sreg){
-	Assert(sreg>=0&&sreg<=3, "Unknown Segment Register!");
-	Assert((cpu.SR[sreg].IDX << 3) <= cpu.gdtr.limit, "GDT LIMIT VIOLATED!");
+	//Assert(sreg>=0&&sreg<=3, "Unknown Segment Register!");
+	SEG_REG *sr = &SREG(sreg);
+	Assert((sr->IDX << 3) <= cpu.gdtr.limit, "GDT LIMIT VIOLATED!");
 
-	lnaddr_t addr = cpu.gdtr.base + (cpu.SR[sreg].IDX << 3);
+	lnaddr_t addr = cpu.gdtr.base + (sr->IDX << 3);
 
 	bit_trans.bit_15_0 = lnaddr_read(addr+2, 2);
 	bit_trans.bit_23_16 = lnaddr_read(addr+4, 1);
 	bit_trans.bit_31_24 = lnaddr_read(addr+7, 1);
-	cpu.SR[sreg].base = bit_trans.bit_31_0;
+	sr->base = bit_trans.bit_31_0;
 
 	bit_trans.bit_15_0 = lnaddr_read(addr, 2);
 	bit_trans.bit_23_16 = lnaddr_read(addr+6, 1) & 0xf;
 	bit_trans.bit_31_24 = 0x0;
-	cpu.SR[sreg].limit = bit_trans.bit_31_0;
+	sr->limit = bit_trans.bit_31_0;
 }
