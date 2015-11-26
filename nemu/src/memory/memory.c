@@ -55,8 +55,8 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 	}*/
 	Assert(sreg>=0&&sreg<=3, "Unknown Segment Register!");
 
-	printf("sreg==%u val==0x%x  limit==0x%x base==0x%x\n",sreg, cpu.SR[sreg].val, cpu.SR[sreg].limit, cpu.SR[sreg].base);
-	printf("LA==0x%x LIMIT==0x%x\n", cpu.SR[sreg].base+addr+len-1, (cpu.SR[sreg].limit<<12)|0xfff);
+	//printf("sreg==%u val==0x%x  limit==0x%x base==0x%x\n",sreg, cpu.SR[sreg].val, cpu.SR[sreg].limit, cpu.SR[sreg].base);
+	//printf("LA==0x%x LIMIT==0x%x\n", cpu.SR[sreg].base+addr+len-1, (cpu.SR[sreg].limit<<12)|0xfff);
 	Assert(cpu.SR[sreg].base + addr + len - 1 <= ((cpu.SR[sreg].limit<<12)|0xfff), "LA LIMIT VIOLATED!");
 	return cpu.SR[sreg].base + addr;
 }

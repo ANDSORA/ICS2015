@@ -33,7 +33,7 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 #if DATA_BYTE == 2
 make_helper(mov_rm2s_w) {
 	int len = decode_rm_w(eip + 1);
-	printf("reg=%u, sreg=%u\n",op_src->reg, op_src2->reg);	
+	//printf("reg=%u, sreg=%u\n",op_src->reg, op_src2->reg);	
 	SREG(op_src2->reg).val = REG(op_src->reg);
 	Load_SR_cache(op_src2->reg);
 	print_asm("mov\t%%%s,%%%s", REG_NAME(op_src->reg), SREG_NAME(op_src2->reg));
