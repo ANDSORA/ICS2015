@@ -6,9 +6,12 @@ void Load_SR_cache(SEG_REG *);
 
 #if DATA_BYTE == 1
 make_helper(ljmp) {
-	cpu.eip = instr_fetch(eip+1, 4);
-	cpu.CS.val += instr_fetch(eip+5, 2);
+	swaddr_t addr = instr_fetch(eip+1, 4);
+	uint16_t offset = instr_fetch(eip+5, 2);
+	cpu.eip = addr;
+	cpu.CS.val += offset;
 	Load_SR_cache(&cpu.CS);
+	print_asm("ljmp\t$0x%x,$0x%x",offset,addr);
 	return 7;
 }
 
