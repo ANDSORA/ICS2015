@@ -1,6 +1,6 @@
 #include "cpu/exec/template-start.h"
 
-void Load_SR_cache(SEG_REG *);
+void Load_SR_cache(uint8_t);
 
 #define instr jmp
 
@@ -10,7 +10,7 @@ make_helper(ljmp) {
 	uint16_t offset = instr_fetch(eip+5, 2);
 	cpu.eip = addr - 7;
 	cpu.CS.val += offset;
-	Load_SR_cache(&cpu.CS);
+	Load_SR_cache(R_CS);
 	print_asm("ljmp\t$0x%x,$0x%x",offset,addr);
 	return 7;
 }
