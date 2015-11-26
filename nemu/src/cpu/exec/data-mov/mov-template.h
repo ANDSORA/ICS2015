@@ -28,7 +28,16 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 	return 5;
 }
 
-#if DATA_BYTE == 4
+#if DATA_BYTE == 2
+make_helper(mov_rm2s_w) {
+	int len = decode_rm_w(eip + 1);
+	printf("reg=%u, sreg=%u\n",op_src->reg, op_src2->reg);	
+	SREG(op_src2->reg).val = REG(op_src->reg);
+	print_asm("mov\t%%%s,%%%s", REG_NAME(op_src->reg), SREG_NAME(op_src2->reg));
+	return len + 1;
+}
+
+#elif DATA_BYTE == 4
 make_helper(mov_c2rm_l) {
 	int len = decode_rm_l(eip + 1);
 	//printf("(eip==0x%x)0x%x ",eip+2,instr_fetch(eip+1,1));

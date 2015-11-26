@@ -27,6 +27,10 @@
 #define REG(index) concat(reg_, SUFFIX) (index)
 #define REG_NAME(index) concat(regs, SUFFIX) [index]
 
+/* --ANDSORA */
+#define SREG(sreg) cpu.SR[sreg]
+#define SREG_NAME(sreg) sregs[sreg]
+
 #define MEM_R(addr, sreg) swaddr_read(addr, DATA_BYTE, sreg)
 #define MEM_W(addr, data, sreg) swaddr_write(addr, DATA_BYTE, data, sreg)
 

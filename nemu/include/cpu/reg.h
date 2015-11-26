@@ -75,7 +75,12 @@ typedef union {
 		CR0 cr0;
 
 		/* segment registers */
-		SEG_REG ES,CS,SS,DS;
+		union {
+			struct {
+				SEG_REG ES,CS,SS,DS;
+			};
+			SEG_REG SR[4];
+		};
 
 	};
 	struct {
@@ -104,5 +109,6 @@ static inline int check_reg_index(int index) {
 extern const char* regsl[];
 extern const char* regsw[];
 extern const char* regsb[];
+extern const char* sregs[];/* --ANDSORA */
 
 #endif
