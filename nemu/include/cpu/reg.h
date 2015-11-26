@@ -102,9 +102,15 @@ static inline int check_reg_index(int index) {
 	return index;
 }
 
+static inline int check_sreg_index(int index) {
+	assert(index >= 0 && index < 4);
+	return index;
+}
+
 #define reg_l(index) (cpu.gpr[check_reg_index(index)]._32)
 #define reg_w(index) (cpu.gpr[check_reg_index(index)]._16)
 #define reg_b(index) (cpu.gpr[check_reg_index(index) & 0x3]._8[index >> 2])
+#define sreg(index)  (cpu.SR[check_sreg_index(index)])
 
 extern const char* regsl[];
 extern const char* regsw[];
