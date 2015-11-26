@@ -106,4 +106,8 @@ void restart() {
 
 	/* Initialize the CR0, and get in Real Mode. --ANDSORA */
 	cpu.cr0.protect_enable = 0;
+
+	/* Initialize the CS segment register. --ANDSORA */
+	cpu.CS.limit = 0xffffffff;
+	cpu.CS.base = 0x0;
 }

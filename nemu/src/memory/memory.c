@@ -2,7 +2,6 @@
 #include "cpu/reg.h"
 //#include "../../lib-common/x86-inc/mmu.h"
 
-//SegDesc gdt[NR_SEGMENTS];
 
 //uint32_t dram_read(hwaddr_t, size_t);
 uint32_t L1_cache_read(hwaddr_t, size_t);
@@ -44,15 +43,6 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 	lnaddr_write(lnaddr, len, data);
 }
 
-union {
-	uint32_t addr;
-	struct {
-		uint32_t addr_15_0 : 16;
-		uint32_t addr_23_16 : 8;
-		uint32_t addr_31_24 : 8;
-	};
-} lnaddr_trans;
-
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 	SEG_REG *sr;
 	switch(sreg){
@@ -63,5 +53,31 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 		default: panic("Unknown Segment Register!"); break;
 	}	
 
+	Assert(sr->base + addr + len - 1 <= ((sr->limit<<12)&0xfff), "LA LIMIT VIOLATED!");
 	return sr->base + addr;
+}
+
+union {
+	uint32_t bit_31_0;
+	struct {
+		uint32_t bit_15_0 : 16;
+		uint32_t bit_23_16 : 8;
+		uint32_t bit_31_24 : 8;
+	};
+} bit_trans;
+
+void Load_SR_cache(SEG_REG *sr){
+	Assert((sr->IDX << 3) <= cpu.gdtr.limit, "GDT LIMIT VIOLATED!");
+
+	lnaddr_t addr = cpu.gdtr.base + (sr->IDX << 3);
+
+	bit_trans.bit_15_0 = lnaddr_read(addr+2, 2);
+	bit_trans.bit_23_16 = lnaddr_read(addr+4, 1);
+	bit_trans.bit_31_24 = lnaddr_read(addr+7, 1);
+	sr->base = bit_trans.bit_31_0;
+
+	bit_trans.bit_15_0 = lnaddr_read(addr, 2);
+	bit_trans.bit_23_16 = lnaddr_read(addr+6, 1) & 0xf;
+	bit_trans.bit_31_24 = 0x0;
+	sr->limit = bit_trans.bit_31_0;
 }

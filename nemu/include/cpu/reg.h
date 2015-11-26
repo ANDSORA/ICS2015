@@ -17,10 +17,15 @@ enum { R_ES, R_CS, R_SS, R_DS };
  */
 
 typedef struct {
-	uint16_t RPL : 2;
-	uint16_t TI : 1;
-	uint16_t IDX : 13;
-	uint16_t limit;
+	union {
+		struct {
+			uint16_t RPL : 2;
+			uint16_t TI  : 1;
+			uint16_t IDX : 13;
+		};
+		uint16_t val;
+	};
+	uint32_t limit;
 	uint32_t base;
 } SEG_REG;
 
