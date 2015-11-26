@@ -4,7 +4,7 @@
 #define instr cmps
 
 make_helper( concat(cmps_,SUFFIX) ) {
-	setEFLAGS_ALU( MEM_R(cpu.esi), MEM_R(cpu.edi), 1, DATA_BYTE);
+	setEFLAGS_ALU( MEM_R(cpu.esi, R_DS), MEM_R(cpu.edi, R_ES), 1, DATA_BYTE);
 	if(cpu.DF){
 		cpu.esi -= DATA_BYTE;
 		cpu.edi -= DATA_BYTE;

@@ -6,7 +6,7 @@
 make_helper(push_i_b) {
 	int len=decode_i_b(eip+1);
 	cpu.esp -= 4;
-	swaddr_write(cpu.esp, 4, op_src->val);
+	swaddr_write(cpu.esp, 4, op_src->val, R_SS);
 
 	print_asm_template1();
 	return len+1;
@@ -14,7 +14,7 @@ make_helper(push_i_b) {
 #elif DATA_BYTE == 2 || DATA_BYTE == 4
 static void do_execute() {
 	cpu.esp -= DATA_BYTE;
-	MEM_W( cpu.esp,  op_src->val);
+	MEM_W( cpu.esp,  op_src->val, R_SS );
 
 	print_asm_template1();
 }

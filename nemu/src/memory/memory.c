@@ -56,10 +56,10 @@ union {
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 	SEG_REG *sr;
 	switch(sreg){
-		case 0: sr = &cpu.ES; break;
-		case 1: sr = &cpu.CS; break;
-		case 2: sr = &cpu.SS; break;
-		case 3: sr = &cpu.DS; break;
+		case R_ES: sr = &cpu.ES; break;
+		case R_CS: sr = &cpu.CS; break;
+		case R_SS: sr = &cpu.SS; break;
+		case R_DS: sr = &cpu.DS; break;
 		default: panic("Unknown Segment Register!"); break;
 	}	
 

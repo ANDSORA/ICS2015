@@ -329,7 +329,7 @@ uint32_t eval(int p,int q){
 			case '/':	return eval(p,op-1)/eval(op+1,q);break;
 			case NEG:	return -eval(op+1,q);break;
 			case POS:	return eval(op+1,q);break;
-			case DEREF:	return swaddr_read(eval(op+1,q),4);break;
+			case DEREF:	return swaddr_read(eval(op+1,q),4,R_DS);break;
 			//case DEREF: return dram_read(eval(op+1,q),4);break;
 			case NOT:	return !eval(op+1,q);break;
 			default :break;

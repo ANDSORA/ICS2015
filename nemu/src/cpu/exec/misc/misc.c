@@ -32,8 +32,8 @@ make_helper(cld) {
 
 make_helper(lgdt) {
 	swaddr_t addr = instr_fetch(eip + 2, 4);
-	cpu.gdtr.limit = swaddr_read(addr, 2);
-	cpu.gdtr.base = swaddr_read(addr + 2, 4);
+	cpu.gdtr.limit = instr_fetch(addr, 2);//buggy?
+	cpu.gdtr.base = instr_fetch(addr + 2, 4);//buggy?
 	//Assert(cpu.gdtr.limit==0x17,"fuck gdtr.limit");
 	//Assert(cpu.gdtr.base==0x100030,"fuck gdtr.base");
 	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
