@@ -51,7 +51,9 @@ lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
 		case R_SS: sr = &cpu.SS; break;
 		case R_DS: sr = &cpu.DS; break;
 		default: panic("Unknown Segment Register!"); break;
-	}	
+	}
+
+	printf("sreg==%u val==0x%x  limit==0x%x limit==0x%x\n",sreg, sr->val, sr->limit, sr->base);
 
 	Assert(sr->base + addr + len - 1 <= ((sr->limit<<12)&0xfff), "LA LIMIT VIOLATED!");
 	return sr->base + addr;

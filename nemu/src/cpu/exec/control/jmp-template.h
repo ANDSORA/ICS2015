@@ -1,6 +1,6 @@
 #include "cpu/exec/template-start.h"
 
-void Load_SR_cache(SEG_REG*);
+void Load_SR_cache(SEG_REG *);
 
 #define instr jmp
 
