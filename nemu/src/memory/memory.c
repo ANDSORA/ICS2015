@@ -44,6 +44,8 @@ void swaddr_write(swaddr_t addr, size_t len, uint32_t data, uint8_t sreg) {
 }
 
 lnaddr_t seg_translate(swaddr_t addr, size_t len, uint8_t sreg){
+	if(!cpu.cr0.protect_enable) return addr;
+
 	SEG_REG *sr = &SREG(sreg);
 
 	//printf("sreg==%u val==0x%x  limit==0x%x base==0x%x\n",sreg, cpu.SR[sreg].val, cpu.SR[sreg].limit, cpu.SR[sreg].base);
