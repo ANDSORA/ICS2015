@@ -1,6 +1,6 @@
 #include "common.h"
 #include "cpu/reg.h"
-#include "../../lib-common/x86-inc/mmu.h"
+//#include "../../lib-common/x86-inc/mmu.h"
 
 
 //uint32_t dram_read(hwaddr_t, size_t);
@@ -68,9 +68,7 @@ void Load_SR_cache(uint8_t sreg){
 
 	lnaddr_t addr = cpu.gdtr.base + (sr->IDX << 3);
 
-	SegDesc *sd = (SegDesc *)addr;
-	bit_trans.bit_15_0 = sd->base_15_0;
-	//bit_trans.bit_15_0 = lnaddr_read(addr+2, 2);
+	bit_trans.bit_15_0 = lnaddr_read(addr+2, 2);
 	bit_trans.bit_23_16 = lnaddr_read(addr+4, 1);
 	bit_trans.bit_31_24 = lnaddr_read(addr+7, 1);
 	sr->base = bit_trans.bit_31_0;
