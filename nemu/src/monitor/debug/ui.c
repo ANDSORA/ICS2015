@@ -76,8 +76,12 @@ static int cmd_info(char *args) {
 			printf("edi\t0x%08x\n",cpu.edi);
 			printf("EIP\t0x%08x\n",cpu.eip);
 			int i;
+			for(i=0;i<8;++i){
+				printf("%s\t0x%08x\n",regsl[i],reg_l(i));
+			}
+			printf("EIP\t0x%08x\n",cpu.eip);
 			for(i=0;i<4;++i){
-				printf("%s\t0x%04x\t0x%08x(base)\t0x%08x(limit)\n",sregs[i],SREG(i).val,SREG(i).base,SREG(i).limit);
+				printf("%s\t0x%04x\t\t0x%08x(base)\t0x%08x(limit)\n",sregs[i],SREG(i).val,SREG(i).base,SREG(i).limit);
 			}
 			printf("EFLAGS:\tCF\tPF\tAF\tZF\tSF\tOF\tTF\tIF\tDF\n\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\n",cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF,cpu.TF,cpu.IF,cpu.DF);
 		}
