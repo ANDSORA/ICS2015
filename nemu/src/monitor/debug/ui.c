@@ -225,7 +225,7 @@ static int cmd_bt(char *args){
 			//return 0;
 		}
 		else printf("%s\t\t",a);
-		if(dog+20>0x8000000) printf("No Para\n");
+		if(dog+20>0x8000000-cpu.SS.base) printf("No Para\n");
 		else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8, 4, R_SS),swaddr_read(dog+12, 4, R_SS),swaddr_read(dog+16, 4, R_SS),swaddr_read(dog+20, 4, R_SS));
 		printf("0x%08x\n",dog);
 		index++;
