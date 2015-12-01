@@ -66,15 +66,19 @@ static int cmd_info(char *args) {
 	if(args){
 		//if(!strcmp(args,"r")){
 		if(*args=='r'){
-			printf("eax\t0x%x\n",cpu.eax);
-			printf("ecx\t0x%x\n",cpu.ecx);
-			printf("edx\t0x%x\n",cpu.edx);
-			printf("ebx\t0x%x\n",cpu.ebx);
-			printf("esp\t0x%x\n",cpu.esp);
-			printf("ebp\t0x%x\n",cpu.ebp);
-			printf("esi\t0x%x\n",cpu.esi);
-			printf("edi\t0x%x\n",cpu.edi);
-			printf("EIP\t0x%x\n",cpu.eip);
+			printf("eax\t0x%08x\n",cpu.eax);
+			printf("ecx\t0x%08x\n",cpu.ecx);
+			printf("edx\t0x%08x\n",cpu.edx);
+			printf("ebx\t0x%08x\n",cpu.ebx);
+			printf("esp\t0x%08x\n",cpu.esp);
+			printf("ebp\t0x%08x\n",cpu.ebp);
+			printf("esi\t0x%08x\n",cpu.esi);
+			printf("edi\t0x%08x\n",cpu.edi);
+			printf("EIP\t0x%08x\n",cpu.eip);
+			int i;
+			for(i=0;i<4;++i){
+				printf("%s\t0x%04x\t0x%08x(base)\t0x%08x(limit)\n",sregs[i],SREG(i).val,SREG(i).base,SREG(i).limit);
+			}
 			printf("EFLAGS:\tCF\tPF\tAF\tZF\tSF\tOF\tTF\tIF\tDF\n\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\t%u\n",cpu.CF,cpu.PF,cpu.AF,cpu.ZF,cpu.SF,cpu.OF,cpu.TF,cpu.IF,cpu.DF);
 		}
 		else if(*args=='w'){
