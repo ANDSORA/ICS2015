@@ -63,16 +63,9 @@ typedef union {
 			uint64_t base : 32;
 		} gdtr;
 
-		/* cr0 */
-		/*
-		union {
-			uint32_t cr0;
-			struct {
-				uint32_t PE:1; uint32_t MP:1; uint32_t EM:1; uint32_t TS:1;
-				uint32_t ET:1; uint32_t cr0_reserved:26; uint32_t PG:1;
-			};
-		};*/
+		/* control registers */
 		CR0 cr0;
+		CR3 cr3;
 
 		/* segment registers */
 		union {

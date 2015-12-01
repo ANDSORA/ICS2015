@@ -9,6 +9,7 @@ uint32_t L1_cache_read(hwaddr_t, size_t);
 void L1_cache_write(hwaddr_t, size_t, uint32_t);
 
 lnaddr_t seg_translate(swaddr_t, size_t, uint8_t);
+hwaddr_t page_translate(lnaddr_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
@@ -20,11 +21,27 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	return hwaddr_read(addr, len);
+	uint32_t offset = addr & 0xfff;
+	if(offset + len > 0x1000){
+		/* data across the page boundary */
+		panic("Data Across The Page Boundary!");
+	}
+	else{
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_read(hwaddr, len);
+	}
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	hwaddr_write(addr, len, data);
+	uint32_t offset = addr & 0xfff;
+	if(offset + len > 0x1000){
+		/* data across the page boundary */
+		panic("Data Across The Page Boundary!");
+	}
+	else{
+		hwaddr_t hwaddr = page_translate(addr);
+		hwaddr_write(hwaddr, len, data);
+	}
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
@@ -79,4 +96,22 @@ void Load_SR_cache(uint8_t sreg){
 	bit_trans.bit_23_16 = lnaddr_read(addr+6, 1) & 0xf;
 	bit_trans.bit_31_24 = 0x0;
 	sr->limit = bit_trans.bit_31_0;
+}
+
+hwaddr_t page_translate(lnaddr_t addr){
+	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)) return addr;
+
+	uint32_t dir_idx = addr >> 22;
+	uint32_t page_idx = (addr >> 12) & 0x3ff;
+	uint32_t offset = addr & 0xfff;
+
+	hwaddr_t dir_addr = (cpu.cr3.val & 0xfffff000) + dir_idx*4;
+	uint32_t dir = hwaddr_read(dir_addr, 4);
+	Assert(dir&0x1,"FUCK, MISS IN PDE, CHECK YOUR INSTRUCTIONS!");
+	
+	hwaddr_t page_addr = (dir & 0xfffff000) + page_idx*4;
+	uint32_t page = hwaddr_read(page_addr, 4);
+	Assert(page&0x1,"FUCK, MISS IN PTE, CHECK YOUR INSTRUCTIONS!");
+
+	return (page & 0xfffff000) + offset;
 }

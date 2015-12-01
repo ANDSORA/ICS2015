@@ -106,6 +106,7 @@ void restart() {
 
 	/* Initialize the CR0, and get in Real Mode. --ANDSORA */
 	cpu.cr0.protect_enable = 0;
+	cpu.cr0.paging = 0;
 
 	/* Initialize the CS segment register. --ANDSORA */
 	cpu.CS.limit = 0xffffffff;
