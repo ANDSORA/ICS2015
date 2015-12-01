@@ -66,15 +66,6 @@ static int cmd_info(char *args) {
 	if(args){
 		//if(!strcmp(args,"r")){
 		if(*args=='r'){
-			printf("eax\t0x%08x\n",cpu.eax);
-			printf("ecx\t0x%08x\n",cpu.ecx);
-			printf("edx\t0x%08x\n",cpu.edx);
-			printf("ebx\t0x%08x\n",cpu.ebx);
-			printf("esp\t0x%08x\n",cpu.esp);
-			printf("ebp\t0x%08x\n",cpu.ebp);
-			printf("esi\t0x%08x\n",cpu.esi);
-			printf("edi\t0x%08x\n",cpu.edi);
-			printf("EIP\t0x%08x\n",cpu.eip);
 			int i;
 			for(i=0;i<8;++i){
 				printf("%s\t0x%08x\n",regsl[i],reg_l(i));
