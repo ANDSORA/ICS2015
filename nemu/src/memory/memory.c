@@ -113,5 +113,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 	uint32_t page = hwaddr_read(page_addr, 4);
 	Assert(page&0x1,"FUCK, MISS IN PTE, CHECK YOUR INSTRUCTIONS!");
 
+	Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
+
 	return (page & 0xfffff000) + offset;
 }
