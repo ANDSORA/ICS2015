@@ -22,6 +22,8 @@ void create_video_mapping() {
 	PDE *pdir = get_updir() + ((VMEM_ADDR >> 22) & 0x3ff);
 	PTE *ptable = uptable + ((VMEM_ADDR >> 12) & 0x3ff);
 
+	assert((uint32_t)pdir==(uint32_t)get_updir());
+
 	pdir->val = make_pde(uptable);
 
 	uint32_t pframe_addr = VMEM_ADDR;
