@@ -102,7 +102,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 	//Log("(page_trans)in)");
 	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)) return addr;
 
-	Log("(page_trans)lnaddr=0x%x", addr);
+	//Log("(page_trans)lnaddr=0x%x", addr);
 
 	uint32_t dir_idx = addr >> 22;
 	uint32_t page_idx = (addr >> 12) & 0x3ff;
@@ -116,7 +116,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 	uint32_t page = hwaddr_read(page_addr, 4);
 	Assert(page&0x1,"FUCK, MISS IN PTE, CHECK YOUR INSTRUCTIONS!");
 
-	Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
+	//Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
 
 	return (page & 0xfffff000) + offset;
 }
