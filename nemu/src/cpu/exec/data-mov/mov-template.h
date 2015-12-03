@@ -1,6 +1,7 @@
 #include "cpu/exec/template-start.h"
 
 void Load_SR_cache(uint8_t);
+void init_tlb();
 
 #define instr mov
 
@@ -61,7 +62,7 @@ make_helper(mov_rm2c_l) {
 	//printf("len==%u\n",len);
 	switch(op_src2->reg){
 		case 0: cpu.cr0.val = REG(op_src->reg); print_asm("movl %%%s,cr0", REG_NAME(op_src->reg)); break;
-		case 3: cpu.cr3.val = REG(op_src->reg); print_asm("movl %%%s,cr3", REG_NAME(op_src->reg)); break;
+		case 3: cpu.cr3.val = REG(op_src->reg); init_tlb(); print_asm("movl %%%s,cr3", REG_NAME(op_src->reg)); break;
 		default: panic("No such control register!"); break;
 	}
 	//printf("mov_rm2c completed");
