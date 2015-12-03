@@ -20,6 +20,7 @@ void print_time_count();
 //uint32_t dram_read(swaddr_t, size_t);//for temp use
 void L1_cache_check(swaddr_t);
 void L2_cache_check(swaddr_t);
+void page_check(lnaddr_t);
 
 char* GiveMyName(swaddr_t myaddr);
 
@@ -246,11 +247,26 @@ static int cmd_cache(char *args){
 		printf("EXPR missed!\n");
 		return 0;
 	}
-	bool success=false;
-	hwaddr_t result=expr(args,&success);
+	bool success = false;
+	hwaddr_t result = expr(args, &success);
 	if(success) {
 		L1_cache_check(result);
 		L2_cache_check(result);
+	}
+	else
+		printf("Bad EXPR\n");
+	return 0;
+}
+
+static int cmd_page(char *args){
+	if(!args){
+		printf("EXPR missed!\n");
+		return 0;
+	}
+	bool success = false;
+	hwaddr_t result = expr(args, &success);
+	if(success) {
+		page_check(result);
 	}
 	else
 		printf("Bad EXPR\n");
@@ -275,7 +291,8 @@ static struct {
 	{ "w", "Set watchpoints", cmd_w },
 	{ "d", "Delete watchpoints", cmd_d },
 	{ "bt", "Print backtrace of all stack frames", cmd_bt },
-	{ "cache", "Examine memory in cache\n\t EXPR\tan expression for the memory address to examine", cmd_cache },
+	{ "cache", "Examine memory in cache\n\tADDR\tan expression for the memory address to examine", cmd_cache },
+	{ "page", "Examine the page dir and table of linear addr\n\tADDR\tan expression of a linear address", cmd_page },
 
 	/* TODO: Add more commands */
 

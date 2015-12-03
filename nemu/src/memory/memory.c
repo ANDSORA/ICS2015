@@ -10,6 +10,9 @@ void L1_cache_write(hwaddr_t, size_t, uint32_t);
 
 lnaddr_t seg_translate(swaddr_t, size_t, uint8_t);
 hwaddr_t page_translate(lnaddr_t);
+
+void page_check(lnaddr_t);
+
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
@@ -119,4 +122,35 @@ hwaddr_t page_translate(lnaddr_t addr){
 	//Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
 
 	return (page & 0xfffff000) + offset;
+}
+
+void page_check(lnaddr_t addr){
+	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)){
+		printf("Sorry, paging is not enabled for now\n");
+		return;
+	}
+
+	uint32_t dir_idx = addr >> 22;
+	uint32_t page_idx = (addr >> 12) & 0x3ff;
+	uint32_t offset = addr & 0xfff;
+	printf("CR3 = 0x%x\n",cpu.cr3.val);
+
+	hwaddr_t dir_addr = (cpu.cr3.val & 0xfffff000) + dir_idx*4;
+	uint32_t dir = hwaddr_read(dir_addr, 4);
+	printf("PDE = 0x%x\n",dir);
+	if(!(dir&0x1)){
+		printf("missed in pde\n");
+		return;
+	}
+
+	hwaddr_t page_addr = (dir & 0xfffff000) + page_idx*4;
+	uint32_t page = hwaddr_read(page_addr, 4);
+	printf("PTE = 0x%x\n",page);
+	if(!(page&0x1)){
+		printf("missed in pte\n");
+		return;
+	}
+
+	printf("hwaddr = 0x%x\n", (page & 0xfffff000) + offset);
+	return;
 }
