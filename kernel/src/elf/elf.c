@@ -49,17 +49,26 @@ uint32_t loader() {
 		ph = base_ph + i;
 		if(ph->p_type == PT_LOAD) {
 
+			uint32_t hwaddr = mm_malloc(ph->p_vaddr, ph->p_memsz);
+
 			/* TODO: read the content of the segment from the ELF file 
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 
-			ramdisk_read( (void *)ph->p_vaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
+			ramdisk_read( (void *)hwaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
 			//memcpy( (void *)ph->p_vaddr, (void *)ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz );
 			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			memset((void *)ph->p_vaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
+			memset((void *)hwaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
+
+
+			/* update the page dir and table --ANDSORA *
+			PDE *pdir = (PDE *)( (cpu.cr3.val&0xfffff000) + (hwaddr>>22)*4 );
+			PTE *ptable = (PTE *)( (pdir->val&0xfffff000) + ((hwaddr>>12)&0x3ff)*4 );
+			pdir->present = 1;
+			ptable->present = 1; */
 
 #ifdef IA32_PAGE
 			/* Record the program break for future use. */
