@@ -41,7 +41,7 @@ hwaddr_t tlb_read(lnaddr_t addr){
 		}
 	}
 
-	if(hit) printf("^");
+	//if(hit) printf("^");
 
 	if(!hit){
 		uint32_t dir_idx = addr >> 22;
