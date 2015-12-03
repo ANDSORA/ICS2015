@@ -110,11 +110,11 @@ hwaddr_t page_translate(lnaddr_t addr){
 
 	hwaddr_t dir_addr = (cpu.cr3.val & 0xfffff000) + dir_idx*4;
 	uint32_t dir = hwaddr_read(dir_addr, 4);
-	Assert(dir&0x1,"FUCK, MISS IN PDE, CHECK YOUR INSTRUCTIONS!");
+	Assert(dir&0x1,"FUCK, MISS IN PDE!");
 	
 	hwaddr_t page_addr = (dir & 0xfffff000) + page_idx*4;
 	uint32_t page = hwaddr_read(page_addr, 4);
-	Assert(page&0x1,"FUCK, MISS IN PTE, CHECK YOUR INSTRUCTIONS!");
+	Assert(page&0x1,"FUCK, MISS IN PTE!");
 
 	//Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
 
