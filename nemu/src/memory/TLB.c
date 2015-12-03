@@ -18,6 +18,13 @@ typedef struct {
 
 static TLB_slot tlb[TLB_SIZE];
 
+void init_tlb(){
+	uint32_t i;
+	for(i=0; i < TLB_SIZE; ++i){
+		tlb[i].valid = 0;
+	}
+}
+
 hwaddr_t tlb_read(lnaddr_t addr){
 	bool hit = 0;
 	uint32_t target = (addr >> RAND_BIT) & (TLB_MASK);

@@ -12,6 +12,7 @@ void init_wp_list();
 void init_ddr3();
 void init_L1_cache();
 void init_L2_cache();
+void init_tlb();
 
 void init_time_count();
 
