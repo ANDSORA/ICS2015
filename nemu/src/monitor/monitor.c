@@ -40,16 +40,6 @@ void init_monitor(int argc, char *argv[]) {
 	/* Compile the regular expressions. */
 	init_regex();
 
-	/* Initialize the watchpoint link list. --ANDSORA */
-	init_wp_list();
-
-	/* Initialize the caches. --ANDSORA */
-	init_L1_cache();
-	init_L2_cache();
-
-	/* Initialize the time_count. --ANDSORA */
-	init_time_count();
-
 	/* Display welcome message. */
 	welcome();
 }
@@ -101,6 +91,17 @@ void restart() {
 
 	/* Initialize DRAM. */
 	init_ddr3();
+
+	/* Initialize the watchpoint link list. --ANDSORA */
+	init_wp_list();
+
+	/* Initialize the caches. --ANDSORA */
+	init_L1_cache();
+	init_L2_cache();
+	init_tlb();
+
+	/* Initialize the time_count. --ANDSORA */
+	init_time_count();
 
 	/* Initialize EFLAGS. -ANDSORA */
 	cpu.EFLAGS = 2;
