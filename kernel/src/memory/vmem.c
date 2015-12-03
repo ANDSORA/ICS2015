@@ -24,7 +24,7 @@ void create_video_mapping() {
 
 	assert((uint32_t)pdir==(uint32_t)get_updir());
 
-	pdir->val = make_pde(uptable);
+	pdir->val = make_pde(va_to_pa(uptable));
 
 	uint32_t pframe_addr = VMEM_ADDR;
 	for(; pframe_addr < VMEM_ADDR + SCR_SIZE; pframe_addr += PAGE_SIZE){
