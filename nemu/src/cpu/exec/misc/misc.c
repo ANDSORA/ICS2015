@@ -30,6 +30,12 @@ make_helper(cld) {
 	return 1;
 }
 
+make_helper(std) {
+	cpu.DF = 1;
+	print_asm("std");
+	return 1;
+}
+
 make_helper(lgdt) {
 	swaddr_t addr = instr_fetch(eip + 2, 4);
 	cpu.gdtr.limit = instr_fetch(addr, 2);//buggy?
