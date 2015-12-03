@@ -101,6 +101,8 @@ void Load_SR_cache(uint8_t sreg){
 hwaddr_t page_translate(lnaddr_t addr){
 	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)) return addr;
 
+	Log("(page_trans)lnaddr=0x%x", addr);
+
 	uint32_t dir_idx = addr >> 22;
 	uint32_t page_idx = (addr >> 12) & 0x3ff;
 	uint32_t offset = addr & 0xfff;
