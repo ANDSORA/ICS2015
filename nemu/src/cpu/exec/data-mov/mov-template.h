@@ -64,7 +64,7 @@ make_helper(mov_rm2c_l) {
 		case 3: cpu.cr3.val = REG(op_src->reg); print_asm("movl %%%s,cr3", REG_NAME(op_src->reg)); break;
 		default: panic("No such control register!"); break;
 	}
-	printf("mov_rm2c completed");
+	//printf("mov_rm2c completed");
 	//cpu.cr0.val = REG(op_src->reg);
 	//print_asm("movl %%%s,cr0", REG_NAME(op_src->reg));
 	return len + 1;
