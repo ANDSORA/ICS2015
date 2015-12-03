@@ -940,33 +940,33 @@ c0100c2e:	68 00 80 14 00       	push   $0x148000
 c0100c33:	e8 50 07 00 00       	call   c0101388 <memset>
 c0100c38:	b9 00 80 14 00       	mov    $0x148000,%ecx
 c0100c3d:	83 c4 10             	add    $0x10,%esp
-c0100c40:	ba 00 80 12 00       	mov    $0x128000,%edx
+c0100c40:	b8 00 80 12 00       	mov    $0x128000,%eax
 c0100c45:	8d 76 00             	lea    0x0(%esi),%esi
-c0100c48:	89 d0                	mov    %edx,%eax
-c0100c4a:	81 c2 00 10 00 00    	add    $0x1000,%edx
-c0100c50:	83 c1 04             	add    $0x4,%ecx
-c0100c53:	25 00 f0 ff ff       	and    $0xfffff000,%eax
-c0100c58:	83 c8 07             	or     $0x7,%eax
-c0100c5b:	89 41 fc             	mov    %eax,-0x4(%ecx)
-c0100c5e:	89 81 fc 0b 00 00    	mov    %eax,0xbfc(%ecx)
-c0100c64:	81 fa 00 80 14 00    	cmp    $0x148000,%edx
-c0100c6a:	75 dc                	jne    c0100c48 <init_page+0x28>
-c0100c6c:	bf fc 7f 14 00       	mov    $0x147ffc,%edi
-c0100c71:	b8 07 f0 ff 07       	mov    $0x7fff007,%eax
-c0100c76:	fd                   	std    
-c0100c77:	ab                   	stos   %eax,%es:(%edi)
-c0100c78:	2d 00 10 00 00       	sub    $0x1000,%eax
-c0100c7d:	7d f8                	jge    c0100c77 <init_page+0x57>
-c0100c7f:	b8 00 80 14 00       	mov    $0x148000,%eax
-c0100c84:	25 00 f0 ff ff       	and    $0xfffff000,%eax
-c0100c89:	0f 22 d8             	mov    %eax,%cr3
-c0100c8c:	0f 20 c0             	mov    %cr0,%eax
-c0100c8f:	0d 00 00 00 80       	or     $0x80000000,%eax
-c0100c94:	0f 22 c0             	mov    %eax,%cr0
-c0100c97:	8b 7d fc             	mov    -0x4(%ebp),%edi
-c0100c9a:	c9                   	leave  
-c0100c9b:	c3                   	ret    
-c0100c9c:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+c0100c48:	89 c2                	mov    %eax,%edx
+c0100c4a:	05 00 10 00 00       	add    $0x1000,%eax
+c0100c4f:	83 c1 04             	add    $0x4,%ecx
+c0100c52:	81 e2 00 f0 ff ff    	and    $0xfffff000,%edx
+c0100c58:	83 ca 07             	or     $0x7,%edx
+c0100c5b:	89 51 fc             	mov    %edx,-0x4(%ecx)
+c0100c5e:	3d 00 80 14 00       	cmp    $0x148000,%eax
+c0100c63:	75 e3                	jne    c0100c48 <init_page+0x28>
+c0100c65:	bf fc 7f 14 00       	mov    $0x147ffc,%edi
+c0100c6a:	b8 07 f0 ff 07       	mov    $0x7fff007,%eax
+c0100c6f:	fd                   	std    
+c0100c70:	ab                   	stos   %eax,%es:(%edi)
+c0100c71:	2d 00 10 00 00       	sub    $0x1000,%eax
+c0100c76:	7d f8                	jge    c0100c70 <init_page+0x50>
+c0100c78:	b8 00 80 14 00       	mov    $0x148000,%eax
+c0100c7d:	25 00 f0 ff ff       	and    $0xfffff000,%eax
+c0100c82:	0f 22 d8             	mov    %eax,%cr3
+c0100c85:	0f 20 c0             	mov    %cr0,%eax
+c0100c88:	0d 00 00 00 80       	or     $0x80000000,%eax
+c0100c8d:	0f 22 c0             	mov    %eax,%cr0
+c0100c90:	8b 7d fc             	mov    -0x4(%ebp),%edi
+c0100c93:	c9                   	leave  
+c0100c94:	c3                   	ret    
+c0100c95:	8d 74 26 00          	lea    0x0(%esi,%eiz,1),%esi
+c0100c99:	8d bc 27 00 00 00 00 	lea    0x0(%edi,%eiz,1),%edi
 
 c0100ca0 <init_segment>:
 c0100ca0:	55                   	push   %ebp
