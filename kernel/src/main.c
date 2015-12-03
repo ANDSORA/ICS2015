@@ -16,7 +16,7 @@ void video_mapping_clear();
 
 void init_cond();
 
-volatile x = 0;//for test --ANDSORA
+volatile int x = 0;//for test --ANDSORA
 
 /* Initialization phase 1
  * The assembly code in start.S will finally jump here.
