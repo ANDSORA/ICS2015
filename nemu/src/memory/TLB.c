@@ -41,6 +41,8 @@ hwaddr_t tlb_read(lnaddr_t addr){
 		}
 	}
 
+	if(hit) printf("^");
+
 	if(!hit){
 		uint32_t dir_idx = addr >> 22;
 		uint32_t page_idx = (addr >> 12) & 0x3ff;
