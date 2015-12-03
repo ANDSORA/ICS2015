@@ -5,6 +5,7 @@
 
 //uint32_t dram_read(hwaddr_t, size_t);
 uint32_t L1_cache_read(hwaddr_t, size_t);
+hwaddr_t tlb_read(lnaddr_t);
 //void dram_write(hwaddr_t, size_t, uint32_t);
 void L1_cache_write(hwaddr_t, size_t, uint32_t);
 
@@ -105,6 +106,8 @@ hwaddr_t page_translate(lnaddr_t addr){
 	//Log("(page_trans)in)");
 	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)) return addr;
 
+	return tlb_read(addr);
+	/*
 	//Log("(page_trans)lnaddr=0x%x", addr);
 
 	uint32_t dir_idx = addr >> 22;
@@ -121,7 +124,7 @@ hwaddr_t page_translate(lnaddr_t addr){
 
 	//Log("(page_trans)hwaddr=0x%x", (page&0xfffff000)+offset);
 
-	return (page & 0xfffff000) + offset;
+	return (page & 0xfffff000) + offset; */
 }
 
 void page_check(lnaddr_t addr){
