@@ -99,6 +99,7 @@ void Load_SR_cache(uint8_t sreg){
 }
 
 hwaddr_t page_translate(lnaddr_t addr){
+	Log("(page_trans)in)");
 	if(!(cpu.cr0.protect_enable&&cpu.cr0.paging)) return addr;
 
 	Log("(page_trans)lnaddr=0x%x", addr);
