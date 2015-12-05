@@ -139,9 +139,7 @@ void page_check(lnaddr_t addr){
 	printf("CR3 = 0x%x\n",cpu.cr3.val);
 
 	hwaddr_t dir_addr = (cpu.cr3.val & 0xfffff000) + dir_idx*4;
-	//uint32_t dir = hwaddr_read(dir_addr, 4);
-	PDE *pde=(PDE *)dir_addr;
-	uint32_t dir=pde->val;
+	uint32_t dir = hwaddr_read(dir_addr, 4);
 	printf("PDE = 0x%x\n",dir);
 	if(!(dir&0x1)){
 		printf("missed in pde\n");
