@@ -47,9 +47,7 @@ make_helper(mov_c2rm_l) {
 	//printf("(eip==0x%x)0x%x ",eip+2,instr_fetch(eip+1,1));
 	//printf("len==%u\n",len);
 	switch(op_src2->reg){
-		//case 0: REG(op_src->reg) = cpu.cr0.val; print_asm("movl cr0,%%%s", REG_NAME(op_src->reg)); break;
 		case 0: OPERAND_W(op_src, cpu.cr0.val); print_asm("movl cr0,%%%s", op_src->str); break;
-		//case 3: REG(op_src->reg) = cpu.cr3.val; print_asm("movl cr3,%%%s", REG_NAME(op_src->reg)); break;
 		case 3: OPERAND_W(op_src, cpu.cr3.val); print_asm("movl cr3,%%%s", op_src->str); break;
 		default: panic("No such control register!"); break;
 	}
@@ -63,8 +61,10 @@ make_helper(mov_rm2c_l) {
 	//printf("(eip==0x%x)0x%x ",eip+2,instr_fetch(eip+1,1));
 	//printf("len==%u\n",len);
 	switch(op_src2->reg){
-		case 0: cpu.cr0.val = REG(op_src->reg); print_asm("movl %%%s,cr0", REG_NAME(op_src->reg)); break;
-		case 3: cpu.cr3.val = REG(op_src->reg); init_tlb(); print_asm("movl %%%s,cr3", REG_NAME(op_src->reg)); break;
+		//case 0: cpu.cr0.val = REG(op_src->reg); print_asm("movl %%%s,cr0", REG_NAME(op_src->reg)); break;
+		case 0: cpu.cr0.val = op_src->val; print_asm("movl %%%s,cr0", op_src->str); break;
+		//case 3: cpu.cr3.val = REG(op_src->reg); init_tlb(); print_asm("movl %%%s,cr3", REG_NAME(op_src->reg)); break;
+		case 3: cpu.cr3.val = op_src->val; init_tlb(); print_asm("mov %%%s,cr3", op_src->str); break;
 		default: panic("No such control register!"); break;
 	}
 	//printf("mov_rm2c completed");
