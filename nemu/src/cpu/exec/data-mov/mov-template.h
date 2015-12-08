@@ -34,40 +34,30 @@ make_helper(concat(mov_moffs2a_, SUFFIX)) {
 #if DATA_BYTE == 2
 make_helper(mov_rm2s_w) {
 	int len = decode_rm_w(eip + 1);
-	//printf("reg=%u, sreg=%u\n",op_src->reg, op_src2->reg);	
-	SREG(op_src2->reg).val = REG(op_src->reg);
+	SREG(op_src2->reg).val = op_src->val;
 	Load_SR_cache(op_src2->reg);
-	print_asm("mov\t%%%s,%%%s", REG_NAME(op_src->reg), SREG_NAME(op_src2->reg));
+	print_asm("mov\t%s,%%%s", op_src->str, SREG_NAME(op_src2->reg));
 	return len + 1;
 }
 
 #elif DATA_BYTE == 4
 make_helper(mov_c2rm_l) {
 	int len = decode_rm_l(eip + 1);
-	//printf("(eip==0x%x)0x%x ",eip+2,instr_fetch(eip+1,1));
-	//printf("len==%u\n",len);
 	switch(op_src2->reg){
 		case 0: OPERAND_W(op_src, cpu.cr0.val); print_asm("movl cr0,%s", op_src->str); break;
 		case 3: OPERAND_W(op_src, cpu.cr3.val); print_asm("movl cr3,%s", op_src->str); break;
 		default: panic("No such control register!"); break;
 	}
-	//REG(op_src->reg) = cpu.cr0.val;
-	//print_asm("movl cr0,%%%s", REG_NAME(op_src->reg));
 	return len + 1;
 }
 
 make_helper(mov_rm2c_l) {
 	int len = decode_rm_l(eip + 1);
-	//printf("(eip==0x%x)0x%x ",eip+2,instr_fetch(eip+1,1));
-	//printf("len==%u\n",len);
 	switch(op_src2->reg){
 		case 0: cpu.cr0.val = op_src->val; print_asm("movl %s,cr0", op_src->str); break;
 		case 3: cpu.cr3.val = op_src->val; init_tlb(); print_asm("mov %s,cr3", op_src->str); break;
 		default: panic("No such control register!"); break;
 	}
-	//printf("mov_rm2c completed");
-	//cpu.cr0.val = REG(op_src->reg);
-	//print_asm("movl %%%s,cr0", REG_NAME(op_src->reg));
 	return len + 1;
 }
 
