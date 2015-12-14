@@ -30,11 +30,11 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 	uint8_t *temp_buf = temp;
-	*(uint32_t *)temp_buf = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
+	*(uint32_t *)(temp_buf) = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
 
 	if(offset + len > BURST_LEN) {
-		temp_buf = temp + 4;
-		*(uint32_t *)temp_buf = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
+		//temp_buf = temp + 4;
+		*(uint32_t *)(temp + 4) = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
 	}
 
 	return unalign_rw(temp + offset, 4) & (~0u >> ((4 - len) << 3));
