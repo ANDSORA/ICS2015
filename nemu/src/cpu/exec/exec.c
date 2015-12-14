@@ -239,6 +239,6 @@ static make_helper(_2byte_esc) {
 	printf("(_2byte_esc) ");
 	uint32_t opcode = instr_fetch(eip, 1);
 	ops_decoded.opcode = opcode | 0x100;
-	//printf("%x\n",ops_decoded.opcode);
+	printf("%x\n",ops_decoded.opcode);
 	return _2byte_opcode_table[opcode](eip) + 1; 
 }
