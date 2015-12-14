@@ -44,10 +44,6 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		temp_buf = temp + 4;
 		*(uint32_t *)temp_buf = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
 	}
-	int i;
-	for(i=0;i<8;++i){
-		printf("%02x ",temp[i]);
-	}printf("\n");
 
 	return unalign_rw(temp + offset, 4) & (~0u >> ((4 - len) << 3));
 
