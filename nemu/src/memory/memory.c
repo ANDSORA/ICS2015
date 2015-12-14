@@ -26,7 +26,7 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-
+	printf("(lnaddr_read) addr=0x%x\n",addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
 	//uint32_t temp_data = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
@@ -57,6 +57,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
+	printf("(lnaddr_write) addr=0x%x\n",addr);
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
