@@ -26,22 +26,30 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	//uint32_t offset = addr & BURST_MASK;
-	//uint8_t temp[2 * BURST_LEN];
+	uint32_t offset = addr & BURST_MASK;
+	uint8_t temp[2 * BURST_LEN];
+	uint32_t temp_data = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
 
+	memcpy(temp, (uint8_t *)(&temp_data), 4);
 
+	if(offset + len > BURST_LEN) {
+		/* data cross the page boundary */
+		temp_data = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
+		memcpy(temp+4, (uint8_t *)(&temp_data), 4);
+	}
 
+	return unalign_rw(temp + offset, 4);
 
-	
+	/*	
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
-		/* data across the page boundary */
+		* data across the page boundary *
 		panic("Data Across The Page Boundary!");
 	}
 	else{
 		hwaddr_t hwaddr = page_translate(addr);
 		return hwaddr_read(hwaddr, len);
-	} 
+	} */
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
