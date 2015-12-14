@@ -27,10 +27,10 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	
-	printf("(lnaddr_read) addr=0x%x\n",addr);
+	//printf("(lnaddr_read) addr=0x%x\n",addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
-	printf("offset=%d, len=%d\n",offset,len);
+	//printf("offset=%d, len=%d\n",offset,len);
 	//uint32_t temp_data = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
 	//memcpy(temp, (uint8_t *)(&temp_data), 4);
 	uint8_t *temp_buf = temp;

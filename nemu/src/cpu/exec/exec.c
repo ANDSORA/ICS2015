@@ -230,15 +230,15 @@ helper_fun _2byte_opcode_table [256] = {
 make_helper(exec) {
 	//printf("(exec) ");
 	ops_decoded.opcode = instr_fetch(eip, 1);
-	printf("(exec) %x\n",ops_decoded.opcode);
+	//printf("(exec) %x\n",ops_decoded.opcode);
 	return opcode_table[ ops_decoded.opcode ](eip);
 }
 
 static make_helper(_2byte_esc) {
 	eip ++;
-	printf("(_2byte_esc) ");
+	//printf("(_2byte_esc) ");
 	uint32_t opcode = instr_fetch(eip, 1);
 	ops_decoded.opcode = opcode | 0x100;
-	printf("%x\n",ops_decoded.opcode);
+	//printf("%x\n",ops_decoded.opcode);
 	return _2byte_opcode_table[opcode](eip) + 1; 
 }
