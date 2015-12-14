@@ -27,20 +27,12 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	
-	//printf("(lnaddr_read) addr=0x%x\n",addr);
 	uint32_t offset = addr & BURST_MASK;
 	uint8_t temp[2 * BURST_LEN];
-	//printf("offset=%d, len=%d\n",offset,len);
-	//uint32_t temp_data = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
-	//memcpy(temp, (uint8_t *)(&temp_data), 4);
 	uint8_t *temp_buf = temp;
 	*(uint32_t *)temp_buf = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
 
 	if(offset + len > BURST_LEN) {
-		/* data cross the page boundary */
-		//temp_data = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
-		//memcpy(temp+4, (uint8_t *)(&temp_data), 4);
-		printf("(lnaddr_read) data cross\n");
 		temp_buf = temp + 4;
 		*(uint32_t *)temp_buf = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
 	}
@@ -61,16 +53,35 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
-	printf("(lnaddr_write) addr=0x%x\n",addr);
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
-		panic("Data Across The Page Boundary!");
+		uint32_t temp_offset = addr & BURST_MASK;
+		uint8_t temp[2 * BURST_LEN];
+		uint8_t mask[2 * BURST_LEN];
+		memset(mask, 0, 2 * BURST_LEN);
+		memset(mask + temp_offset, 1, len);
+		//uint8_t *temp_buf = temp + temp_offset;
+		*(uint32_t *)(temp + temp_offset) = data;
+		memset(temp, 0, 2 * BURST_LEN);
+
 	}
 	else{
 		hwaddr_t hwaddr = page_translate(addr);
 		hwaddr_write(hwaddr, len, data);
 	}
+
+	/*
+	printf("(lnaddr_write) addr=0x%x\n",addr);
+	uint32_t offset = addr & 0xfff;
+	if(offset + len > 0x1000){
+		* data across the page boundary *
+		panic("Data Across The Page Boundary!");
+	}
+	else{
+		hwaddr_t hwaddr = page_translate(addr);
+		hwaddr_write(hwaddr, len, data);
+	} */
 }
 
 uint32_t swaddr_read(swaddr_t addr, size_t len, uint8_t sreg) {
