@@ -38,9 +38,14 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 		/* data cross the page boundary */
 		//temp_data = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
 		//memcpy(temp+4, (uint8_t *)(&temp_data), 4);
+		printf("(lnaddr_read) data cross\n");
 		temp_buf = temp + 4;
 		*(uint32_t *)temp_buf = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
 	}
+	int i;
+	for(i=0;i<8;++i){
+		printf("%02x ",temp[i]);
+	}printf("\n");
 
 	return unalign_rw(temp + offset, 4);
 
