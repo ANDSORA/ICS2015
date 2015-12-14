@@ -1,4 +1,5 @@
 #include "common.h"
+#include "burst.h"
 #include "cpu/reg.h"
 #include "../../lib-common/x86-inc/mmu.h"
 
@@ -25,6 +26,13 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
+	//uint32_t offset = addr & BURST_MASK;
+	//uint8_t temp[2 * BURST_LEN];
+
+
+
+
+	
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
@@ -33,7 +41,7 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	else{
 		hwaddr_t hwaddr = page_translate(addr);
 		return hwaddr_read(hwaddr, len);
-	}
+	} 
 }
 
 void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
