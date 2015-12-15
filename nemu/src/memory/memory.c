@@ -26,18 +26,24 @@ void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
-	
-	uint32_t offset = addr & BURST_MASK;
-	uint8_t temp[2 * BURST_LEN];
-	uint8_t *temp_buf = temp;
-	*(uint32_t *)(temp_buf) = hwaddr_read( page_translate( addr&(~BURST_MASK) ), 4);
+	uint32_t offset = addr & 0xfff;
+	if(offset + len > 0x1000){
+		/* data across the page boundary */
+		uint8_t temp[8];
+		uint32_t temp_offset = addr & 3;
+		
+		hwaddr_t hwaddr = page_translate(addr);
+		*(uint32_t *)(temp + temp_offset) = hwaddr_read(hwaddr, 4-temp_offset);
 
-	if(offset + len > BURST_LEN) {
-		//temp_buf = temp + 4;
-		*(uint32_t *)(temp + 4) = hwaddr_read( page_translate( (addr+4)&(~BURST_MASK) ), 4);
+		hwaddr = page_translate(addr-offset+0x1000);
+		*(uint32_t *)(temp + 4) = hwaddr_read(hwaddr, len+temp_offset-4);
+
+		return unalign_rw(temp + temp_offset, 4) & (~0u >> ((4 - len) << 3));
 	}
-
-	return unalign_rw(temp + offset, 4) & (~0u >> ((4 - len) << 3));
+	else{
+		hwaddr_t hwaddr = page_translate(addr);
+		return hwaddr_read(hwaddr, len);
+	}	
 
 	/*
 	uint32_t offset = addr & 0xfff;
@@ -58,8 +64,7 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 		/* data across the page boundary */
 		uint32_t temp_offset = addr & 3;
 
-
-		uint32_t hwaddr = page_translate(addr);
+		hwaddr_t hwaddr = page_translate(addr);
 		hwaddr_write(hwaddr, 4-temp_offset, data);
 
 		hwaddr = page_translate(addr-offset+0x1000);
