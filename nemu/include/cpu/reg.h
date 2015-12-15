@@ -57,11 +57,11 @@ typedef union {
 			};
 		};
 
-		/* gdtr */
+		/* gdtr, idtr */
 		struct {
 			uint16_t limit;
 			uint32_t base;
-		} gdtr;
+		} gdtr,idtr;
 
 		/* control registers */
 		CR0 cr0;
