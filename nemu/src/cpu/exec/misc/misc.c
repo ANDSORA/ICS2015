@@ -41,7 +41,15 @@ make_helper(lgdt) {
 	//swaddr_t addr = instr_fetch(eip + 2, 4);
 	cpu.gdtr.limit = lnaddr_read(op_src->addr, 2);//buggy?
 	cpu.gdtr.base = lnaddr_read(op_src->addr + 2, 4);//buggy?
-	printf("len=%x val=%x addr=%x limit=%x base=%x\n",len,op_src->val,op_src->addr,cpu.gdtr.limit,cpu.gdtr.base);
-	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
+	//printf("len=%x val=%x addr=%x limit=%x base=%x\n",len,op_src->val,op_src->addr,cpu.gdtr.limit,cpu.gdtr.base);
+	print_asm("lgdt\t0x%x", op_src->addr);
+	return len + 1;
+}
+
+make_helper(lidt) {
+	uint32_t len = decode_rm_l(eip + 1);
+	cpu.idtr.limit = lnaddr_read(op_src->addr, 2);
+	cpu.idtr.base = lnaddr_read(op_src->addr + 2, 4);
+	print_asm("lidt\t0x%x", op_src->addr);
 	return len + 1;
 }
