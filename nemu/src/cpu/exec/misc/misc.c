@@ -39,8 +39,8 @@ make_helper(std) {
 make_helper(lgdt) {
 	uint32_t len = decode_rm_l(eip + 1);
 	//swaddr_t addr = instr_fetch(eip + 2, 4);
-	cpu.gdtr.limit = lnaddr_read(op_src->val, 2);//buggy?
-	cpu.gdtr.base = lnaddr_read(op_src->val + 2, 4);//buggy?
+	cpu.gdtr.limit = lnaddr_read(op_src->addr, 2);//buggy?
+	cpu.gdtr.base = lnaddr_read(op_src->addr + 2, 4);//buggy?
 	printf("len=%x val=%x addr=%x limit=%x base=%x\n",len,op_src->val,op_src->addr,cpu.gdtr.limit,cpu.gdtr.base);
 	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
 	return len + 1;
