@@ -56,14 +56,14 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
-		uint32_t temp_offset = addr & BURST_MASK;
-		uint8_t temp[2 * BURST_LEN];
-		uint8_t mask[2 * BURST_LEN];
-		memset(mask, 0, 2 * BURST_LEN);
-		memset(mask + temp_offset, 1, len);
-		//uint8_t *temp_buf = temp + temp_offset;
-		*(uint32_t *)(temp + temp_offset) = data;
-		memset(temp, 0, 2 * BURST_LEN);
+		uint32_t temp_offset = addr & 3;
+
+
+		uint32_t hwaddr = page_translate(addr);
+		hwaddr_write(hwaddr, 4-temp_offset, data);
+
+		hwaddr = page_translate(addr-offset+0x1000);
+		hwaddr_write(hwaddr, len+temp_offset-4, data>>((4-temp_offset)<<3) );
 
 	}
 	else{
