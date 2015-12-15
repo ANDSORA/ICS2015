@@ -37,11 +37,11 @@ make_helper(std) {
 }
 
 make_helper(lgdt) {
-	swaddr_t addr = instr_fetch(eip + 2, 4);
-	cpu.gdtr.limit = instr_fetch(addr, 2);//buggy?
-	cpu.gdtr.base = instr_fetch(addr + 2, 4);//buggy?
-	//Assert(cpu.gdtr.limit==0x17,"fuck gdtr.limit");
-	//Assert(cpu.gdtr.base==0x100030,"fuck gdtr.base");
+	uint32_t len = decode_rm_l(eip + 1);
+	//swaddr_t addr = instr_fetch(eip + 2, 4);
+	cpu.gdtr.limit = instr_fetch(op_src->val, 2);//buggy?
+	cpu.gdtr.base = instr_fetch(op_src->val + 2, 4);//buggy?
+	printf("len=%x addr=%x limit=%x base=%x\n",len,op_src->val,cpu.gdtr.limit,cpu.gdtr.base);
 	print_asm("lgdt 0x%x:0x%x", cpu.gdtr.limit, cpu.gdtr.base);
-	return 6;
+	return len + 1;
 }
