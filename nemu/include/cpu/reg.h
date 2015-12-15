@@ -59,8 +59,8 @@ typedef union {
 
 		/* gdtr */
 		struct {
-			uint64_t limit : 16;
-			uint64_t base : 32;
+			uint32_t limit : 16;
+			uint32_t base : 32;
 		} gdtr;
 
 		/* control registers */
