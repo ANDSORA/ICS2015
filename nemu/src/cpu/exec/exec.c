@@ -8,6 +8,7 @@ extern jmp_buf jbuf;
 
 typedef int (*helper_fun)(swaddr_t);
 static make_helper(_2byte_esc);
+void Load_SR_cache(uint8_t);
 
 #define make_group(name, item0, item1, item2, item3, item4, item5, item6, item7) \
 	static helper_fun concat(opcode_table_, name) [8] = { \
@@ -248,7 +249,15 @@ static make_helper(_2byte_esc) {
 
 void raise_intr(uint8_t NO){
 	/* Trigger an interrupt/exception with NO */
+	Assert((NO << 3) <= cpu.idtr.limit, "IDT LIMIT VIOLATED!");
 
+	lnaddr_t idt_addr = cpu.idtr.base + (NO << 3);
+
+	cpu.CS.val = lnaddr_read(idt_addr+2, 2);
+	Load_SR_cache(R_CS);
+	swaddr_t seg_addr = lnaddr_read(idt_addr, 2) + (lnaddr_read(idt_addr+6, 2) << 16);
+
+	cpu.eip = cpu.CS.base + seg_addr;
 
 	/* Jump back to cpu_exec() */
 	longjmp(jbuf, 1);
