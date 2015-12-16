@@ -35,20 +35,21 @@ make_helper(nemu_trap) {
 				char temp[BUFFER_LEN];
 				int len = cpu.edx;
 				int idx = 0;
+				printf("len == %x\n", len);
 				while(len>=4){
-					printf("0x%08x\n",swaddr_read(cpu.ecx + idx, 4, R_DS));//
+					//printf("0x%08x\n",swaddr_read(cpu.ecx + idx, 4, R_DS));//
 					*(uint32_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 4, R_DS);
 					len -= 4;
 					idx += 4;
 				}
 				if(len>=2){
-					printf("0x%04x\n",swaddr_read(cpu.ecx + idx, 2, R_DS));//
+					//printf("0x%04x\n",swaddr_read(cpu.ecx + idx, 2, R_DS));//
 					*(uint16_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 2, R_DS);
 					len -= 2;
 					idx += 2;
 				}
 				if(len){
-					printf("0x%02x\n",swaddr_read(cpu.ecx + idx, 1, R_DS));//
+					//printf("0x%02x\n",swaddr_read(cpu.ecx + idx, 1, R_DS));//
 					*(uint8_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 1, R_DS);
 				}
 
