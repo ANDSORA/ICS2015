@@ -1,7 +1,10 @@
 #include "cpu/helper.h"
 #include "cpu/decode/modrm.h"
+#include <setjmp.h>
 
 #include "all-instr.h"
+
+extern jmp_buf jbuf;
 
 typedef int (*helper_fun)(swaddr_t);
 static make_helper(_2byte_esc);
@@ -145,7 +148,7 @@ helper_fun opcode_table [256] = {
 /* 0xc0 */	group2_i_b, group2_i_v, ret_i_v, ret_v,
 /* 0xc4 */	inv, inv, mov_i2rm_b, mov_i2rm_v,
 /* 0xc8 */	inv, leave_v, inv, inv,
-/* 0xcc */	int3, inv, inv, inv,
+/* 0xcc */	int3, Int, inv, inv,
 /* 0xd0 */	group2_1_b, group2_1_v, group2_cl_b, group2_cl_v,
 /* 0xd4 */	inv, inv, nemu_trap, inv,
 /* 0xd8 */	inv, inv, inv, inv,
@@ -241,4 +244,12 @@ static make_helper(_2byte_esc) {
 	ops_decoded.opcode = opcode | 0x100;
 	//printf("%x\n",ops_decoded.opcode);
 	return _2byte_opcode_table[opcode](eip) + 1; 
+}
+
+void raise_intr(uint8_t NO){
+	/* Trigger an interrupt/exception with NO */
+
+
+	/* Jump back to cpu_exec() */
+	longjmp(jbuf, 1);
 }
