@@ -1,6 +1,8 @@
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
 
+#define BUFFER_LEN 128
+
 make_helper(inv) {
 	/* invalid opcode */
 
@@ -29,10 +31,27 @@ make_helper(nemu_trap) {
 
 	switch(cpu.eax) {
 		case 2:
-			//printf("%.*s", cpu.edx, &(char)(swaddr_read(cpu.ecx, 1, R_DS)) );
-			printf("%.*s", cpu.edx, (char *)cpu.ecx);
-			cpu.eax = cpu.edx;
-		   	break;
+			{
+				char temp[BUFFER_LEN];
+				int len = cpu.edx;
+				int idx = 0;
+				while(len>=4){
+					*(uint32_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 4, R_DS);
+					len -= 4;
+					idx += 4;
+				}
+				if(len>=2){
+					*(uint16_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 2, R_DS);
+					len -= 2;
+					idx += 2;
+				}
+				if(len){
+					*(uint8_t *)(temp + idx) = swaddr_read(cpu.ecx + idx, 1, R_DS);
+				}
+
+				printf("%.*s", cpu.edx, temp);
+				break;
+			}
 
 		default:
 			printf("\33[1;31mnemu: HIT %s TRAP\33[0m at eip = 0x%08x\n\n",
