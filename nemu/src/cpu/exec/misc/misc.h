@@ -10,5 +10,6 @@ make_helper(std);
 make_helper(lgdt);
 make_helper(lidt);
 make_helper(pusha);
+make_helper(popa);
 
 #endif
