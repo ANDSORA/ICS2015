@@ -1,7 +1,7 @@
 #include "cpu/exec/helper.h"
 #include "monitor/monitor.h"
 
-#define BUFFER_LEN 128
+#define BUFFER_LEN 512
 
 make_helper(inv) {
 	/* invalid opcode */
@@ -33,8 +33,8 @@ make_helper(nemu_trap) {
 		case 2:
 			{
 				char temp[BUFFER_LEN];
-				int len = cpu.edx;
-				int idx = 0;
+				uint32_t len = cpu.edx;
+				uint32_t idx = 0;
 				printf("len == %x\n", len);
 				while(len>=4){
 					//printf("0x%08x\n",swaddr_read(cpu.ecx + idx, 4, R_DS));//
