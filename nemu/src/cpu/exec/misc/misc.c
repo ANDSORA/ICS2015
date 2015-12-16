@@ -2,6 +2,7 @@
 #include "cpu/decode/modrm.h"
 
 void raise_intr(uint8_t);
+void Load_SR_cache(uint8_t);
 
 make_helper(nop) {
 	print_asm("nop");
@@ -30,6 +31,16 @@ make_helper(Int){
 	raise_intr(NO);
 
 	return 2;
+}
+
+make_helper(iret){
+	cpu.eip = swaddr_read(cpu.esp, 4, R_SS) - 1; cpu.esp += 4;
+	cpu.CS.val = swaddr_read(cpu.esp, 2, R_SS); cpu.esp += 4;
+	Load_SR_cache(R_CS);
+	cpu.EFLAGS = swaddr_read(cpu.esp, 4, R_SS); cpu.esp += 4;
+
+	print_asm("iret");
+	return 1;
 }
 
 make_helper(lea) {
