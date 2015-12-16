@@ -29,6 +29,9 @@ make_helper(nemu_trap) {
 
 	switch(cpu.eax) {
 		case 2:
+			//printf("%.*s", cpu.edx, &(char)(swaddr_read(cpu.ecx, 1, R_DS)) );
+			printf("%.*s", cpu.edx, (char *)cpu.ecx);
+			cpu.eax = cpu.edx;
 		   	break;
 
 		default:
