@@ -18,7 +18,7 @@ make_helper(int3) {
 }
 
 make_helper(Int){
-	printf("INT!!!!!\n");
+	printf("\nINT!!!!!\n");
 	uint8_t NO = instr_fetch(eip + 1, 1);
 	cpu.esp -= 4;
 	swaddr_write(cpu.esp, 4, cpu.EFLAGS, R_SS);

@@ -34,6 +34,10 @@ make_helper(nemu_trap) {
 			{
 				char temp[BUFFER_LEN];
 				uint32_t len = cpu.edx;
+				if(len > 16){
+					printf("\nYOU GOT TROUBLE\n");
+					len = 16;
+				}
 				uint32_t idx = 0;
 				printf("len == %x\n", len);
 				while(len>=4){
