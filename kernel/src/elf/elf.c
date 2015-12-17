@@ -61,7 +61,8 @@ uint32_t loader() {
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			memset((void *)hwaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
+			//memset((void *)hwaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
+			memset((void *)hwaddr + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
 
 
 			/* update the page dir and table --ANDSORA *
