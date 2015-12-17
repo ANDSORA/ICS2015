@@ -32,6 +32,12 @@ make_helper(nemu_trap) {
 	switch(cpu.eax) {
 		case 2:
 			{
+				int i;
+				for(i=0; i<cpu.edx; ++i){
+					printf("%c", swaddr_read(cpu.ecx + i, 1, R_DS));
+				}
+				break;
+				/*
 				char temp[BUFFER_LEN];
 				uint32_t len = cpu.edx;
 				if(len > 16){
@@ -58,7 +64,7 @@ make_helper(nemu_trap) {
 				}
 
 				printf("%.*s", cpu.edx, temp);
-				break;
+				break; */
 			}
 
 		default:
