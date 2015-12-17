@@ -64,7 +64,7 @@ int main() {
 	//printf("%d + %d = %d\n", 1, 1, 2);
 	printf("WTF!\n");
 	printf("still_WTF!\n");
-	printf("as%dasd\n", 1);
+	printf("%dasd\n", 1);
 
 	HIT_GOOD_TRAP;
 	return 0;
