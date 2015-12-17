@@ -1,5 +1,6 @@
 #include "monitor/watchpoint.h"
 #include "monitor/expr.h"
+#include "cpu/reg.h"
 
 #define NR_WP 32
 
@@ -114,6 +115,7 @@ bool check_wp(){
 			rt->times++;
 			flag=true;
 			printf("watchpoint %d was hit\n",rt->NO);
+			printf("EIP = 0x%x\n",cpu.eip);
 			printf("Old value:\t0x%x\nNew value:\t0x%x\n",rt->oldvalue,rt->value);
 		}
 		rt=rt->next;
