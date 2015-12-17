@@ -62,9 +62,9 @@ int isatty(int fd) {
 int main() {
 	//printf("%s", "Hello world!\n");
 	//printf("%d + %d = %d\n", 1, 1, 2);
-	//printf("%c\n", 'a');
-	printf("WTF!\n");
-	printf("still_WTF!\n");
+	printf("%d\n", 1);
+	//printf("WTF!\n");
+	//printf("still_WTF!\n");
 
 	HIT_GOOD_TRAP;
 	return 0;
