@@ -55,14 +55,15 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 
-			ramdisk_read( (void *)hwaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
+			memcpy((void *)hwaddr, (void *)(ELF_OFFSET_IN_DISK + ph->p_offset), ph->p_filesz);
+			//ramdisk_read( (void *)hwaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
 			//memcpy( (void *)ph->p_vaddr, (void *)ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz );
 			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
 			//memset((void *)hwaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
-			memset((void *)hwaddr + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
+			memset((void *)(hwaddr + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
 
 
 			/* update the page dir and table --ANDSORA *
