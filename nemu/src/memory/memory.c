@@ -29,6 +29,8 @@ uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
+		Log("Data across the page boundary");
+
 		uint8_t temp[8];
 		uint32_t temp_offset = addr & 3;
 		
@@ -62,6 +64,8 @@ void lnaddr_write(lnaddr_t addr, size_t len, uint32_t data) {
 	uint32_t offset = addr & 0xfff;
 	if(offset + len > 0x1000){
 		/* data across the page boundary */
+		Log("Data across the page boundary");
+
 		uint32_t temp_offset = addr & 3;
 
 		hwaddr_t hwaddr = page_translate(addr);
