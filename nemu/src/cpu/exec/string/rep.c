@@ -26,8 +26,9 @@ make_helper(rep) {
 				);
 
 			/* TODO: Jump out of the while loop if necessary. */
-			uint32_t tmp=ops_decoded.opcode;
-			uint32_t repop=instr_fetch(eip,1);
+			//uint32_t tmp=ops_decoded.opcode;
+			uint32_t tmp = instr_fetch(eip + 1, 1);
+			uint32_t repop = instr_fetch(eip,1);
 			if(tmp==0xa6||tmp==0xa7||tmp==0xae||tmp==0xaf){
 				if(repop==0xf3&&cpu.ZF==1)break;
 				else if(repop==0xf2&&cpu.ZF==0)break;
