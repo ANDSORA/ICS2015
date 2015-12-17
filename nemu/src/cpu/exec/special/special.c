@@ -32,6 +32,7 @@ make_helper(nemu_trap) {
 	switch(cpu.eax) {
 		case 2:
 			{
+				Assert(cpu.edx<16, "The length of string >= 16");
 				int i;
 				for(i=0; i<cpu.edx; ++i){
 					printf("%c", swaddr_read(cpu.ecx + i, 1, R_DS));
