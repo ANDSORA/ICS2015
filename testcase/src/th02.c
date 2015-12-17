@@ -65,10 +65,6 @@ int main() {
 	//printf("%c\n", 'a');
 	printf("WTF!\n");
 	printf("still_WTF!\n");
-	int i;
-	for(i=0; i<20; ++i){
-		printf("= =\n");
-	}
 
 	HIT_GOOD_TRAP;
 	return 0;
