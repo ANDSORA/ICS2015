@@ -75,6 +75,9 @@ typedef union {
 			SEG_REG SR[4];
 		};
 
+		/* the flag of outside interrupt */
+		bool INTR;
+
 	};
 	struct {
 		uint16_t ax, axxx, cx, cxxx, dx, dxxx, bx, bxxx;
