@@ -31,7 +31,8 @@ void do_syscall(TrapFrame *tf) {
 
 		case SYS_write: {
 				assert(tf->ebx == 1 || tf->ebx == 2);
-				asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
+				//asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
+				printk((char *)tf->ecx, tf->edx);
 				tf->eax = tf->edx;
 			} break;
 
