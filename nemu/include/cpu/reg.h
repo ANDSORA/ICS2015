@@ -76,7 +76,7 @@ typedef union {
 		};
 
 		/* the flag of outside interrupt */
-		bool INTR;
+		volatile bool INTR;
 
 	};
 	struct {
