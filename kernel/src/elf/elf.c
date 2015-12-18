@@ -9,7 +9,6 @@
 void ide_read(uint8_t *, uint32_t, uint32_t);
 #else
 void ramdisk_read(uint8_t *, uint32_t, uint32_t);
-void ramdisk_write(uint8_t *, uint32_t, uint32_t);
 #endif
 
 #define STACK_SIZE (1 << 20)
@@ -55,14 +54,12 @@ uint32_t loader() {
 			 * to the memory region [VirtAddr, VirtAddr + FileSiz)
 			 */
 
-			//memcpy((void *)hwaddr, (void *)(ELF_OFFSET_IN_DISK + ph->p_offset), ph->p_filesz);
-			ramdisk_read( (void *)hwaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
-			//memcpy( (void *)ph->p_vaddr, (void *)ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz );
+			//ramdisk_read( (void *)hwaddr, ELF_OFFSET_IN_DISK+ph->p_offset, ph->p_filesz);
+			ide_read( (void *)hwaddr, ELF_OFFSET_IN_DISK + ph->p_offset, ph->p_filesz);
 			 
 			/* TODO: zero the memory region 
 			 * [VirtAddr + FileSiz, VirtAddr + MemSiz)
 			 */
-			//memset((void *)hwaddr + ph->p_offset + ph->p_filesz, 0, ph->p_memsz - ph->p_filesz);
 			memset((void *)(hwaddr + ph->p_filesz), 0, ph->p_memsz - ph->p_filesz);
 
 
