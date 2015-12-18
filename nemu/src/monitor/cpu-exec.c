@@ -14,6 +14,10 @@ int nemu_state = STOP;
 int exec(swaddr_t);
 bool check_wp();
 
+uint8_t i8259_query_intr();
+void i8259_ack_intr();
+void raise_intr(uint8_t);
+
 char assembly[80];
 char asm_buf[128];
 
@@ -77,6 +81,12 @@ void cpu_exec(volatile uint32_t n) {
 		
 		if(check_wp()){
 			nemu_state = STOP;
+		}
+
+		if(cpu.INTR & cpu.IF){
+			uint8_t intr_NO = i8259_query_intr();
+			i8259_ack_intr();
+			raise_intr(intr_NO);
 		}
 
 		if(nemu_state != RUNNING) { return; }

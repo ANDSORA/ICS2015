@@ -248,6 +248,10 @@ static make_helper(_2byte_esc) {
 }
 
 void raise_intr(uint8_t NO){
+	cpu.esp -= 4; swaddr_write(cpu.esp, 4, cpu.EFLAGS, R_SS);
+	cpu.esp -= 4; swaddr_write(cpu.esp, 4, cpu.CS.val, R_SS);
+	cpu.esp -= 4; swaddr_write(cpu.esp, 4, cpu.eip + 2, R_SS);
+
 	/* Trigger an interrupt/exception with NO */
 	Assert((NO << 3) <= cpu.idtr.limit, "IDT LIMIT VIOLATED!");
 
