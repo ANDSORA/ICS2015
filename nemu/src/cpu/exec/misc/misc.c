@@ -112,7 +112,7 @@ make_helper(hlt) {
 }
 
 make_helper(sti) {
-	printf("(sti) cpu.INTR == %u\n", cpu.INTR);
+	//printf("(sti) cpu.INTR == %u\n", cpu.INTR);
 	cpu.DF = 1;
 	print_asm("sti");
 	return 1;
