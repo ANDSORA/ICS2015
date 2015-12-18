@@ -111,11 +111,8 @@ make_helper(hlt) {
 }
 
 make_helper(sti) {
-	printf("(sti)1. EIP==0x%x\n", cpu.eip);
-	//cpu.DF = 1;
-	cpu.EFLAGS |= 0x200;
-	printf("(sti)2. EIP==0x%x\n", cpu.eip);
+	printf("(sti) cpu.INTR == %u\n", cpu.INTR);
+	cpu.DF = 1;
 	print_asm("sti");
-	printf("(sti)3. EIP==0x%x\n", cpu.eip);
 	return 1;
 }
