@@ -53,7 +53,7 @@ hwaddr_t tlb_read(lnaddr_t addr){
 
 		hwaddr_t page_addr = (dir & 0xfffff000) + page_idx*4;
 		uint32_t page = hwaddr_read(page_addr, 4);
-		Assert(dir&0x1,"FUCK, MISS IN PTE!");
+		Assert(page&0x1,"FUCK, MISS IN PTE!");
 
 		tlb[target].ptable.val = page;
 		tlb[target].tag = addr >> 12;

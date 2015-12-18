@@ -14,6 +14,9 @@ void init_L1_cache();
 void init_L2_cache();
 void init_tlb();
 
+void init_device();
+void init_sdl();
+
 void init_time_count();
 
 FILE *log_fp = NULL;
@@ -42,6 +45,10 @@ void init_monitor(int argc, char *argv[]) {
 
 	/* Display welcome message. */
 	welcome();
+
+	/* initialize the device and SDL */
+	init_device();
+	init_sdl();
 }
 
 #ifdef USE_RAMDISK
