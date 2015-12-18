@@ -13,5 +13,6 @@ make_helper(lidt);
 make_helper(pusha);
 make_helper(popa);
 make_helper(hlt);
+make_helper(sti);
 
 #endif
