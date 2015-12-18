@@ -112,7 +112,7 @@ make_helper(hlt) {
 
 make_helper(sti) {
 	printf("(sti)1. EIP==0x%x\n", cpu.eip);
-	cpu.IF = 1;
+	//cpu.IF = 1;
 	printf("(sti)2. EIP==0x%x\n", cpu.eip);
 	print_asm("sti");
 	printf("(sti)3. EIP==0x%x\n", cpu.eip);
