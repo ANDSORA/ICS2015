@@ -35,7 +35,7 @@ void do_syscall(TrapFrame *tf) {
 				//asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
 				//printk((char *)tf->ecx, tf->edx);
 				int i;
-				for(i = 0; i < tf->ebx; ++i){
+				for(i = 0; i < tf->edx; ++i){
 					serial_printc( (*(char *)(tf->ecx + i)) );
 				}
 				tf->eax = tf->edx;
