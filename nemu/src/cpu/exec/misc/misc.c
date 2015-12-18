@@ -102,3 +102,10 @@ make_helper(popa) {
 	print_asm("popa");
 	return 1;
 }
+
+make_helper(hlt) {
+	Assert(cpu.IF == 1, "IF == 0, you would be trapped in a dead loop!");
+	while(!cpu.INTR){}
+	print_asm("hlt");
+	return 1;
+}
