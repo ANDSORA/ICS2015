@@ -3,6 +3,9 @@
 #include "cpu/reg.h"
 #include "../../lib-common/x86-inc/mmu.h"
 
+int is_mmio(hwaddr_t);
+uint32_t mmio_read(hwaddr_t, size_t, int);
+void mmio_write(hwaddr_t, size_t, uint32_t, int);
 
 //uint32_t dram_read(hwaddr_t, size_t);
 uint32_t L1_cache_read(hwaddr_t, size_t);
@@ -18,11 +21,15 @@ void page_check(lnaddr_t);
 /* Memory accessing interfaces */
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
-	return L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
+	int map_NO = is_mmio(addr);
+	if(map_NO == -1) return L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
+	else return mmio_read(addr, len, map_NO);
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
-	L1_cache_write(addr, len, data);
+	int map_NO = is_mmio(addr);
+	if(map_NO == -1) L1_cache_write(addr, len, data);
+	else mmio_write(addr, len, data, map_NO);
 }
 
 uint32_t lnaddr_read(lnaddr_t addr, size_t len) {
