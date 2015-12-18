@@ -20,6 +20,7 @@ make_helper(int3) {
 make_helper(Int){
 	//printf("\nINT!!!!!\n");
 	uint8_t NO = instr_fetch(eip + 1, 1);
+	cpu.eip += 2;
 	//print_asm("int 0x%x", NO);
 	raise_intr(NO);
 
