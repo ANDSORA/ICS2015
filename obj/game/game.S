@@ -432,13 +432,13 @@ Disassembly of section .text:
 
 080484c0 <close>:
  80484c0:	55                   	push   %ebp
- 80484c1:	b8 01 00 00 00       	mov    $0x1,%eax
- 80484c6:	89 e5                	mov    %esp,%ebp
- 80484c8:	d6                   	(bad)  
- 80484c9:	30 c0                	xor    %al,%al
- 80484cb:	5d                   	pop    %ebp
- 80484cc:	c3                   	ret    
- 80484cd:	8d 76 00             	lea    0x0(%esi),%esi
+ 80484c1:	89 e5                	mov    %esp,%ebp
+ 80484c3:	ff 75 08             	pushl  0x8(%ebp)
+ 80484c6:	6a 06                	push   $0x6
+ 80484c8:	e8 f3 fe ff ff       	call   80483c0 <syscall>
+ 80484cd:	c9                   	leave  
+ 80484ce:	c3                   	ret    
+ 80484cf:	90                   	nop
 
 080484d0 <fstat>:
  80484d0:	55                   	push   %ebp
