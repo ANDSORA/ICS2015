@@ -80,7 +80,18 @@ int fs_read(int fd, void *buf, int len) {
 }
 
 int fs_lseek(int fd, int offset, int whence) {
-	return 233;
+	assert(fd >= 3 && fd < NR_FILES + 3);
+	assert(files[fd + 3].opened);
+	assert(files[fd + 3].offset >= 0);
+	int new_offset = -1;
+	switch(whence) {
+		case SEEK_SET: new_offset = offset; break;
+		case SEEK_CUR: new_offset = files[fd + 3].offset + offset; break;
+		case SEEK_END: new_offset = file_table[fd].size + offset; break;
+		default: assert(0); break;
+	}
+	files[fd + 3].offset = new_offset;
+	return new_offset;
 }
 
 int fs_close(int fd) {
