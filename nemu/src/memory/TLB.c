@@ -1,6 +1,6 @@
 #include "common.h"
 #include "cpu/reg.h"
-#include "../../lib-common/x86-inc/mmu.h"
+//#include "../../lib-common/x86-inc/mmu.h"
 
 #define TLB_WIDTH 6
 #define TLB_SIZE (1 << TLB_WIDTH)
@@ -11,7 +11,8 @@
 uint32_t hwaddr_read(hwaddr_t addr, size_t);
 
 typedef struct {
-	PTE ptable;
+	//PTE ptable;
+	uint32_t page;
 	uint32_t tag;
 	bool valid;
 } TLB_slot;
@@ -55,10 +56,11 @@ hwaddr_t tlb_read(lnaddr_t addr){
 		uint32_t page = hwaddr_read(page_addr, 4);
 		Assert(page&0x1,"FUCK, MISS IN PTE!");
 
-		tlb[target].ptable.val = page;
+		//tlb[target].ptable.val = page;
+		tlb[target].page = page;
 		tlb[target].tag = addr >> 12;
 		tlb[target].valid = 1;
 	}
 
-	return (tlb[target].ptable.val & 0xfffff000) + offset;
+	return (tlb[target].page & 0xfffff000) + offset;
 }
