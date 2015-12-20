@@ -1,7 +1,7 @@
 #include "common.h"
 #include "burst.h"
 #include "cpu/reg.h"
-#include "../../lib-common/x86-inc/mmu.h"
+//#include "../../lib-common/x86-inc/mmu.h"
 
 int is_mmio(hwaddr_t);
 uint32_t mmio_read(hwaddr_t, size_t, int);
