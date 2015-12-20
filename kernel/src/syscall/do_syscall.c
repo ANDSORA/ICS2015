@@ -8,6 +8,7 @@ void serial_printc(char);
 
 int fs_open(const char*, int);
 int fs_read(int, void*, int);
+int fs_lseek(int, int, int);
 int fs_close(int);
 
 static void sys_brk(TrapFrame *tf) {
