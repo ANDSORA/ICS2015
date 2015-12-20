@@ -62,40 +62,40 @@ int fs_open(const char *pathname, int flags) {
 
 int fs_read(int fd, void *buf, int len) {
 	assert(fd >= 3 && fd < NR_FILES + 3);
-	assert(files[fd + 3].opened);
-	assert(files[fd + 3].offset >= 0);
+	assert(files[fd].opened);
+	assert(files[fd].offset >= 0);
 	assert(len);
 	int ret = -1;
-	int remain = file_table[fd].size - files[fd + 3].offset;
+	int remain = file_table[fd - 3].size - files[fd].offset;
 	if(remain <= 0) {
 		ret = 0;
 	}
 	else {
 		if(remain < len) ret = remain;
 		else ret = len;
-		ide_read(buf, file_table[fd].disk_offset + files[fd + 3].offset, ret);
-		files[fd + 3].offset += ret;
+		ide_read(buf, file_table[fd - 3].disk_offset + files[fd].offset, ret);
+		files[fd].offset += ret;
 	}
 	return ret;
 }
 
 int fs_lseek(int fd, int offset, int whence) {
 	assert(fd >= 3 && fd < NR_FILES + 3);
-	assert(files[fd + 3].opened);
-	assert(files[fd + 3].offset >= 0);
+	assert(files[fd].opened);
+	assert(files[fd].offset >= 0);
 	int new_offset = -1;
 	switch(whence) {
 		case SEEK_SET: new_offset = offset; break;
-		case SEEK_CUR: new_offset = files[fd + 3].offset + offset; break;
-		case SEEK_END: new_offset = file_table[fd].size + offset; break;
+		case SEEK_CUR: new_offset = files[fd].offset + offset; break;
+		case SEEK_END: new_offset = file_table[fd - 3].size + offset; break;
 		default: assert(0); break;
 	}
-	files[fd + 3].offset = new_offset;
+	files[fd].offset = new_offset;
 	return new_offset;
 }
 
 int fs_close(int fd) {
 	assert(fd >= 3 && fd < NR_FILES + 3);
-	files[fd + 3].opened = 0;
+	files[fd].opened = 0;
 	return 0;
 }
