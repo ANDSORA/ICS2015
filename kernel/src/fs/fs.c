@@ -1,4 +1,5 @@
 #include "common.h"
+#include "string.h"
 
 typedef struct {
 	char *name;
@@ -32,3 +33,29 @@ void ide_write(uint8_t *, uint32_t, uint32_t);
 
 /* TODO: implement a simplified file system here. */
 
+typedef struct {
+	bool opened;
+	uint32_t offset;
+} Fstate;
+
+static Fstate files[NR_FILES + 3];
+
+int fs_open(const char *pathname, int flags);
+int fs_read(int fd, void *buf, int len);
+int fs_write(int fd, void *buf, int len);
+int fs_lseek(int fd, int offset, int whence);
+int fs_close(int fd);
+
+int fs_open(const char *pathname, int flags) {
+	assert(pathname);
+	int i;
+	for(i = 0; i < NR_FILES; ++ i) {
+		if(!strcmp(pathname, file_table[i].name)){
+			break;
+		}
+	}
+	assert(i < NR_FILES);
+	files[i + 3].opened = 1;
+	files[i + 3].offset = file_table[i].disk_offset;
+	return i + 3;
+}
