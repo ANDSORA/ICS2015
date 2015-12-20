@@ -61,7 +61,7 @@ int fs_open(const char *pathname, int flags) {
 }
 
 int fs_read(int fd, void *buf, int len) {
-	assert(fd >= 3);
+	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd + 3].opened);
 	assert(files[fd + 3].offset >= 0);
 	assert(len);
@@ -84,7 +84,7 @@ int fs_lseek(int fd, int offset, int whence) {
 }
 
 int fs_close(int fd) {
-	assert(fd >= 3);
+	assert(fd >= 3 && fd < NR_FILES + 3);
 	files[fd + 3].opened = 0;
 	return 0;
 }
