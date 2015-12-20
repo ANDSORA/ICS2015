@@ -87,7 +87,7 @@ int fs_lseek(int fd, int offset, int whence) {
 	switch(whence) {
 		case SEEK_SET: new_offset = offset; break;
 		case SEEK_CUR: new_offset = files[fd].offset + offset; break;
-		case SEEK_END: new_offset = file_table[fd - 3].size + offset; break;
+		case SEEK_END: Log("Are you crazy?"); new_offset = file_table[fd - 3].size + offset; break;
 		default: assert(0); break;
 	}
 	files[fd].offset = new_offset;
