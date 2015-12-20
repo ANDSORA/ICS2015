@@ -56,27 +56,31 @@ int fs_open(const char *pathname, int flags) {
 	}
 	assert(i < NR_FILES);
 	files[i + 3].opened = 1;
-	files[i + 3].offset = file_table[i].disk_offset;
+	files[i + 3].offset = 0;
 	return i + 3;
 }
 
 int fs_read(int fd, void *buf, int len) {
 	assert(fd >= 3);
 	assert(files[fd + 3].opened);
-	assert(files[fd + 3].offset >= file_table[fd].disk_offset);
+	assert(files[fd + 3].offset >= 0);
 	assert(len);
 	int ret = -1;
-	int remain = file_table[fd].disk_offset + file_table[fd].size - files[fd + 3].offset;
+	int remain = file_table[fd].size - files[fd + 3].offset;
 	if(remain <= 0) {
 		ret = 0;
 	}
 	else {
 		if(remain < len) ret = remain;
 		else ret = len;
-		ide_read(buf, files[fd + 3].offset, ret);
+		ide_read(buf, file_table[fd].disk_offset + files[fd + 3].offset, ret);
 		files[fd + 3].offset += ret;
 	}
 	return ret;
+}
+
+int fs_lseek(int fd, int offset, int whence) {
+	return 233;
 }
 
 int fs_close(int fd) {
