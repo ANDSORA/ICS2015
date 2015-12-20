@@ -90,7 +90,7 @@ int fs_lseek(int fd, int offset, int whence) {
 		case SEEK_END: Log("offset==%d", offset); new_offset = file_table[fd - 3].size - 1 + offset; break;
 		default: assert(0); break;
 	}
-	Log("new_offset==%d", new_offset);
+	Log("new_offset==0x%x", new_offset);
 	assert(new_offset >=0 && new_offset < file_table[fd - 3].size);
 	files[fd].offset = new_offset;
 	return new_offset;
