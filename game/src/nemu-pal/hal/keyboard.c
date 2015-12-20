@@ -14,10 +14,20 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
+static volatile int recent_key_index = -1;
+
 void
 keyboard_event(void) {
 	/* TODO: Fetch the scancode and update the key states. */
-	assert(0);
+	//assert(0);
+	int key_code = in_byte(0x60);
+	int i;
+	for (i = 0; i < NR_KEYS; i ++){
+		if(keycode_array[i] == key_code) {
+			recent_key_index = i;
+			key_state[i] = KEY_STATE_PRESS;
+		}
+	}
 }
 
 static inline int
@@ -35,12 +45,14 @@ query_key(int index) {
 static inline void
 release_key(int index) {
 	assert(index >= 0 && index < NR_KEYS);
+	recent_key_index = index;
 	key_state[index] = KEY_STATE_WAIT_RELEASE;
 }
 
 static inline void
 clear_key(int index) {
 	assert(index >= 0 && index < NR_KEYS);
+	recent_key_index = index;
 	key_state[index] = KEY_STATE_EMPTY;
 }
 
@@ -54,8 +66,23 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-
-	assert(0);
-	sti();
-	return false;
+	if(recent_key_index == -1) {
+		sti(); return false;
+	}
+	else {
+		int recent_key_state = query_key(recent_key_index);
+		int recent_keycode = get_keycode(recent_key_index);
+		if(recent_key_state == KEY_STATE_PRESS) {
+			key_press_callback(recent_keycode);
+			sti(); return true;
+		}
+		else if(recent_key_state == KEY_STATE_WAIT_RELEASE) {
+			key_release_callback(recent_keycode);
+			sti(); return true;
+		}
+		else {
+			sti(); return false;
+		}
+	}
+	assert(0); /* You shouldn't reach here... --ANDSORA */
 }
