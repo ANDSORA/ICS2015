@@ -6,6 +6,8 @@ void add_irq_handle(int, void (*)(void));
 void mm_brk(uint32_t);
 void serial_printc(char);
 
+int fs_open(const char*, int);
+
 static void sys_brk(TrapFrame *tf) {
 #ifdef IA32_PAGE
 	mm_brk(tf->ebx);
@@ -40,6 +42,8 @@ void do_syscall(TrapFrame *tf) {
 				}
 				tf->eax = tf->edx;
 			} break;
+
+		case SYS_open: tf->eax = fs_open((const char*)tf->ebx, tf->ecx); break;
 
 		default: panic("Unhandled system call: id = %d", tf->eax);
 	}
