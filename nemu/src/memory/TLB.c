@@ -50,11 +50,11 @@ hwaddr_t tlb_read(lnaddr_t addr){
 
 		hwaddr_t dir_addr = (cpu.cr3.val & 0xfffff000) + dir_idx*4;
 		uint32_t dir = hwaddr_read(dir_addr, 4);
-		Assert(dir&0x1,"FUCK, MISS IN PDE!\tDIR == 0x%x", dir);
+		Assert(dir&0x1,"FUCK, MISS IN PDE!\tDIR_addr == 0x%x", dir_addr);
 
 		hwaddr_t page_addr = (dir & 0xfffff000) + page_idx*4;
 		uint32_t page = hwaddr_read(page_addr, 4);
-		Assert(page&0x1,"FUCK, MISS IN PTE!\tTABLE == 0x%x", page);
+		Assert(page&0x1,"FUCK, MISS IN PTE!\tTABLE_addr == 0x%x", page_addr);
 
 		//tlb[target].ptable.val = page;
 		tlb[target].page = page;
