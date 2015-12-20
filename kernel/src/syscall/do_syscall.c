@@ -8,6 +8,7 @@ void serial_printc(char);
 
 int fs_open(const char*, int);
 int fs_read(int, void*, int);
+int fs_close(int);
 
 static void sys_brk(TrapFrame *tf) {
 #ifdef IA32_PAGE
@@ -47,6 +48,8 @@ void do_syscall(TrapFrame *tf) {
 		case SYS_open: tf->eax = fs_open((const char*)tf->ebx, tf->ecx); break;
 
 		case SYS_read: tf->eax = fs_read(tf->ebx, (void *)tf->ecx, tf->edx); break;
+
+		case SYS_close: tf->eax = fs_close(tf->ebx); break;
 
 		default: panic("Unhandled system call: id = %d", tf->eax);
 	}

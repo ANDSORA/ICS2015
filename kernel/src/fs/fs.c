@@ -78,3 +78,9 @@ int fs_read(int fd, void *buf, int len) {
 	}
 	return ret;
 }
+
+int fs_close(int fd) {
+	assert(fd >= 3);
+	files[fd + 3].opened = 0;
+	return 0;
+}
