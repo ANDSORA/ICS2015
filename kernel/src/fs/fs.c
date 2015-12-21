@@ -79,6 +79,35 @@ int fs_read(int fd, void *buf, int len) {
 	return ret;
 }
 
+int fs_write(int fd, void *buf, int len) {
+	assert(fd > 0 && fd < NR_FILES + 3);
+	assert(files[fd].opened);
+	assert(files[fd].offset >= 0);
+	assert(len);
+	int ret = -1;
+	if(fd == 1) {
+		/* stdout */
+		assert(0);
+	}
+	else if(fd == 2) {
+		/* stderr */
+		assert(0);
+	}
+	else {
+		int remain = file_table[fd - 3].size - files[fd].offset;
+		if(remain <= 0) {
+			ret = 0;
+		}
+		else {
+			if(remain < len) ret = remain;
+			else ret = len;
+			ide_write(buf, file_table[fd - 3].disk_offset + files[fd].offset, ret);
+			files[fd].offset += ret;
+		}
+	}
+	return ret;
+}
+
 int fs_lseek(int fd, int offset, int whence) {
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);

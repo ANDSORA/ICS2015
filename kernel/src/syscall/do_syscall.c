@@ -8,6 +8,7 @@ void serial_printc(char);
 
 int fs_open(const char*, int);
 int fs_read(int, void*, int);
+int fs_write(int, void*, int);
 int fs_lseek(int, int, int);
 int fs_close(int);
 
@@ -35,20 +36,11 @@ void do_syscall(TrapFrame *tf) {
 
 		/* TODO: Add more system calls. */
 
-		case SYS_write: {
-				assert(tf->ebx == 1 || tf->ebx == 2);
-				//asm volatile (".byte 0xd6" : : "a"(2), "c"(tf->ecx), "d"(tf->edx));
-				//printk((char *)tf->ecx, tf->edx);
-				int i;
-				for(i = 0; i < tf->edx; ++i){
-					serial_printc( (*(char *)(tf->ecx + i)) );
-				}
-				tf->eax = tf->edx;
-			} break;
-
 		case SYS_open: tf->eax = fs_open((const char*)tf->ebx, tf->ecx); break;
 
 		case SYS_read: tf->eax = fs_read(tf->ebx, (void *)tf->ecx, tf->edx); break;
+
+		case SYS_write: tf->eax = fs_write(tf->ebx, (void *)tf->ecx, tf->edx); break;
 
 		case SYS_lseek: tf->eax = fs_lseek(tf->ebx, tf->ecx, tf->edx); break;
 
