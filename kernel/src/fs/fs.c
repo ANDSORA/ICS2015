@@ -119,6 +119,7 @@ int fs_write(int fd, void *buf, int len) {
 }
 
 int fs_lseek(int fd, int offset, int whence) {
+	Log("fd==%d, offset==0x%x, whence==%d", fd, offset, whence);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
@@ -126,7 +127,7 @@ int fs_lseek(int fd, int offset, int whence) {
 	switch(whence) {
 		case SEEK_SET: new_offset = offset; break;
 		case SEEK_CUR: new_offset = files[fd].offset + offset; break;
-		case SEEK_END: Log("offset==%d", offset); new_offset = file_table[fd - 3].size + offset; break;
+		case SEEK_END: new_offset = file_table[fd - 3].size + offset; break;
 		default: assert(0); break;
 	}
 	Log("new_offset==0x%x", new_offset);
