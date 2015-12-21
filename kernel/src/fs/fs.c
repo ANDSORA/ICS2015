@@ -33,6 +33,8 @@ void ide_write(uint8_t *, uint32_t, uint32_t);
 
 /* TODO: implement a simplified file system here. */
 
+void serial_printc(char);
+
 typedef struct {
 	bool opened;
 	uint32_t offset;
@@ -64,6 +66,7 @@ int fs_read(int fd, void *buf, int len) {
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
+	assert(buf);
 	assert(len);
 	int ret = -1;
 	int remain = file_table[fd - 3].size - files[fd].offset;
@@ -80,20 +83,27 @@ int fs_read(int fd, void *buf, int len) {
 }
 
 int fs_write(int fd, void *buf, int len) {
+	Log("fd==%d", fd);
 	assert(fd > 0 && fd < NR_FILES + 3);
-	assert(files[fd].opened);
-	assert(files[fd].offset >= 0);
+	assert(buf);
 	assert(len);
 	int ret = -1;
 	if(fd == 1) {
 		/* stdout */
-		assert(0);
+		ret = len;
+		int i;
+		for(i = 0; i < ret; ++ i) {
+			serial_printc( *(char *)(buf + i) );
+		}
 	}
 	else if(fd == 2) {
 		/* stderr */
 		assert(0);
 	}
 	else {
+		assert(files[fd].opened);
+		assert(files[fd].offset >= 0);
+
 		int remain = file_table[fd - 3].size - files[fd].offset;
 		if(remain <= 0) {
 			ret = 0;

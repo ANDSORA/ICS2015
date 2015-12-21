@@ -4,7 +4,6 @@
 
 void add_irq_handle(int, void (*)(void));
 void mm_brk(uint32_t);
-void serial_printc(char);
 
 int fs_open(const char*, int);
 int fs_read(int, void*, int);
