@@ -101,7 +101,6 @@ int fs_write(int fd, void *buf, int len) {
 		assert(0);
 	}
 	else {
-		Log("(fs_write_file)");
 		assert(files[fd].opened);
 		assert(files[fd].offset >= 0);
 
@@ -132,7 +131,6 @@ int fs_lseek(int fd, int offset, int whence) {
 		default: assert(0); break;
 	}
 	Log("new_offset==0x%x", new_offset);
-	if(new_offset > file_table[fd - 3].size) new_offset = file_table[fd - 3].size;
 	assert(new_offset >=0 && new_offset <= file_table[fd - 3].size);
 	files[fd].offset = new_offset;
 	return new_offset;
