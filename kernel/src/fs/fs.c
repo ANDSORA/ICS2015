@@ -101,6 +101,7 @@ int fs_write(int fd, void *buf, int len) {
 		assert(0);
 	}
 	else {
+		Log("(fs_write_file)");
 		assert(files[fd].opened);
 		assert(files[fd].offset >= 0);
 
