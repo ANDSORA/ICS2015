@@ -78,6 +78,7 @@ int fs_read(int fd, void *buf, int len) {
 	else {
 		if(remain < len) ret = remain;
 		else ret = len;
+		Log("ret==0x%x", ret);
 		ide_read(buf, file_table[fd - 3].disk_offset + files[fd].offset, ret);
 		files[fd].offset += ret;
 	}
