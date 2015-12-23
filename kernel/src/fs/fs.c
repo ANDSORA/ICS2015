@@ -64,7 +64,7 @@ int fs_open(const char *pathname, int flags) {
 }
 
 int fs_read(int fd, void *buf, int len) {
-	Log("(fs_read) fd==%d", fd);
+	Log("(fs_read) fd==%d buf_addr==0x%x len=0x%x", fd, (uint32_t)buf, len);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
