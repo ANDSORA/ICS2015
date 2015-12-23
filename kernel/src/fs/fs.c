@@ -59,10 +59,12 @@ int fs_open(const char *pathname, int flags) {
 	assert(i < NR_FILES);
 	files[i + 3].opened = 1;
 	files[i + 3].offset = 0;
+	Log("(fs_open) fd==%d", i + 3);
 	return i + 3;
 }
 
 int fs_read(int fd, void *buf, int len) {
+	Log("(fs_read) fd==%d", fd);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
@@ -83,7 +85,7 @@ int fs_read(int fd, void *buf, int len) {
 }
 
 int fs_write(int fd, void *buf, int len) {
-	Log("fd==%d", fd);
+	Log("(fs_write) fd==%d", fd);
 	assert(fd > 0 && fd < NR_FILES + 3);
 	assert(buf);
 	assert(len);
@@ -120,7 +122,7 @@ int fs_write(int fd, void *buf, int len) {
 }
 
 int fs_lseek(int fd, int offset, int whence) {
-	//Log("fd==%d, offset==0x%x, whence==%d", fd, offset, whence);
+	Log("(fs_lseek) fd==%d, offset==0x%x, whence==%d", fd, offset, whence);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
@@ -131,6 +133,7 @@ int fs_lseek(int fd, int offset, int whence) {
 		case SEEK_END: new_offset = file_table[fd - 3].size + offset; break;
 		default: assert(0); break;
 	}
+	if(new_offset > file_table[fd - 3].size) new_offset = file_table[fd - 3].size;
 	Log("new_offset==0x%x", new_offset);
 	assert(new_offset >=0 && new_offset <= file_table[fd - 3].size);
 	files[fd].offset = new_offset;
