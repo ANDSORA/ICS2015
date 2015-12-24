@@ -1,10 +1,10 @@
 #include "cpu/exec/template-start.h"
 
 static void concat3(instr,_execute_,SUFFIX)() {
-	if(instr_value) OPERAND_W(op_dest,1);
-	else OPERAND_W(op_dest,0);
+	if(instr_value) OPERAND_W(op_src, 1);
+	else OPERAND_W(op_src, 0);
 
-	print_asm(str(instr) " %s", op_dest->str);
+	print_asm(str(instr) " %s", op_src->str);
 }
 
 make_helper(concat3(instr,_rm_,SUFFIX)){
