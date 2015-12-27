@@ -2,9 +2,9 @@
 
 #if DATA_BYTE == 1 || DATA_BYTE == 4
 static void concat3(instr,_execute_,SUFFIX)() {
-	uint32_t addr = cpu.eip+op_src->val+DATA_BYTE+1;
+	uint32_t addr = cpu.eip + op_src->val + DATA_BYTE + 2;
 	//if(instr_value) cpu.eip += op_src->val;
-	if(instr_value) cpu.eip = addr - DATA_BYTE - 1;
+	if(instr_value) cpu.eip = addr - DATA_BYTE - 2;
 	print_asm( str(instr) "\t0x%x", addr);
 }
 
