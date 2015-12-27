@@ -5,6 +5,7 @@
 make_helper( concat(call_si_, SUFFIX) ) {
 	int len = concat(decode_si_, SUFFIX)(eip+1);
 
+	assert(DATA_BYTE == 4);
 	cpu.esp -= DATA_BYTE;
 	MEM_W( cpu.esp, (DATA_TYPE)(eip+len+1), R_SS );
 
@@ -19,6 +20,7 @@ make_helper( concat(call_si_, SUFFIX) ) {
 make_helper( concat(call_rm_, SUFFIX) ) {
 	int len = concat(decode_rm_, SUFFIX)(eip+1);
 
+	assert(DATA_BYTE == 4);
 	cpu.esp -= DATA_BYTE;
 	MEM_W( cpu.esp, (DATA_TYPE)(eip+len+1), R_SS );
 
