@@ -199,11 +199,13 @@ static int cmd_bt(char *args){
 	swaddr_t myaddr;
 	int index=0;
 	char* a;
-	printf("Index\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\t\tdog\n");
+	printf("Index\t\tdog\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\n");
 	while(1){
+		printf("#%d\t\t",index);
+		printf("0x%08x\t",dog);
+
 		if(dog > 0x7fffff0) break;
 
-		printf("#%d\t\t",index);
 		if(index==0){
 			myaddr = cpu.eip;
 			printf("0x%08x\t",myaddr);
@@ -237,7 +239,7 @@ static int cmd_bt(char *args){
 		}
 		//if(dog+20>0x8000000-cpu.SS.base) printf("No Para\n");
 		//else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8, 4, R_SS),swaddr_read(dog+12, 4, R_SS),swaddr_read(dog+16, 4, R_SS),swaddr_read(dog+20, 4, R_SS));
-		printf("0x%08x\n",dog);
+		printf("\n");
 		index++;
 	}
 	return 0;
