@@ -204,14 +204,16 @@ static int cmd_bt(char *args){
 		printf("#%d\t\t",index);
 		printf("0x%08x\t",dog);
 
-		if(dog > 0xbffffff0) break;
+		//if(dog > 0xbffffff0) break;
 
 		if(index==0){
 			myaddr = cpu.eip;
 			printf("0x%08x\t",myaddr);
+			if(myaddr > 0xc0000000) break;
 		}
 		else{
 			myaddr = swaddr_read(dog+4, 4, R_SS);
+			if(myaddr > 0xc0000000) break;
 			//myaddr = dram_read(dog+4,4);
 			printf("0x%08x\t",myaddr);
 			dog = swaddr_read(dog, 4, R_SS);
