@@ -201,13 +201,7 @@ static int cmd_bt(char *args){
 	char* a;
 	printf("Index\t\tAddr\t\tName\t\tPara1\t\tPara2\t\tPara3\t\tPara4\t\tdog\n");
 	while(1){
-		if(!cpu.cr0.protect_enable){
-			if(dog == 0) break;
-		}
-		else if(!cpu.cr0.paging){
-			if(dog == 0x100000) break;
-		}
-		else if(dog == 0xc0100000) break;
+		if(dog > 0x7fffff0) break;
 
 		printf("#%d\t\t",index);
 		if(index==0){
