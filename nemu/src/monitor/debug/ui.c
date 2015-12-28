@@ -228,7 +228,7 @@ static int cmd_bt(char *args){
 		
 		int i;
 		for(i=8;i<20;i+=4){
-			if(dog+i < 0x8000000-cpu.SS.base){
+			if(dog+i-4 < 0x8000000-cpu.SS.base){
 				printf("0x%08x\t",swaddr_read(dog+i, 4, R_SS));
 			}
 			else break;
