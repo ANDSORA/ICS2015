@@ -241,7 +241,7 @@ static int cmd_bt(char *args){
 		//else printf("0x%08x\t0x%08x\t0x%08x\t0x%08x\t",swaddr_read(dog+8, 4, R_SS),swaddr_read(dog+12, 4, R_SS),swaddr_read(dog+16, 4, R_SS),swaddr_read(dog+20, 4, R_SS));
 		printf("\n");
 		index++;
-	}
+	}printf("\n");
 	return 0;
 }
 
