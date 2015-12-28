@@ -213,9 +213,9 @@ static int cmd_bt(char *args){
 		}
 		else{
 			myaddr = swaddr_read(dog+4, 4, R_SS);
-			if(myaddr > 0xc0000000) break;
 			//myaddr = dram_read(dog+4,4);
 			printf("0x%08x\t",myaddr);
+			if(myaddr > 0xc0000000) break;
 			dog = swaddr_read(dog, 4, R_SS);
 			//dog = dram_read(dog,4);
 			if(myaddr==0){
