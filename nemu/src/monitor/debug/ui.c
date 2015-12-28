@@ -204,7 +204,7 @@ static int cmd_bt(char *args){
 		printf("#%d\t\t",index);
 		printf("0x%08x\t",dog);
 
-		if(dog > 0x7fffff0) break;
+		if(dog > 0xbffffff0) break;
 
 		if(index==0){
 			myaddr = cpu.eip;
