@@ -80,6 +80,7 @@ int fs_read(int fd, void *buf, int len) {
 		else ret = len;
 		Log("ret==0x%x", ret);
 		ide_read(buf, file_table[fd - 3].disk_offset + files[fd].offset, ret);
+		Log("new_offset==0x%x, buf[0]==0x%x", files[fd].offset+ret, *(uint32_t *)buf);
 		files[fd].offset += ret;
 	}
 	return ret;
