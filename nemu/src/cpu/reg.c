@@ -78,7 +78,7 @@ void setEFLAGS_ALU(uint32_t x,uint32_t y,bool cin,uint32_t data_len) {
 void setEFLAGS_LOGIC(uint32_t x,uint32_t data_len){
 	cpu.CF=0;
 	setPF(x);
-	cpu.ZF= x==0;
+	cpu.ZF= (x==0);
 	cpu.SF= ( x>>((data_len<<3)-1) ) & 1;
 	cpu.OF=0;
 }
