@@ -117,6 +117,7 @@ bool check_wp(){
 			printf("watchpoint %d was hit\n",rt->NO);
 			printf("EIP = 0x%x\n",cpu.eip);
 			printf("Old value:\t0x%x\nNew value:\t0x%x\n",rt->oldvalue,rt->value);
+			printf("EXPR: %s\n",rt->T_token);
 		}
 		rt=rt->next;
 	}
@@ -128,10 +129,10 @@ void WP_print(){
 		printf("No watchpoints\n");
 		return;
 	}
-	printf("Num\tType\t\tCondition\n");
+	printf("Num\tType\t\tCondition\t\tEXPR\n");
 	WP *rt=head;
 	while(rt!=NULL){
-		printf("%d\twatchpoint\thas been hit %d times\n",rt->NO,rt->times);
+		printf("%d\twatchpoint\thas been hit %d times\t%s\n",rt->NO,rt->times,rt->T_token);
 		rt=rt->next;
 	}
 
