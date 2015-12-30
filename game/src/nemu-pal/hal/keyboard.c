@@ -27,10 +27,13 @@ keyboard_event(void) {
 	recent_keycode = key_code;
 	if(key_code == 0xf0) return;
 	for (i = 0; i < NR_KEYS; i ++){
-		if(keycode_array[i] == key_code) {
-			if(recent_key_index == 0xf0) key_state[i] = KEY_STATE_RELEASE;
-			else if(key_state[i] == KEY_STATE_RELEASE || key_state[i] == KEY_STATE_EMPTY) key_state[i] = KEY_STATE_PRESS;
+		if(key_code == keycode_array[i]) {
+			if(key_state[i] == KEY_STATE_RELEASE || key_state[i] == KEY_STATE_EMPTY) key_state[i] = KEY_STATE_PRESS;
 			else key_state[i] = KEY_STATE_WAIT_RELEASE;
+			break;
+		}
+		else if(key_code == keycode_array[i] + 0x80) {
+			key_state[i] = KEY_STATE_RELEASE;
 			break;
 		}
 	}
