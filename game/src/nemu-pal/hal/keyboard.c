@@ -14,8 +14,8 @@ static const int keycode_array[] = {
 
 static int key_state[NR_KEYS];
 
-static volatile int recent_key_index = -1;
-static volatile int recent_keycode = -1;
+//static volatile int recent_key_index = -1;
+//static volatile int recent_keycode = -1;
 //static volatile int pre_recent_keycode = -1;
 
 void
@@ -24,8 +24,8 @@ keyboard_event(void) {
 	//assert(0);
 	int key_code = in_byte(0x60);
 	int i;
-	recent_keycode = key_code;
-	if(key_code == 0xf0) return;
+	//recent_keycode = key_code;
+	//if(key_code == 0xf0) return;
 	for (i = 0; i < NR_KEYS; i ++){
 		if(key_code == keycode_array[i]) {
 			if(key_state[i] == KEY_STATE_RELEASE || key_state[i] == KEY_STATE_EMPTY) key_state[i] = KEY_STATE_PRESS;
@@ -39,9 +39,9 @@ keyboard_event(void) {
 	}
 	Log("i==%d, NR_KEYS==%d, key_code==0x%x", i, NR_KEYS, key_code);
 	assert(i < NR_KEYS);
-	recent_keycode = key_code;
-	recent_key_index = i;
-	Log("K_SPACE==0x%x, mykey==0x%x", K_SPACE, key_code);
+	//recent_keycode = key_code;
+	//recent_key_index = i;
+	//Log("K_SPACE==0x%x, mykey==0x%x", K_SPACE, key_code);
 }
 
 static inline int
@@ -81,27 +81,15 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * If no such key is found, the function return false.
 	 * Remember to enable interrupts before returning from the function.
 	 */
-	if(recent_key_index == -1) {
-		Log("key_index == -1, false");
-		sti(); return false;
-	}
-	else {
-		int recent_key_state = query_key(recent_key_index);
-		int recent_keycode = get_keycode(recent_key_index);
-		if(recent_key_state == KEY_STATE_PRESS || recent_key_state == KEY_STATE_WAIT_RELEASE) {
-			key_press_callback(recent_keycode);
-			Log("press handle");
-			sti(); return true;
-		}
-		else if(recent_key_state == KEY_STATE_RELEASE) {
-			key_release_callback(recent_keycode);
-			Log("release handle");
-			sti(); return true;
-		}
-		else {
-			assert(0);
-			sti(); return false;
+	int i;
+	for(i=0; i<NR_KEYS; ++i){
+		switch(key_state[i]) {
+			case KEY_STATE_EMPTY: ;
+			case KEY_STATE_WAIT_RELEASE: break;
+			case KEY_STATE_PRESS: key_press_callback(keycode_array[i]); sti(); return true; break;
+			case KEY_STATE_RELEASE: key_release_callback(keycode_array[i]); sti(); return true; break;
+			default: assert(0); break;
 		}
 	}
-	assert(0); /* You shouldn't reach here... --ANDSORA */
+	sti(); return false;
 }
