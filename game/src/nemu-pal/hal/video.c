@@ -82,7 +82,7 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 	int i,j;
 	for(i=x; i<x+w; ++i){
 		for(j=y; j<y+h; ++j){
-			screen->pixels[x + y * 320] = *((uint8_t *)VMEM_ADDR + x + y * 320);
+			screen->pixels[i + (j-y) * 320] = *((uint8_t *)VMEM_ADDR + i + j * 320);
 		}
 	}
 	//assert(0);
