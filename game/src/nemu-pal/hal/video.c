@@ -109,12 +109,21 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 	}
 
 	/* TODO: Copy the pixels in the rectangle area to the screen. */
+	int i;
+	uint8_t *dst_ptr = screen->pixels + x + y * screen->w;
+	uint8_t *src_ptr = (uint8_t *)(VMEM_ADDR + x + y * 320);
+	for(i=0; i<h; ++i){
+		memcpy(dst_ptr, src_ptr, w);
+		dst_ptr += screen->w;
+		src_ptr += 320;
+	}
+	/*
 	int i,j;
 	for(i=x; i<x+w; ++i){
 		for(j=y; j<y+h; ++j){
 			screen->pixels[i + (j-y) * 320] = *((uint8_t *)VMEM_ADDR + i + j * 320);
 		}
-	}
+	}*/
 	//assert(0);
 }
 

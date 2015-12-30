@@ -37,7 +37,7 @@ keyboard_event(void) {
 			break;
 		}
 	}
-	Log("i==%d, NR_KEYS==%d, key_code==0x%x", i, NR_KEYS, key_code);
+	//Log("i==%d, NR_KEYS==%d, key_code==0x%x", i, NR_KEYS, key_code);
 	//assert(i < NR_KEYS);
 	//recent_keycode = key_code;
 	//recent_key_index = i;
@@ -72,7 +72,7 @@ clear_key(int index) {
 
 bool 
 process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int)) {
-	Log("(process_keys)");
+	//Log("(process_keys)");
 	cli();
 	/* TODO: Traverse the key states. Find a key just pressed or released.
 	 * If a pressed key is found, call ``key_press_callback'' with the keycode.
@@ -88,6 +88,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 			case KEY_STATE_WAIT_RELEASE: break;
 			case KEY_STATE_PRESS: {
 				key_press_callback(keycode_array[i]);
+				key_state[i] = KEY_STATE_WAIT_RELEASE;
 				sti(); return true; break; }
 			case KEY_STATE_RELEASE: {
 				key_release_callback(keycode_array[i]);
