@@ -8,6 +8,9 @@
 int get_fps();
 void write_palette(void*, int);
 
+static void copy_format(SDL_PixelFormat*, SDL_PixelFormat*);
+
+
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
 		SDL_Surface *dst, SDL_Rect *dstrect) {
 	assert(dst && src);
@@ -22,13 +25,20 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	 */
 	assert(srcrect && dstrect);
 
-	dst = src;
-
 	dstrect->w = srcrect->w;
 	dstrect->h = srcrect->h;
 
-//SDL_Surface* SDL_CreateRGBSurface(uint32_t flags, int width, int height, int depth,
-		//uint32_t Rmask, uint32_t Gmask, uint32_t Bmask, uint32_t Amask) 
+	dst->flags = src->flags;
+	copy_format(dst->format, src->format);
+	dst->pitch = src->pitch;
+	dst->clip_rect.x = dstrect->x;
+	dst->clip_rect.y = dstrect->y;
+	dst->clip_rect.w = src->clip_rect.w;
+	dst->clip_rect.h = src->clip_rect.h;
+
+	dst->refcount = src->refcount;
+	dst->pixels = NULL;
+
 	//assert(0);
 }
 
@@ -170,3 +180,34 @@ void SDL_FreeSurface(SDL_Surface *s) {
 	}
 }
 
+
+///////////////////// --ANDSORA /////////////////////////
+
+static void copy_format(SDL_PixelFormat *src, SDL_PixelFormat *dst){
+	dst->palette->ncolors = dst->palette->ncolors;
+	dst->palette->colors->r = src->palette->colors->r;
+	dst->palette->colors->g = src->palette->colors->g;
+	dst->palette->colors->b = src->palette->colors->b;
+	dst->palette->colors->unused = src->palette->colors->unused;
+
+	dst->BitsPerPixel = src->BitsPerPixel;
+	dst->BytesPerPixel = src->BytesPerPixel;
+	
+	dst->Rloss = src->Rloss;
+	dst->Gloss = src->Gloss;
+	dst->Bloss = src->Bloss;
+	dst->Aloss = src->Aloss;
+
+	dst->Rshift = src->Rshift;
+	dst->Gshift = src->Gshift;
+	dst->Bshift = src->Bshift;
+	dst->Ashift = src->Ashift;
+
+	dst->Rmask = src->Rmask;
+	dst->Gmask = src->Gmask;
+	dst->Bmask = src->Bmask;
+	dst->Amask = src->Amask;
+
+	dst->colorkey = src->colorkey;
+	dst->alpha = src->alpha;
+}
