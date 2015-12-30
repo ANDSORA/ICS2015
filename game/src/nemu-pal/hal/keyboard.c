@@ -82,6 +82,7 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 	 * Remember to enable interrupts before returning from the function.
 	 */
 	if(recent_key_index == -1) {
+		Log("key_index == -1, false");
 		sti(); return false;
 	}
 	else {
@@ -89,10 +90,12 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 		int recent_keycode = get_keycode(recent_key_index);
 		if(recent_key_state == KEY_STATE_PRESS || recent_key_state == KEY_STATE_WAIT_RELEASE) {
 			key_press_callback(recent_keycode);
+			Log("press handle");
 			sti(); return true;
 		}
 		else if(recent_key_state == KEY_STATE_RELEASE) {
 			key_release_callback(recent_keycode);
+			Log("release handle");
 			sti(); return true;
 		}
 		else {
