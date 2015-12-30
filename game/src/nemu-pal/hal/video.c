@@ -8,7 +8,7 @@
 int get_fps();
 void write_palette(void*, int);
 
-static void copy_format(SDL_PixelFormat*, SDL_PixelFormat*);
+//static void copy_format(SDL_PixelFormat*, SDL_PixelFormat*);
 
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
@@ -24,6 +24,34 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	 * is saved in ``dstrect'' after all clipping is performed
 	 * (``srcrect'' is not modified).
 	 */
+
+	int w,h;
+	uint8_t *src_ptr, *dst_ptr;
+
+	if(srcrect == NULL) {
+		w = src->w;
+		h = src->h;
+		src_ptr = src->pixels;
+	}
+	else {
+		w = srcrect->w;
+		h = srcrect->h;
+		src_ptr = src->pixels + srcrect->x + srcrect->y * src->w;
+	}
+
+	if(dstrect == NULL) {
+		dst_ptr = dst->pixels;
+	}
+	else dst_ptr = dst->pixels + dstrect->x + dstrect->y * dst->w;
+
+	int i;
+	for(i=0; i<h; ++i) {
+		memcpy(dst_ptr, src_ptr, w);
+		src_ptr += src->w;
+		dst_ptr += dst->w;
+	}
+
+	/*
 	assert(srcrect && dstrect);
 
 	dstrect->w = srcrect->w;
@@ -38,7 +66,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	dst->clip_rect.h = srcrect->h;
 
 	dst->refcount = src->refcount;
-	memcpy(dst->pixels, src->pixels, src->pitch * srcrect->h);
+	memcpy(dst->pixels, src->pixels, src->pitch * srcrect->h); */
 	/*
 	if(src->flags & SDL_HWSURFACE){
 		Log("VMEM_ADDR");
@@ -201,6 +229,7 @@ void SDL_FreeSurface(SDL_Surface *s) {
 
 ///////////////////// --ANDSORA /////////////////////////
 
+/*
 static void copy_format(SDL_PixelFormat *dst, SDL_PixelFormat *src){
 	dst->palette->ncolors = src->palette->ncolors;
 	dst->palette->colors->r = src->palette->colors->r;
@@ -228,4 +257,4 @@ static void copy_format(SDL_PixelFormat *dst, SDL_PixelFormat *src){
 
 	dst->colorkey = src->colorkey;
 	dst->alpha = src->alpha;
-}
+} */
