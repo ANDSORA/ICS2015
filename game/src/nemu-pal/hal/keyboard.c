@@ -38,7 +38,7 @@ keyboard_event(void) {
 		}
 	}
 	Log("i==%d, NR_KEYS==%d, key_code==0x%x", i, NR_KEYS, key_code);
-	assert(i < NR_KEYS);
+	//assert(i < NR_KEYS);
 	//recent_keycode = key_code;
 	//recent_key_index = i;
 	//Log("K_SPACE==0x%x, mykey==0x%x", K_SPACE, key_code);
