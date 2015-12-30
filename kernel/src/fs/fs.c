@@ -64,7 +64,7 @@ int fs_open(const char *pathname, int flags) {
 }
 
 int fs_read(int fd, void *buf, int len) {
-	Log("(fs_read) fd==%d buf_addr==0x%x len=0x%x", fd, (uint32_t)buf, len);
+	//Log("(fs_read) fd==%d buf_addr==0x%x len=0x%x", fd, (uint32_t)buf, len);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
@@ -78,16 +78,16 @@ int fs_read(int fd, void *buf, int len) {
 	else {
 		if(remain < len) ret = remain;
 		else ret = len;
-		Log("ret==0x%x", ret);
+		//Log("ret==0x%x", ret);
 		ide_read(buf, file_table[fd - 3].disk_offset + files[fd].offset, ret);
-		Log("new_offset==0x%x, buf[0]==0x%x", files[fd].offset+ret, *(uint32_t *)buf);
+		//Log("new_offset==0x%x, buf[0]==0x%x", files[fd].offset+ret, *(uint32_t *)buf);
 		files[fd].offset += ret;
 	}
 	return ret;
 }
 
 int fs_write(int fd, void *buf, int len) {
-	Log("(fs_write) fd==%d", fd);
+	//Log("(fs_write) fd==%d", fd);
 	assert(fd > 0 && fd < NR_FILES + 3);
 	assert(buf);
 	assert(len);
@@ -105,7 +105,7 @@ int fs_write(int fd, void *buf, int len) {
 		assert(0);
 	}
 	else {
-		Log("(fs_write_file)");
+		//Log("(fs_write_file)");
 		assert(files[fd].opened);
 		assert(files[fd].offset >= 0);
 
@@ -124,7 +124,7 @@ int fs_write(int fd, void *buf, int len) {
 }
 
 int fs_lseek(int fd, int offset, int whence) {
-	Log("(fs_lseek) fd==%d, offset==0x%x, whence==%d", fd, offset, whence);
+	//Log("(fs_lseek) fd==%d, offset==0x%x, whence==%d", fd, offset, whence);
 	assert(fd >= 3 && fd < NR_FILES + 3);
 	assert(files[fd].opened);
 	assert(files[fd].offset >= 0);
@@ -136,7 +136,7 @@ int fs_lseek(int fd, int offset, int whence) {
 		default: assert(0); break;
 	}
 	if(new_offset > file_table[fd - 3].size) new_offset = file_table[fd - 3].size;
-	Log("new_offset==0x%x", new_offset);
+	//Log("new_offset==0x%x", new_offset);
 	assert(new_offset >=0 && new_offset <= file_table[fd - 3].size);
 	files[fd].offset = new_offset;
 	return new_offset;
