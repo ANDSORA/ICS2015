@@ -199,7 +199,7 @@ void SDL_FreeSurface(SDL_Surface *s) {
 
 ///////////////////// --ANDSORA /////////////////////////
 
-static void copy_format(SDL_PixelFormat *src, SDL_PixelFormat *dst){
+static void copy_format(SDL_PixelFormat *dst, SDL_PixelFormat *src){
 	dst->palette->ncolors = src->palette->ncolors;
 	dst->palette->colors->r = src->palette->colors->r;
 	dst->palette->colors->g = src->palette->colors->g;
