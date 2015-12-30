@@ -86,8 +86,13 @@ process_keys(void (*key_press_callback)(int), void (*key_release_callback)(int))
 		switch(key_state[i]) {
 			case KEY_STATE_EMPTY: ;
 			case KEY_STATE_WAIT_RELEASE: break;
-			case KEY_STATE_PRESS: key_press_callback(keycode_array[i]); sti(); return true; break;
-			case KEY_STATE_RELEASE: key_release_callback(keycode_array[i]); sti(); return true; break;
+			case KEY_STATE_PRESS: {
+				key_press_callback(keycode_array[i]);
+				sti(); return true; break; }
+			case KEY_STATE_RELEASE: {
+				key_release_callback(keycode_array[i]);
+				key_state[i] = KEY_STATE_EMPTY;
+				sti(); return true; break; }
 			default: assert(0); break;
 		}
 	}
