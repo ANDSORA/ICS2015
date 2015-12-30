@@ -37,7 +37,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	dst->clip_rect.h = src->clip_rect.h;
 
 	dst->refcount = src->refcount;
-	dst->pixels = NULL;
+	dst->pixels = src->pixels;
 
 	//assert(0);
 }
@@ -69,7 +69,12 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 	}
 
 	/* TODO: Copy the pixels in the rectangle area to the screen. */
-
+	int i,j;
+	for(i=x; i<x+w; ++i){
+		for(j=y; j<y+h; ++j){
+			screen->pixels[x + y * 320] = *((uint8_t *)VMEM_ADDR + x + y * 320);
+		}
+	}
 	//assert(0);
 }
 
