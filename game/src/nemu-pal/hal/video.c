@@ -70,7 +70,7 @@ void SDL_UpdateRect(SDL_Surface *screen, int x, int y, int w, int h) {
 
 	/* TODO: Copy the pixels in the rectangle area to the screen. */
 
-	assert(0);
+	//assert(0);
 }
 
 void SDL_SetPalette(SDL_Surface *s, int flags, SDL_Color *colors, 
