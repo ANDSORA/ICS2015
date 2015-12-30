@@ -59,7 +59,7 @@ int fs_open(const char *pathname, int flags) {
 	assert(i < NR_FILES);
 	files[i + 3].opened = 1;
 	files[i + 3].offset = 0;
-	Log("(fs_open) fd==%d", i + 3);
+	//Log("(fs_open) fd==%d", i + 3);
 	return i + 3;
 }
 
