@@ -39,7 +39,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 
 	dst->refcount = src->refcount;
 	dst->pixels = src->pixels;
-
+	assert((src->pixels)==VMEM_ADDR);
 	//assert(0);
 }
 
