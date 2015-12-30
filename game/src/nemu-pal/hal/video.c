@@ -13,6 +13,7 @@ static void copy_format(SDL_PixelFormat*, SDL_PixelFormat*);
 
 void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect, 
 		SDL_Surface *dst, SDL_Rect *dstrect) {
+	printf("SDL_BlitSurface");
 	assert(dst && src);
 
 	/* TODO: Performs a fast blit from the source surface to the 
