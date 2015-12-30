@@ -34,12 +34,20 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	dst->pitch = src->pitch;
 	dst->clip_rect.x = dstrect->x;
 	dst->clip_rect.y = dstrect->y;
-	dst->clip_rect.w = src->clip_rect.w;
-	dst->clip_rect.h = src->clip_rect.h;
+	dst->clip_rect.w = srcrect->w;
+	dst->clip_rect.h = srcrect->h;
 
 	dst->refcount = src->refcount;
-	dst->pixels = src->pixels;
-	assert((src->pixels)==VMEM_ADDR);
+	if(src->flags & SDL_HWSURFACE){
+		Log("VMEM_ADDR");
+		dst->pixels = (void *)VMEM_ADDR;
+	}
+	else{
+		Log("pitch * height");
+		assert(src->pitch == 320);
+		memcpy(dst->pixels, src->pixels, src->pitch * srcrect->h);
+	}
+	//s->pixels = (flags & SDL_HWSURFACE ? (void *)VMEM_ADDR : malloc(s->pitch * height));
 	//assert(0);
 }
 
