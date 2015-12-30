@@ -123,3 +123,9 @@ make_helper(cli) {
 	print_asm("cli");
 	return 1;
 }
+
+make_helper(cwtl) {
+	cpu.eax = (int32_t)cpu.ax;
+	print_asm("cwtl");
+	return 1;
+}

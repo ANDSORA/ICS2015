@@ -15,5 +15,6 @@ make_helper(popa);
 make_helper(hlt);
 make_helper(sti);
 make_helper(cli);
+make_helper(cwtl);
 
 #endif
