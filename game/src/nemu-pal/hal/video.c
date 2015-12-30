@@ -38,7 +38,7 @@ void SDL_BlitSurface(SDL_Surface *src, SDL_Rect *srcrect,
 	dst->clip_rect.h = srcrect->h;
 
 	dst->refcount = src->refcount;
-	dst->pixels = src->pixels;
+	memcpy(dst->pixels, src->pixels, src->pitch * srcrect->h);
 	/*
 	if(src->flags & SDL_HWSURFACE){
 		Log("VMEM_ADDR");
