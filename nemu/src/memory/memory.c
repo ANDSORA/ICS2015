@@ -7,11 +7,11 @@ int is_mmio(hwaddr_t);
 uint32_t mmio_read(hwaddr_t, size_t, int);
 void mmio_write(hwaddr_t, size_t, uint32_t, int);
 
-//uint32_t dram_read(hwaddr_t, size_t);
-uint32_t L1_cache_read(hwaddr_t, size_t);
+uint32_t dram_read(hwaddr_t, size_t);
+//uint32_t L1_cache_read(hwaddr_t, size_t);
 hwaddr_t tlb_read(lnaddr_t);
-//void dram_write(hwaddr_t, size_t, uint32_t);
-void L1_cache_write(hwaddr_t, size_t, uint32_t);
+void dram_write(hwaddr_t, size_t, uint32_t);
+//void L1_cache_write(hwaddr_t, size_t, uint32_t);
 
 lnaddr_t seg_translate(swaddr_t, size_t, uint8_t);
 hwaddr_t page_translate(lnaddr_t);
@@ -22,13 +22,15 @@ void page_check(lnaddr_t);
 
 uint32_t hwaddr_read(hwaddr_t addr, size_t len) {
 	int map_NO = is_mmio(addr);
-	if(map_NO == -1) return L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
+	//if(map_NO == -1) return L1_cache_read(addr, len) & (~0u >> ((4 - len) << 3));
+	if(map_NO == -1) return dram_read(addr, len) & (~0u >> ((4 - len) << 3));
 	else return mmio_read(addr, len, map_NO) & (~0u >> ((4 - len) << 3));
 }
 
 void hwaddr_write(hwaddr_t addr, size_t len, uint32_t data) {
 	int map_NO = is_mmio(addr);
-	if(map_NO == -1) L1_cache_write(addr, len, data);
+	//if(map_NO == -1) L1_cache_write(addr, len, data);
+	if(map_NO == -1) dram_write(addr, len, data);
 	else mmio_write(addr, len, data, map_NO);
 }
 
