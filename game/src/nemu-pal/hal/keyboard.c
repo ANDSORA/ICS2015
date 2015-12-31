@@ -28,8 +28,16 @@ keyboard_event(void) {
 	//if(key_code == 0xf0) return;
 	for (i = 0; i < NR_KEYS; i ++){
 		if(key_code == keycode_array[i]) {
+			switch(key_state[i]) {
+				case KEY_STATE_EMPTY:
+				case KEY_STATE_RELEASE:
+				case KEY_STATE_PRESS: key_state[i] = KEY_STATE_PRESS; break;
+				case KEY_STATE_WAIT_RELEASE: key_state[i] = KEY_STATE_WAIT_RELEASE; break;
+				default: assert(0); break;
+			}
+			/*
 			if(key_state[i] == KEY_STATE_RELEASE || key_state[i] == KEY_STATE_EMPTY) key_state[i] = KEY_STATE_PRESS;
-			else key_state[i] = KEY_STATE_WAIT_RELEASE;
+			else key_state[i] = KEY_STATE_WAIT_RELEASE; */
 			break;
 		}
 		else if(key_code == keycode_array[i] + 0x80) {
